@@ -10,7 +10,7 @@
     <true/>
     <key>ProgramArguments</key>
     <array>
-      <string>/Users/software/hope-website/scripts/jenkins/run-jenkins.sh</string>
+      <string>/Users/software/infra/scripts/jenkins/run-jenkins.sh</string>
     </array>
     <key>StandardOutPath</key>
     <string>/Users/software/var/log/jenkins.log</string>
