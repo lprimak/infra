@@ -25,7 +25,7 @@ cat << EOF >> $target_dir/glassfish/config/asenv.conf
 export SDKMAN_DIR="${HOME}/.sdkman"
 [[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
 # sdk use java 11.0.14-zulu
-AS_DEF_DOMAINS_PATH="\${HOME}/payara-domains"
-AS_DEF_NODES_PATH="\${HOME}/payara-nodes"
+AS_DEF_DOMAINS_PATH="\${HOME}/var/payara-domains"
+AS_DEF_NODES_PATH="\${HOME}/var/payara-nodes"
 export AS_ADMIN_PORT=1148
 EOF
