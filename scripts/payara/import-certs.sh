@@ -1,7 +1,7 @@
 #!/bin/bash -p
 
 letsencrypt_dir=$HOME/var/letsencrypt/live/hope.nyc.ny.us
-domain_dir=$HOME/hope-website/payara-domains/hope-website/config
+domain_dir=$HOME/payara-domains/hope-website/config
 
 openssl pkcs12 -export -in $letsencrypt_dir/fullchain.pem -inkey $letsencrypt_dir/privkey.pem -out $domain_dir/hope-cert.p12 -name hope.crt -password pass:changeit
 
