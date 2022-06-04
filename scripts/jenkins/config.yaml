@@ -1,0 +1,56 @@
+jenkins:
+  securityRealm:
+    github:
+      clientID: "617b74bd0af85c99f9bb"
+      clientSecret: "{AQAAABAAAAAwuv+l5NW+/fst9dfKOuiohR/tdGbamC8auPE58n/Xvl/qjzoVImK71PRphb+tVc5o/3n6VNlFOEpT5uw8vGD90w==}"
+      githubApiUri: "https://api.github.com"
+      githubWebUri: "https://github.com"
+      oauthScopes: "read:org,user:email,repo"
+  authorizationStrategy:
+    github:
+      adminUserNames: "lprimak"
+      allowAnonymousJobStatusPermission: false
+      allowAnonymousReadPermission: true
+      allowCcTrayPermission: false
+      allowGithubWebHookPermission: true
+      authenticatedUserCreateJobPermission: false
+      authenticatedUserReadPermission: true
+      organizationNames: "flowlogix"
+      useRepositoryPermissions: false
+  globalNodeProperties:
+  - envVars:
+      env:
+      - key: "CHROME_BINARY"
+        value: "^${HOME}/apps/google-chrome/97/Google Chrome.app/Contents/MacOS/Google Chrome"
+      - key: "MAVEN_ADD_OPTIONS"
+        value: "-Dwebdriver.browser=firefox"
+      - key: "MAVEN_OPTS"
+        value: "-Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
+          \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver"
+  views:
+  - all:
+      name: "all"
+  - calendar:
+      includeRegex: ".*"
+      name: "Build Timeline"
+      recurse: true
+unclassified:
+  gitHubPluginConfig:
+    configs:
+    - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
+      name: "FlowLogix WebHook Auth"
+    hookSecretConfigs:
+    - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
+  globalDefaultFlowDurabilityLevel:
+    durabilityHint: PERFORMANCE_OPTIMIZED
+  location:
+    adminAddress: "admin@flowlogix.com"
+    url: "https://jenkins.hope.nyc.ny.us/"
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - simpleBuildDiscarder:
+        discarder:
+          logRotator:
+            daysToKeepStr: "10"
+            numToKeepStr: "10"
+

@@ -1,0 +1,17 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - string:
+          description: "WebHook Secret - Token and Secret itself"
+          id: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAwwzFtBpaFgNvMhM4IycfhqB+2M5qBnqAPmuP5fwUMj6qpS1hzEz8Qq969qWf15GjJrh09Z20nrwfB17C3VhxPvw==}"
+      - usernamePassword:
+          description: "GitHub Repo Access Token"
+          id: "dd067490-e408-45cb-b911-d825906a05ee"
+          password: "{AQAAABAAAAAwm/r+zZ/wBpQg/1e6aniT+Q54F9jvsC3wU29nfsutNbopiXYvbbSqBmhPCcXEZvKgmeRQYrlPh2CGzzERKt7vMg==}"
+          scope: GLOBAL
+          username: "accesstoken"
+          usernameSecret: true
+

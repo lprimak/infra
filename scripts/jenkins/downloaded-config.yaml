@@ -1,0 +1,202 @@
+credentials:
+  system:
+    domainCredentials:
+    - credentials:
+      - string:
+          description: "WebHook Secret - Token and Secret itself"
+          id: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAwirFsgdUXrbHHrREGSEpt6PHKGDbO/M59f3/moyM+7OlyZqEt4koPvG1TtdjBnhDJyL3gL8ma9HZt0V50bQRzRg==}"
+      - usernamePassword:
+          description: "GitHub Repo Access Token"
+          id: "dd067490-e408-45cb-b911-d825906a05ee"
+          password: "{AQAAABAAAAAwQXHmD1qAEEN+tpkJbS1SPOKfgLP0JTp596PP8a6xf7+6sL3FBxkY6rxBltoMUvcOQTyG8FhesEWov+2n69hVCw==}"
+          scope: GLOBAL
+          username: "accesstoken"
+          usernameSecret: true
+jenkins:
+  agentProtocols:
+  - "JNLP4-connect"
+  - "Ping"
+  authorizationStrategy:
+    github:
+      adminUserNames: "lprimak"
+      allowAnonymousJobStatusPermission: false
+      allowAnonymousReadPermission: true
+      allowCcTrayPermission: false
+      allowGithubWebHookPermission: true
+      authenticatedUserCreateJobPermission: false
+      authenticatedUserReadPermission: true
+      organizationNames: "flowlogix"
+      useRepositoryPermissions: false
+  crumbIssuer:
+    standard:
+      excludeClientIPFromCrumb: false
+  disableRememberMe: false
+  disabledAdministrativeMonitors:
+  - "jenkins.diagnostics.ControllerExecutorsNoAgents"
+  - "org.jenkinsci.plugins.pipeline.maven.NonProductionGradeDatabaseWarningAdministrativeMonitor"
+  - "jenkins.security.QueueItemAuthenticatorMonitor"
+  - "jenkins.diagnostics.ControllerExecutorsAgents"
+  - "hudson.diagnosis.ReverseProxySetupMonitor"
+  globalNodeProperties:
+  - envVars:
+      env:
+      - key: "CHROME_BINARY"
+        value: "^${HOME}/apps/google-chrome/97/Google Chrome.app/Contents/MacOS/Google\
+          \ Chrome"
+      - key: "MAVEN_ADD_OPTIONS"
+        value: "-Dwebdriver.browser=firefox"
+      - key: "MAVEN_OPTS"
+        value: "-Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
+          \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver"
+  labelAtoms:
+  - name: "built-in"
+  markupFormatter: "plainText"
+  mode: NORMAL
+  myViewsTabBar: "standard"
+  numExecutors: 2
+  primaryView:
+    all:
+      name: "all"
+  projectNamingStrategy: "standard"
+  quietPeriod: 5
+  remotingSecurity:
+    enabled: true
+  scmCheckoutRetryCount: 0
+  securityRealm:
+    github:
+      clientID: "617b74bd0af85c99f9bb"
+      clientSecret: "{AQAAABAAAAAwuv+l5NW+/fst9dfKOuiohR/tdGbamC8auPE58n/Xvl/qjzoVImK71PRphb+tVc5o/3n6VNlFOEpT5uw8vGD90w==}"
+      githubApiUri: "https://api.github.com"
+      githubWebUri: "https://github.com"
+      oauthScopes: "read:org,user:email,repo"
+  slaveAgentPort: -1
+  updateCenter:
+    sites:
+    - id: "default"
+      url: "https://updates.jenkins.io/update-center.json"
+  views:
+  - calendar:
+      columns:
+      - "status"
+      - "weather"
+      - "jobName"
+      - "lastSuccess"
+      - "lastFailure"
+      - "lastDuration"
+      - "buildButton"
+      - "favoriteColumn"
+      - "issuesTotalColumn"
+      includeRegex: ".*"
+      name: "Build Timeline"
+      recurse: true
+  - all:
+      name: "all"
+  viewsTabBar: "standard"
+globalCredentialsConfiguration:
+  configuration:
+    providerFilter: "none"
+    typeFilter: "none"
+security:
+  apiToken:
+    creationOfLegacyTokenEnabled: false
+    tokenGenerationOnCreationEnabled: false
+    usageStatisticsEnabled: true
+  sSHD:
+    port: -1
+unclassified:
+  bitbucketEndpointConfiguration:
+    endpoints:
+    - bitbucketCloudEndpoint:
+        enableCache: false
+        manageHooks: false
+        repositoriesCacheDuration: 0
+        teamCacheDuration: 0
+  buildDiscarders:
+    configuredBuildDiscarders:
+    - simpleBuildDiscarder:
+        discarder:
+          logRotator:
+            daysToKeepStr: "10"
+            numToKeepStr: "10"
+  buildStepOperation:
+    enabled: false
+  casCGlobalConfig:
+    configurationPath: "/Users/software/hope-website/scripts/jenkins/config.yaml"
+  email-ext:
+    adminRequiredForTemplateTesting: false
+    allowUnregisteredEnabled: false
+    charset: "UTF-8"
+    debugMode: false
+    defaultBody: |-
+      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
+
+      Check console output at $BUILD_URL to view the results.
+    defaultContentType: "text/plain"
+    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
+    defaultTriggerIds:
+    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
+    maxAttachmentSize: -1
+    maxAttachmentSizeMb: -1
+    precedenceBulk: false
+    watchingEnabled: false
+  fingerprints:
+    fingerprintCleanupDisabled: false
+    storage: "file"
+  gitHubConfiguration:
+    apiRateLimitChecker: ThrottleForNormalize
+  gitHubPluginConfig:
+    configs:
+    - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
+      name: "FlowLogix WebHook Auth"
+    hookSecretConfigs:
+    - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
+    hookUrl: "https://jenkins.hope.nyc.ny.us/github-webhook/"
+  gitSCM:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
+  globalDefaultFlowDurabilityLevel:
+    durabilityHint: PERFORMANCE_OPTIMIZED
+  junitTestResultStorage:
+    storage: "file"
+  location:
+    adminAddress: "admin@flowlogix.com"
+    url: "https://jenkins.hope.nyc.ny.us/"
+  mailer:
+    authentication:
+      password: "{AQAAABAAAAAQHeNwJE3Wq3a47M4RpKDTX/h3tPIT6q9SA5Sz0KPFXE4=}"
+    charset: "UTF-8"
+    useSsl: false
+    useTls: false
+  mavenModuleSet:
+    localRepository: "default"
+  pollSCM:
+    pollingThreadCount: 10
+  prismConfiguration:
+    theme: PRISM
+  timestamper:
+    allPipelines: false
+    elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
+    systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+  warningsParsers:
+    consoleLogScanningPermitted: false
+tool:
+  git:
+    installations:
+    - home: "git"
+      name: "Default"
+  mavenGlobalConfig:
+    globalSettingsProvider: "standard"
+    settingsProvider: "standard"
+  pipelineMaven:
+    triggerDownstreamUponResultAborted: false
+    triggerDownstreamUponResultFailure: false
+    triggerDownstreamUponResultNotBuilt: false
+    triggerDownstreamUponResultSuccess: true
+    triggerDownstreamUponResultUnstable: false

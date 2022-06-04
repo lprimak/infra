@@ -1,0 +1,23 @@
+create-domain --portbase 1100 hope-website
+start-domain
+enable-secure-admin
+set configs.config.server-config.admin-service.das-config.dynamic-reload-enabled=false
+set configs.config.server-config.admin-service.das-config.autodeploy-enabled=false
+
+set configs.config.server-config.network-config.protocols.protocol.http-listener-2.ssl.cert-nickname=hope.crt 
+set configs.config.server-config.network-config.protocols.protocol.sec-admin-listener.ssl.cert-nickname=hope.crt
+
+# Port Unification
+# set configs.config.server-config.network-config.network-listeners.network-listener.http-listener-1.protocol=pu-protocol
+
+set configs.config.server-config.http-service.access-logging-enabled=true
+set configs.config.server-config.http-service.access-log.format="%header.X-Forwarded-For% %auth-user-name% %datetime% %request% %status% %response.length%"
+set configs.config.server-config.http-service.access-log.max-history-files=50
+set configs.config.server-config.http-service.access-log.write-interval-seconds=30
+
+set configs.config.server-config.http-service.virtual-server.server.docroot=\${user.home}/../website/contents
+
+create-system-properties cubus.config=\${user.home}/etc/cubus.properties
+
+enable-asadmin-recorder
+
