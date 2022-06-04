@@ -17,7 +17,6 @@ set configs.config.server-config.http-service.access-log.write-interval-seconds=
 
 set configs.config.server-config.http-service.virtual-server.server.docroot=\${user.home}/../website/contents
 
-create-system-properties cubus.config=\${user.home}/etc/cubus.properties
+create-system-properties cubus.config=\${user.home}/infra/etc/cubus.properties
 
 enable-asadmin-recorder
-
