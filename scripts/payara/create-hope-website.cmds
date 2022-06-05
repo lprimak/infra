@@ -15,7 +15,7 @@ set configs.config.server-config.http-service.access-log.format="%header.X-Forwa
 set configs.config.server-config.http-service.access-log.max-history-files=50
 set configs.config.server-config.http-service.access-log.write-interval-seconds=30
 
-set configs.config.server-config.http-service.virtual-server.server.docroot=\${user.home}/../website/contents
+set configs.config.server-config.http-service.virtual-server.server.docroot=\${user.home}/var/website-content
 
 create-system-properties cubus.config=\${user.home}/infra/etc/cubus.properties
 
