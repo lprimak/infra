@@ -55,6 +55,10 @@ jenkins:
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
+  nodeProperties:
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
   numExecutors: 2
   primaryView:
     all:
@@ -67,7 +71,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwuv+l5NW+/fst9dfKOuiohR/tdGbamC8auPE58n/Xvl/qjzoVImK71PRphb+tVc5o/3n6VNlFOEpT5uw8vGD90w==}"
+      clientSecret: "{AQAAABAAAAAwFILc/HIwy6IXk+GE+isgu4nQ122pnBPCQDyjtmM9QhvhhQxWOC547yki3lKRyLXomKycrG8tTH1nNPT6jHTFyw==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
@@ -105,6 +109,9 @@ security:
     usageStatisticsEnabled: true
   sSHD:
     port: -1
+  scriptApproval:
+    approvedScriptHashes:
+    - "017d0db438428731cd600b6ebda805065433520f"
 unclassified:
   bitbucketEndpointConfiguration:
     endpoints:
@@ -123,7 +130,7 @@ unclassified:
   buildStepOperation:
     enabled: false
   casCGlobalConfig:
-    configurationPath: "/Users/software/hope-website/scripts/jenkins/config.yaml"
+    configurationPath: "/Users/software/infra/scripts/jenkins/config.yaml"
   email-ext:
     adminRequiredForTemplateTesting: false
     allowUnregisteredEnabled: false
@@ -163,6 +170,9 @@ unclassified:
     useExistingAccountWithSameEmail: false
   globalDefaultFlowDurabilityLevel:
     durabilityHint: PERFORMANCE_OPTIMIZED
+  globalTimeOutConfiguration:
+    operations:
+    - "abortOperation"
   junitTestResultStorage:
     storage: "file"
   location:
