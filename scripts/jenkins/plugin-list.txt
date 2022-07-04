@@ -16,5 +16,5 @@ calendar-view
 warnings-ng
 github-oauth
 basic-branch-build-strategies
-pipeline-github
+github-pr-comment-build
 disable-github-multibranch-status
