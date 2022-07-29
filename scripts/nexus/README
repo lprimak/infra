@@ -4,3 +4,4 @@ Changed bin/nexus.vmoptions as follows:
 -Xms500m
 -Xmx2703m
 -XX:-MaxFDLimit
+change all instances of ../sonatype-work to ${HOME}/var/sonatype-work
