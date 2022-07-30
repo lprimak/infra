@@ -1,7 +1,3 @@
 Downloaded from https://help.sonatype.com/repomanager3/product-information/download
 
-Changed bin/nexus.vmoptions as follows:
--Xms500m
--Xmx2703m
--XX:-MaxFDLimit
-change all instances of ../sonatype-work to ${HOME}/var/sonatype-work
+Execude download-nexus.sh script to download and customize a new version
