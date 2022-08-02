@@ -3,5 +3,5 @@
 source ~/.zshrc
 
 ulimit -n 131072
-sdk use java 8.0.332.fx-zulu
+sdk use java 8.0.342.fx-zulu
 exec $HOME/apps/sonatype-nexus/current/bin/nexus run
