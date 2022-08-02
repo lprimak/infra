@@ -59,7 +59,103 @@ jenkins:
   - envVars:
       env:
       - key: "MAVEN_OPTS"
-  numExecutors: 2
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
+  numExecutors: 4
   primaryView:
     all:
       name: "all"
@@ -71,7 +167,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwFILc/HIwy6IXk+GE+isgu4nQ122pnBPCQDyjtmM9QhvhhQxWOC547yki3lKRyLXomKycrG8tTH1nNPT6jHTFyw==}"
+      clientSecret: "{AQAAABAAAAAwVXiNwhM2cpWwTd2UoiKgZo5eYGkHgyCdCB/Xm4rvrEyKneyaeIUOBpL6lLP16pc/+pEdQtcF54RQK3OdQ76V5A==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
@@ -107,6 +203,8 @@ security:
     creationOfLegacyTokenEnabled: false
     tokenGenerationOnCreationEnabled: false
     usageStatisticsEnabled: true
+  gitHostKeyVerificationConfiguration:
+    sshHostKeyVerificationStrategy: "acceptFirstConnectionStrategy"
   sSHD:
     port: -1
   scriptApproval:
