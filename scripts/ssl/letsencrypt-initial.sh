@@ -6,7 +6,7 @@ cert_links_src=$HOME/var/letsencrypt/live/hope.nyc.ny.us
 cert_links_dst=$HOME/var/ssl-links
 
 exec $SCRIPT_DIR/letsencrypt-common.sh certonly \
--d '*.hope.nyc.ny.us' "$@"
+-d '*.hope.nyc.ny.us,hope.nyc.ny.us' "$@"
 
 rm -rf $cert_links_dst
 mkdir -p $cert_links_dst
