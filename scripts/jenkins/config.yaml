@@ -34,6 +34,17 @@ jenkins:
       includeRegex: ".*"
       name: "Build Timeline"
       recurse: true
+security:
+  scriptApproval:
+    approvedSignatures:
+    - "method io.jenkins.plugins.analysis.warnings.groovy.GroovyParser getId"
+    - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration getParsers"
+    - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration setParsers\
+      \ java.util.List"
+    - "new io.jenkins.plugins.analysis.warnings.groovy.GroovyParser java.lang.String\
+      \ java.lang.String java.lang.String java.lang.String java.lang.String"
+    - "staticMethod io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration\
+      \ getInstance"
 unclassified:
   gitHubPluginConfig:
     configs:
@@ -53,4 +64,3 @@ unclassified:
           logRotator:
             daysToKeepStr: "10"
             numToKeepStr: "10"
-
