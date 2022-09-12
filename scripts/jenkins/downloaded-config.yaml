@@ -167,7 +167,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwVXiNwhM2cpWwTd2UoiKgZo5eYGkHgyCdCB/Xm4rvrEyKneyaeIUOBpL6lLP16pc/+pEdQtcF54RQK3OdQ76V5A==}"
+      clientSecret: "{AQAAABAAAAAwCOwQxhxoipOho2d61iEmSdtJfjvQKb6Bicb+esHrniVY4iPDVdGrO5j+edoo0XYQwCdURpQTiDGdfRcnDswgyQ==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
@@ -204,12 +204,21 @@ security:
     tokenGenerationOnCreationEnabled: false
     usageStatisticsEnabled: true
   gitHostKeyVerificationConfiguration:
-    sshHostKeyVerificationStrategy: "acceptFirstConnectionStrategy"
+    sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
   sSHD:
     port: -1
   scriptApproval:
     approvedScriptHashes:
     - "017d0db438428731cd600b6ebda805065433520f"
+    approvedSignatures:
+    - "method io.jenkins.plugins.analysis.warnings.groovy.GroovyParser getId"
+    - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration getParsers"
+    - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration setParsers\
+      \ java.util.List"
+    - "new io.jenkins.plugins.analysis.warnings.groovy.GroovyParser java.lang.String\
+      \ java.lang.String java.lang.String java.lang.String java.lang.String"
+    - "staticMethod io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration\
+      \ getInstance"
 unclassified:
   bitbucketEndpointConfiguration:
     endpoints:
@@ -271,6 +280,7 @@ unclassified:
   globalTimeOutConfiguration:
     operations:
     - "abortOperation"
+    overwriteable: false
   junitTestResultStorage:
     storage: "file"
   location:
@@ -294,6 +304,15 @@ unclassified:
     systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
   warningsParsers:
     consoleLogScanningPermitted: false
+    parsers:
+    - example: "[2022-09-11T16:53:01.405-0500] [Payara 5.2022.3] [ERROR]"
+      id: "payara-logs"
+      name: "Payara Log Parser"
+      regexp: "\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[(WARNING|ERROR|FATAL|SEVERE)\\\
+        ]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\\
+        []*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\\
+        [\\[\\n\\s+([\\s\\S]*?)(\\]\\])"
+      script: "return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(matcher.group(3)).setMessage(matcher.group(9).take(256)).buildOptional()"
 tool:
   git:
     installations:
