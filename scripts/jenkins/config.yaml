@@ -48,7 +48,7 @@ security:
 unclassified:
   gitHubPluginConfig:
     configs:
-    - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
+    - credentialsId: "1da457b5-282f-4dcd-8358-e1aaee34bbb3"
       name: "FlowLogix WebHook Auth"
     hookSecretConfigs:
     - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
