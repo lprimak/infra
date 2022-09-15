@@ -6,14 +6,7 @@ credentials:
           description: "WebHook Secret - Token and Secret itself"
           id: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
           scope: GLOBAL
-          secret: "{AQAAABAAAAAwirFsgdUXrbHHrREGSEpt6PHKGDbO/M59f3/moyM+7OlyZqEt4koPvG1TtdjBnhDJyL3gL8ma9HZt0V50bQRzRg==}"
-      - usernamePassword:
-          description: "GitHub Repo Access Token"
-          id: "dd067490-e408-45cb-b911-d825906a05ee"
-          password: "{AQAAABAAAAAwQXHmD1qAEEN+tpkJbS1SPOKfgLP0JTp596PP8a6xf7+6sL3FBxkY6rxBltoMUvcOQTyG8FhesEWov+2n69hVCw==}"
-          scope: GLOBAL
-          username: "accesstoken"
-          usernameSecret: true
+          secret: "{AQAAABAAAAAwmCh3vSPl5ckg77JpZvwkbGNPSM06aAcuhhF1qYwSCB4D0bVFOJPBL1Okx3yQByF5e4om1hlWbOGcmMyOdYhTvQ==}"
       - gitHubApp:
           appID: "237865"
           description: "Repo Access - GitHub App"
@@ -172,7 +165,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwB09CrcU61/5njuYpJpC7QgYLTh/smWS3QwmcRhni7TjzL6frmc8tnPEN14qkjoYDsiUXDYhP3YzGXO+21Axr1A==}"
+      clientSecret: "{AQAAABAAAAAwc2e7rBfUX6V6K4ozZAehzTKMcseyfzd4aWx2FjRfXYJyLLMc/OhncagLhQD4xcDnEDdffKjOvJ4tA5chRAjeDg==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
