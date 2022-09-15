@@ -177,7 +177,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwRbE0Zppj2VizJEQ34EdOK3hzIzPRLfrLhuN9357T16TXh61q45R6udw5yUmzwYGPfzZ1CLgcIxFrq/tvshuqMQ==}"
+      clientSecret: "{AQAAABAAAAAwy7PWGvDt8woCa92cCXe76XZ1FKF1R1N62kPUQ0UTW8gcADtKrkAS4t+OePkRDa+BxM0uzz9zunMR53tYh567PQ==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
@@ -270,7 +270,7 @@ unclassified:
     apiRateLimitChecker: ThrottleForNormalize
   gitHubPluginConfig:
     configs:
-    - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
+    - credentialsId: "1da457b5-282f-4dcd-8358-e1aaee34bbb3"
       name: "FlowLogix WebHook Auth"
     hookSecretConfigs:
     - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
