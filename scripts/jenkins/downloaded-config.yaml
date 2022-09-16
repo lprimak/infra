@@ -184,7 +184,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwFm4SJs+pGuMCuQau+j3g6cGpSQSmjXdr/XeOJWD4xp4i7BiKqt5UgsAgzkM+9uqSV/arujvuuLJjO31Txcs7TA==}"
+      clientSecret: "{AQAAABAAAAAwTe/E2AzpSRKb4aSP9307RkUP/x+AvOMD41t1zt5AZWga0I3MM+D/pgV1Dk9wcEWmlDQFe1yf+x6VgP7gPl112g==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
@@ -231,6 +231,8 @@ security:
   sSHD:
     port: -1
   scriptApproval:
+    approvedScriptHashes:
+    - "a50f9e4391413040e743675e1fd4694f9a975726"
     approvedSignatures:
     - "method io.jenkins.plugins.analysis.warnings.groovy.GroovyParser getId"
     - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration getParsers"
