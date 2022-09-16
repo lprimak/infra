@@ -27,7 +27,7 @@ credentials:
       - usernamePassword:
           description: "website ftp credentials"
           id: "8695b924-52bd-4fc2-9752-42041489b734"
-          password: "{AQAAABAAAAAQKGzSG2JMErofKwb74TE/qlYuNI6Qe5NwjTd43FVVvYE=}"
+          password: "{AQAAABAAAAAQQbuJ5KPX5q0mCr2U5j5HuYFYPpwkRkNspCQfPr3I3Cc=}"
           scope: GLOBAL
           username: "lprimak"
           usernameSecret: true
@@ -184,7 +184,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwVCzM3FHeAncea40PxwZ61ix/aA4TvPqixJ2zu3ef2WZCJmv9klz13PLeZWUVsVesfOx6g1SSycdg5Il8bWqadw==}"
+      clientSecret: "{AQAAABAAAAAwFm4SJs+pGuMCuQau+j3g6cGpSQSmjXdr/XeOJWD4xp4i7BiKqt5UgsAgzkM+9uqSV/arujvuuLJjO31Txcs7TA==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
