@@ -27,7 +27,7 @@ credentials:
       - usernamePassword:
           description: "website ftp credentials"
           id: "8695b924-52bd-4fc2-9752-42041489b734"
-          password: "{AQAAABAAAAAQQbuJ5KPX5q0mCr2U5j5HuYFYPpwkRkNspCQfPr3I3Cc=}"
+          password: "{AQAAABAAAAAQidocfj0tMuVN2E6nohmawBQImKa5fjRMQWK0Hji5950=}"
           scope: GLOBAL
           username: "lprimak"
           usernameSecret: true
@@ -52,10 +52,6 @@ jenkins:
   disableRememberMe: false
   disabledAdministrativeMonitors:
   - "jenkins.diagnostics.ControllerExecutorsNoAgents"
-  - "org.jenkinsci.plugins.pipeline.maven.NonProductionGradeDatabaseWarningAdministrativeMonitor"
-  - "jenkins.security.QueueItemAuthenticatorMonitor"
-  - "jenkins.diagnostics.ControllerExecutorsAgents"
-  - "hudson.diagnosis.ReverseProxySetupMonitor"
   globalNodeProperties:
   - envVars:
       env:
@@ -72,107 +68,7 @@ jenkins:
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
-  nodeProperties:
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
-  numExecutors: 4
+  numExecutors: 2
   primaryView:
     all:
       name: "all"
@@ -184,7 +80,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwTe/E2AzpSRKb4aSP9307RkUP/x+AvOMD41t1zt5AZWga0I3MM+D/pgV1Dk9wcEWmlDQFe1yf+x6VgP7gPl112g==}"
+      clientSecret: "{AQAAABAAAAAwCuMh5ZYz2AQdCQQKFtvtFaur2Z9vD6zf5xwV1KhHbz+cSEfDwCs2gf/P6JwzCBC4/LwkZLVYD56cXr6ZkZwevQ==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
@@ -220,6 +116,9 @@ security:
     creationOfLegacyTokenEnabled: false
     tokenGenerationOnCreationEnabled: false
     usageStatisticsEnabled: true
+  gitHooks:
+    allowedOnAgents: false
+    allowedOnController: false
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
   globalJobDslSecurityConfiguration:
@@ -257,27 +156,8 @@ unclassified:
           logRotator:
             daysToKeepStr: "10"
             numToKeepStr: "10"
-  buildStepOperation:
-    enabled: false
   casCGlobalConfig:
     configurationPath: "/Users/software/infra/scripts/jenkins/config.yaml"
-  email-ext:
-    adminRequiredForTemplateTesting: false
-    allowUnregisteredEnabled: false
-    charset: "UTF-8"
-    debugMode: false
-    defaultBody: |-
-      $PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS:
-
-      Check console output at $BUILD_URL to view the results.
-    defaultContentType: "text/plain"
-    defaultSubject: "$PROJECT_NAME - Build # $BUILD_NUMBER - $BUILD_STATUS!"
-    defaultTriggerIds:
-    - "hudson.plugins.emailext.plugins.trigger.FailureTrigger"
-    maxAttachmentSize: -1
-    maxAttachmentSizeMb: -1
-    precedenceBulk: false
-    watchingEnabled: false
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
@@ -300,13 +180,9 @@ unclassified:
     useExistingAccountWithSameEmail: false
   globalDefaultFlowDurabilityLevel:
     durabilityHint: PERFORMANCE_OPTIMIZED
-  globalTimeOutConfiguration:
-    operations:
-    - "abortOperation"
-    overwriteable: false
   jobConfigHistory:
     excludePattern: "queue\\.xml|nodeMonitors\\.xml|UpdateCenter\\.xml|global-build-stats|LockableResourcesManager\\\
-      .xml|MilestoneStep\\.xml"
+      .xml|MilestoneStep\\.xml|cloudbees-disk-usage-simple\\.xml"
     saveModuleConfiguration: false
     showBuildBadges: "always"
     showChangeReasonCommentWindow: true
@@ -317,8 +193,6 @@ unclassified:
     adminAddress: "admin@flowlogix.com"
     url: "https://jenkins.hope.nyc.ny.us/"
   mailer:
-    authentication:
-      password: "{AQAAABAAAAAQHeNwJE3Wq3a47M4RpKDTX/h3tPIT6q9SA5Sz0KPFXE4=}"
     charset: "UTF-8"
     useSsl: false
     useTls: false

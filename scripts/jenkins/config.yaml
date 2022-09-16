@@ -1,11 +1,4 @@
 jenkins:
-  securityRealm:
-    github:
-      clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwuv+l5NW+/fst9dfKOuiohR/tdGbamC8auPE58n/Xvl/qjzoVImK71PRphb+tVc5o/3n6VNlFOEpT5uw8vGD90w==}"
-      githubApiUri: "https://api.github.com"
-      githubWebUri: "https://github.com"
-      oauthScopes: "read:org,user:email,repo"
   authorizationStrategy:
     github:
       adminUserNames: "lprimak"
