@@ -19,3 +19,4 @@ basic-branch-build-strategies
 github-pr-comment-build
 disable-github-multibranch-status
 github-checks
+job-dsl
