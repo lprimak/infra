@@ -177,7 +177,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwy7PWGvDt8woCa92cCXe76XZ1FKF1R1N62kPUQ0UTW8gcADtKrkAS4t+OePkRDa+BxM0uzz9zunMR53tYh567PQ==}"
+      clientSecret: "{AQAAABAAAAAwECu/Eb13OyJG4sZy1pX53D5EBesuIERBlF1l+gQ80CBe6HGP2AWqW3HV2YzZbuuy93Gn4h8tvlTodg6xn1t2OA==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
@@ -215,6 +215,12 @@ security:
     usageStatisticsEnabled: true
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: true
+  queueItemAuthenticator:
+    authenticators:
+    - global:
+        strategy: "triggeringUsersAuthorizationStrategy"
   sSHD:
     port: -1
   scriptApproval:

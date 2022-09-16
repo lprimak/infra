@@ -45,6 +45,10 @@ security:
       \ java.lang.String java.lang.String java.lang.String java.lang.String"
     - "staticMethod io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration\
       \ getInstance"
+  queueItemAuthenticator:
+    authenticators:
+    - global:
+        strategy: "triggeringUsersAuthorizationStrategy"
 unclassified:
   gitHubPluginConfig:
     configs:
