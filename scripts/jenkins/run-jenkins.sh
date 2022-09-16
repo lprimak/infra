@@ -5,7 +5,7 @@ SCRIPT_DIR=`dirname "$0"`
 
 jenkins_bin=$HOME/apps/jenkins/current
 
-exec java -Xmx256m \
+exec java -Xmx1g \
 --add-opens java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED \
 --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED \
 --add-opens java.base/sun.util.calendar=ALL-UNNAMED \
