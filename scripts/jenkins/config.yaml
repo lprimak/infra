@@ -27,6 +27,7 @@ jenkins:
       includeRegex: ".*"
       name: "Build Timeline"
       recurse: true
+  numExecutors: 4
 security:
   scriptApproval:
     approvedSignatures:
