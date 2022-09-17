@@ -21,3 +21,4 @@ disable-github-multibranch-status
 github-checks
 job-dsl
 authorize-project
+pipeline-stage-view
