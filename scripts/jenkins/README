@@ -1,0 +1,14 @@
+How to create a new Jenkins instance or restore a clean one from scratch
+
+$ install-plugins.sh (follow the instructions) - loads necessary plugins from list
+Restore previous files into ~/var/jenkins (if available):
+- ~/var/jenkins/secrets/ : config on github has encrypted secrets and this step is critical to preserve them
+- ~/var/jenkins/thinBackup.xml
+Make sure groups/others don't have permissions to ~/var/jenkins/secrets/
+Set up Config-as-code and run config-security-once.yaml followed by config.yaml
+Set up a Job DSL seed job and run flowlogix/jenkins/CreateJenkinsJobs.groovy off github to create jobs
+
+To sync up the config and find out what's changed,
+download from Configuration-As-Code and diff with downloaded-config.yaml to see
+
+Make sure to run master on the PR builder job, and then recreate the appropriate webhooks from Jenkins config screen
