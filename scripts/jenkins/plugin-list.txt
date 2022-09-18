@@ -22,3 +22,4 @@ github-checks
 job-dsl
 authorize-project
 pipeline-stage-view
+pipeline-graph-view
