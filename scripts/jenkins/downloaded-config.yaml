@@ -52,6 +52,7 @@ jenkins:
   disableRememberMe: false
   disabledAdministrativeMonitors:
   - "jenkins.diagnostics.ControllerExecutorsNoAgents"
+  - "org.jenkinsci.plugins.pipeline.maven.NonProductionGradeDatabaseWarningAdministrativeMonitor"
   globalNodeProperties:
   - envVars:
       env:
@@ -131,7 +132,7 @@ security:
     port: -1
   scriptApproval:
     approvedScriptHashes:
-    - "5c8bc0ffe43dbeb906c9806b2ffc492d61c957cc"
+    - "4693a82ca623fb4bfaf634214b48323de464fb6d"
     approvedSignatures:
     - "method io.jenkins.plugins.analysis.warnings.groovy.GroovyParser getId"
     - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration getParsers"
