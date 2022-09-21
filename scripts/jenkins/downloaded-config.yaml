@@ -132,7 +132,7 @@ security:
     port: -1
   scriptApproval:
     approvedScriptHashes:
-    - "4693a82ca623fb4bfaf634214b48323de464fb6d"
+    - "c42f42b1b46f34c84b4d32955199ad790efd63d5"
     approvedSignatures:
     - "method io.jenkins.plugins.analysis.warnings.groovy.GroovyParser getId"
     - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration getParsers"
