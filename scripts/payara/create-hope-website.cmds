@@ -18,5 +18,7 @@ set configs.config.server-config.http-service.access-log.write-interval-seconds=
 set configs.config.server-config.http-service.virtual-server.server.docroot=\${user.home}/var/website-content
 
 create-system-properties cubus.config=\${user.home}/infra/etc/cubus.properties
+create-system-properties hope-imap-host=mail.hope.nyc.ny.us
+create-system-properties hope-smtp-host=smtp.aceinnovative.com
 
 enable-asadmin-recorder

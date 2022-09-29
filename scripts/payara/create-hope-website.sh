@@ -10,6 +10,11 @@ $SCRIPT_DIR/import-certs.sh
 
 asadmin create-password-alias hope-db-username --passwordfile $HOME/var/secrets/hope-db-usernamefile
 asadmin create-password-alias hope-db-password --passwordfile $HOME/var/secrets/hope-db-passwordfile
+asadmin create-password-alias hope-smtp-user --passwordfile $HOME/var/secrets/hope-smtp-usernamefile
+asadmin create-password-alias hope-smtp-password --passwordfile $HOME/var/secrets/hope-smtp-passwordfile
 
 asadmin deploy --contextroot mail $HOME/apps/cubusmail/bin/cubusmail.war
+asadmin deploy --contextroot jee-examples --availabilityenabled $HOME/apps/hope-apps/jee-examples.war
+asadmin deploy --contextroot em --availabilityenabled $HOME/apps/hope-apps/hope-website.war
+
 asadmin restart-domain
