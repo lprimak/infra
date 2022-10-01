@@ -14,8 +14,8 @@ asadmin create-password-alias hope-smtp-user --passwordfile $HOME/var/secrets/ho
 asadmin create-password-alias hope-smtp-password --passwordfile $HOME/var/secrets/hope-smtp-passwordfile
 asadmin create-password-alias com.flowlogix.cipher-key --passwordfile $HOME/var/secrets/shiro-cipher-keyfile
 
-asadmin deploy --contextroot mail $HOME/apps/cubusmail/bin/cubusmail.war
-asadmin deploy --contextroot jee-examples --availabilityenabled $HOME/apps/hope-apps/jee-examples.war
-asadmin deploy --contextroot em --availabilityenabled $HOME/apps/hope-apps/hope-website.war
+asadmin deploy --force --contextroot mail $HOME/apps/cubusmail/bin/cubusmail.war
+asadmin deploy --force --contextroot jee-examples --availabilityenabled $HOME/apps/hope-apps/jee-examples.war
+asadmin deploy --force --contextroot em --availabilityenabled $HOME/apps/hope-apps/hope-website.war
 
 asadmin restart-domain
