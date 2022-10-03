@@ -20,6 +20,10 @@ fi
 mvn dependency:unpack -Dartifact=fish.payara.distributions:payara:${payara_version}:zip \
     -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir -DoverWrite=false
 
+mvn dependency:copy -Dartifact=org.postgresql:postgresql:LATEST:jar \
+    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/pgjdbc -DoverWrite=false
+mv $temp_dir/pgjdbc/* $temp_dir/payara5/glassfish/lib
+
 mv $temp_dir/payara5 $target_dir
 rm -rf $temp_dir
 
