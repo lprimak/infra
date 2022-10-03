@@ -16,7 +16,22 @@ set configs.config.server-config.http-service.access-log.max-history-files=50
 set configs.config.server-config.http-service.access-log.write-interval-seconds=30
 
 set configs.config.server-config.http-service.virtual-server.server.docroot=\${user.home}/var/website-content
-set configs.config.server-config.ejb-container.ejb-timer-service.ejb-timer-service=DataGrid
+
+create-jdbc-connection-pool --resType=javax.sql.DataSource --datasourceClassname=org.postgresql.ds.PGSimpleDataSource PayaraPool
+set resources.jdbc-connection-pool.PayaraPool.connection-validation-method=auto-commit
+set resources.jdbc-connection-pool.PayaraPool.is-connection-validation-required=true
+set resources.jdbc-connection-pool.PayaraPool.property.url=jdbc:postgresql://nova.hope.nyc.ny.us/payara?sslmode=disable
+set resources.jdbc-connection-pool.PayaraPool.property.user=payara
+set resources.jdbc-connection-pool.PayaraPool.property.password=none
+set resources.jdbc-resource.jdbc/__default.pool-name=PayaraPool
+
+create-jdbc-connection-pool --resType=javax.sql.XADataSource --datasourceClassname=org.postgresql.ds.PGSimpleDataSource PayaraTimerPool
+set resources.jdbc-connection-pool.PayaraTimerPool.connection-validation-method=auto-commit
+set resources.jdbc-connection-pool.PayaraTimerPool.is-connection-validation-required=true
+set resources.jdbc-connection-pool.PayaraTimerPool.property.url=jdbc:postgresql://nova.hope.nyc.ny.us/payara?sslmode=disable
+set resources.jdbc-connection-pool.PayaraTimerPool.property.user=payara
+set resources.jdbc-connection-pool.PayaraTimerPool.property.password=none
+set resources.jdbc-resource.jdbc/__TimerPool.pool-name=PayaraTimerPool
 
 create-system-properties cubus.config=\${user.home}/infra/etc/cubus.properties
 create-system-properties hope-imap-host=mail.hope.nyc.ny.us
