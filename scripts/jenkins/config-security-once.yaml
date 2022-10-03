@@ -39,3 +39,10 @@ credentials:
           scope: GLOBAL
           username: "lprimak"
           usernameSecret: true
+      - usernamePassword:
+          description: "Jenkins Database username (no password)"
+          id: "9e238cbe-c0cc-4221-a4fb-1d2d8dc5fe1c"
+          password: "{AQAAABAAAAAQEepUbtxMsYVOv6yS7DevPgsrTfTqkhWm9kq3ygtl1nc=}"
+          scope: GLOBAL
+          username: "jenkins"
+          usernameSecret: true
