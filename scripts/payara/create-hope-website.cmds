@@ -16,6 +16,7 @@ set configs.config.server-config.http-service.access-log.max-history-files=50
 set configs.config.server-config.http-service.access-log.write-interval-seconds=30
 
 set configs.config.server-config.http-service.virtual-server.server.docroot=\${user.home}/var/website-content
+set configs.config.server-config.ejb-container.ejb-timer-service.ejb-timer-service=DataGrid
 
 create-system-properties cubus.config=\${user.home}/infra/etc/cubus.properties
 create-system-properties hope-imap-host=mail.hope.nyc.ny.us
