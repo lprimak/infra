@@ -17,6 +17,9 @@ set configs.config.server-config.http-service.access-log.write-interval-seconds=
 
 set configs.config.server-config.http-service.virtual-server.server.docroot=\${user.home}/var/website-content
 
+create-custom-resource --resType=java.lang.String --factoryClass=org.glassfish.resources.custom.factory.PrimitivesAndStringFactory jsf/ProjectStage
+set resources.custom-resource.jsf/ProjectStage.property.value=Production
+
 create-jdbc-connection-pool --resType=javax.sql.DataSource --datasourceClassname=org.postgresql.ds.PGSimpleDataSource PayaraPool
 set resources.jdbc-connection-pool.PayaraPool.connection-validation-method=auto-commit
 set resources.jdbc-connection-pool.PayaraPool.is-connection-validation-required=true
