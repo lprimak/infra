@@ -23,6 +23,7 @@ set resources.custom-resource.jsf/ProjectStage.property.value=Production
 create-jdbc-connection-pool --resType=javax.sql.DataSource --datasourceClassname=org.postgresql.ds.PGSimpleDataSource PayaraPool
 set resources.jdbc-connection-pool.PayaraPool.connection-validation-method=auto-commit
 set resources.jdbc-connection-pool.PayaraPool.is-connection-validation-required=true
+set resources.jdbc-connection-pool.PayaraPool.fail-all-connections=true
 set resources.jdbc-connection-pool.PayaraPool.property.url=jdbc:postgresql://nova.hope.nyc.ny.us/payara?sslmode=disable
 set resources.jdbc-connection-pool.PayaraPool.property.user=payara
 set resources.jdbc-connection-pool.PayaraPool.property.password=none
@@ -31,6 +32,7 @@ set resources.jdbc-resource.jdbc/__default.pool-name=PayaraPool
 create-jdbc-connection-pool --resType=javax.sql.XADataSource --datasourceClassname=org.postgresql.ds.PGSimpleDataSource PayaraTimerPool
 set resources.jdbc-connection-pool.PayaraTimerPool.connection-validation-method=auto-commit
 set resources.jdbc-connection-pool.PayaraTimerPool.is-connection-validation-required=true
+set resources.jdbc-connection-pool.PayaraTimerPool.fail-all-connections=true
 set resources.jdbc-connection-pool.PayaraTimerPool.property.url=jdbc:postgresql://nova.hope.nyc.ny.us/payara?sslmode=disable
 set resources.jdbc-connection-pool.PayaraTimerPool.property.user=payara
 set resources.jdbc-connection-pool.PayaraTimerPool.property.password=none
