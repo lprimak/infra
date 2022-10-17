@@ -1,3 +1,16 @@
-#!/bin/zsh -lp
+#!/bin/zsh -pl
 
-LC_ALL=C PGDATA=~/var/postgres exec pg_ctl start
+export LC_ALL=C
+export PGDATA=~/var/postgres
+
+pg_ctl start
+
+function shutdown() {
+    pg_ctl stop
+    exit 0
+}
+trap shutdown SIGTERM
+while true; do
+    sleep 86400 &
+    wait $!
+done
