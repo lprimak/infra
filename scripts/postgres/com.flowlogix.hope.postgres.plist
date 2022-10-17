@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>UserName</key>
+  <string>postgres</string>
+  <key>Label</key>
+  <string>com.flowlogix.hope.postgres</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/Users/postgres/var/start-postgres.sh</string>
+  </array>
+  <key>RunAtLoad</key>
+  <true/>
+  <key>WorkingDirectory</key>
+  <string>/Users/postgres/var/postgres</string>
+  <key>StandardOutPath</key>
+  <string>/Users/postgres/var/log/postgres.log</string>
+  <key>StandardErrorPath</key>
+  <string>/Users/postgres/var/log/postgres.log</string>
+</dict>
+</plist>
+
