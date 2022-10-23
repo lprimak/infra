@@ -40,7 +40,7 @@ security:
     - "staticMethod io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration\
       \ getInstance"
     approvedScriptHashes:
-    - "b599b6714a72bf9cb6bba1b3facf9e698a29ada0"
+    - "73ab2a6b640d73512a740e6b7916a12192a76566"
   queueItemAuthenticator:
     authenticators:
     - global:
