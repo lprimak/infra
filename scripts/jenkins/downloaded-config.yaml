@@ -236,9 +236,7 @@ tool:
   pipelineMaven:
     jdbcCredentialsId: "9e238cbe-c0cc-4221-a4fb-1d2d8dc5fe1c"
     jdbcUrl: "jdbc:postgresql://localhost:5432/hope"
-    properties: |-
-      dataSource.sslmode=disable
-      dataSource.currentSchema=jenkins
+    properties: "dataSource.sslmode=disable"
     triggerDownstreamUponResultAborted: false
     triggerDownstreamUponResultFailure: false
     triggerDownstreamUponResultNotBuilt: false
