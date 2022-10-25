@@ -27,14 +27,14 @@ credentials:
       - usernamePassword:
           description: "website ftp credentials"
           id: "8695b924-52bd-4fc2-9752-42041489b734"
-          password: "{AQAAABAAAAAQ/Azua/qgwTVCw+20jMqfJrTfefcj4uw8S6ASG+QZSv8=}"
+          password: "{AQAAABAAAAAQ1k6ETEpyIFMDymnyS8dsZPgPWktc9TZWw5LFMJnPENQ=}"
           scope: GLOBAL
           username: "lprimak"
           usernameSecret: true
       - usernamePassword:
           description: "Jenkins Database username (no password)"
           id: "9e238cbe-c0cc-4221-a4fb-1d2d8dc5fe1c"
-          password: "{AQAAABAAAAAQEepUbtxMsYVOv6yS7DevPgsrTfTqkhWm9kq3ygtl1nc=}"
+          password: "{AQAAABAAAAAQlvcc6wyBKimXZWfBOaXr86bKWdM0GgTyfh3ifZkuKYE=}"
           scope: GLOBAL
           username: "jenkins"
           usernameSecret: true
@@ -88,7 +88,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwqdVeh6orvZ3NB6aMmR2QxQ/PxeGAELfzJnth1u7I2llyaFRWqsG+GLuB/XmyfBARqSEEFIfWU0+Fo4yKLhu03w==}"
+      clientSecret: "{AQAAABAAAAAwxmPQdlokz0vRBR7HXAprDrnMnGMiziAPtkD+1KEx1wVD0NCxRAKKGcOERz4VzdT9hD9gatpob2x4bscB9J+S8g==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
@@ -130,7 +130,7 @@ security:
   gitHostKeyVerificationConfiguration:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
   globalJobDslSecurityConfiguration:
-    useScriptSecurity: true
+    useScriptSecurity: false
   queueItemAuthenticator:
     authenticators:
     - global:
@@ -138,8 +138,6 @@ security:
   sSHD:
     port: -1
   scriptApproval:
-    approvedScriptHashes:
-    - "73ab2a6b640d73512a740e6b7916a12192a76566"
     approvedSignatures:
     - "method io.jenkins.plugins.analysis.warnings.groovy.GroovyParser getId"
     - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration getParsers"
