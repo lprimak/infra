@@ -29,6 +29,8 @@ jenkins:
       recurse: true
   numExecutors: 4
 security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false
   scriptApproval:
     approvedSignatures:
     - "method io.jenkins.plugins.analysis.warnings.groovy.GroovyParser getId"
@@ -39,8 +41,6 @@ security:
       \ java.lang.String java.lang.String java.lang.String java.lang.String"
     - "staticMethod io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration\
       \ getInstance"
-    approvedScriptHashes:
-    - "73ab2a6b640d73512a740e6b7916a12192a76566"
   queueItemAuthenticator:
     authenticators:
     - global:
