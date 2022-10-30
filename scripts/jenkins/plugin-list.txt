@@ -24,3 +24,4 @@ authorize-project
 pipeline-stage-view
 pipeline-graph-view
 postgresql-api
+jacoco
