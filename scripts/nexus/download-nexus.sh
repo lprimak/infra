@@ -24,8 +24,6 @@ rm -rf $target_dir/../sonatype-work
 gunzip -c ${target_dir}.gz | tar xf - -C $target_dir/..
 rm -f ${target_dir}.gz
 
-plugins_dir=sonatype-work/nexus3/orient/plugins
-cp -p ${target_dir}/../${plugins_dir}/* ${HOME}/var/${plugins_dir}/
 rm -rf $target_dir/../sonatype-work
 
 sed -e 's+-Xms.*+-Xms500m+g' \
