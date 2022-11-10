@@ -5,8 +5,12 @@ SCRIPT_DIR=`dirname "$0"`
 cert_links_src=$HOME/var/letsencrypt/live
 cert_links_dst=$HOME/var/ssl-links
 
-exec $SCRIPT_DIR/letsencrypt-common.sh certonly \
--d '*.hope.nyc.ny.us,hope.nyc.ny.us,lennyprimak.com,www.lennyprimak.com' "$@"
+$SCRIPT_DIR/letsencrypt-common.sh certonly \
+-d '*.hope.nyc.ny.us,hope.nyc.ny.us' \
+--authenticator dns-dynu --dns-dynu-credentials $HOME/var/secrets/dynu-credentials.ini \
+"$@"
+
+$SCRIPT_DIR/letsencrypt-common.sh certonly -d 'lennyprimak.com,www.lennyprimak.com' "$@"
 
 rm -rf $cert_links_dst
 mkdir -p $cert_links_dst
