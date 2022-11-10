@@ -1,4 +1,4 @@
-#!/bin/zsh -p
+#!/bin/zsh
 
 if [ "$#" -ne 1 ]; then
   echo "Usage: $0 <username>" >&2

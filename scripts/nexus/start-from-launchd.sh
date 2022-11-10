@@ -1,4 +1,4 @@
-#!/bin/zsh -pl
+#!/bin/zsh -l
 
 source ~/.zshrc
 

@@ -1,4 +1,4 @@
-#!/bin/zsh -p
+#!/bin/zsh
 
 letsencrypt_dir=$HOME/var/letsencrypt/live/hope.nyc.ny.us
 domain_dir=$HOME/var/payara-domains/hope-website/config

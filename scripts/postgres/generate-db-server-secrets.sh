@@ -1,4 +1,4 @@
-#!/bin/zsh -p
+#!/bin/zsh
 
 mkdir server
 [ $? != 0 ] && exit 1

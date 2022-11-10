@@ -1,4 +1,4 @@
-#!/bin/zsh -pl
+#!/bin/zsh -l
 
 asadmin start-domain hope-website
 

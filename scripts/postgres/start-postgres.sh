@@ -1,4 +1,4 @@
-#!/bin/zsh -pl
+#!/bin/zsh -l
 
 export LC_ALL=C
 export PGDATA=~/var/postgres

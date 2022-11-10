@@ -1,4 +1,4 @@
-#!/bin/zsh -p
+#!/bin/zsh
 
 SCRIPT_DIR=`dirname "$0"`
 

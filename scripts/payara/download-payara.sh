@@ -1,4 +1,4 @@
-#!/bin/zsh -p
+#!/bin/zsh
 
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <version>"

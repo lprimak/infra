@@ -1,4 +1,4 @@
-#!/bin/zsh -p
+#!/bin/zsh
 
 # Google search that resulted in this script: jenkins install plugins from script
 

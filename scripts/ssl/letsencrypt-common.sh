@@ -1,4 +1,4 @@
-#!/bin/zsh -p
+#!/bin/zsh
 
 letsencrypt_dir=$HOME/var/letsencrypt
 
