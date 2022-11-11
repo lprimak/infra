@@ -3,7 +3,7 @@
 mkdir server
 [ $? != 0 ] && exit 1
 openssl ecparam -name prime256v1 -genkey -noout -out server/ca.key
-openssl req -new -x509 -sha256 -key server/ca.key -out server/root.crt -subj "/CN=ca.flowlogix.com"
+openssl req -new -x509 -sha256 -days 365 -key server/ca.key -out server/root.crt -subj "/CN=ca.flowlogix.com"
 
 openssl ecparam -name prime256v1 -genkey -noout -out server/server.key
 openssl req -new -sha256 -key server/server.key -out server/server.csr -subj "/CN=db.hope.nyc.ny.us"
