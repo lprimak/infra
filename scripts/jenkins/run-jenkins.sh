@@ -13,7 +13,7 @@ exec java -Xmx1g \
 --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED \
 --add-opens java.base/sun.util.calendar=ALL-UNNAMED \
 -DJENKINS_HOME=$HOME/var/jenkins \
--Dhudson.security.ArtifactsPermission=true \
+-Dhudson.security.ArtifactsPermission=true -DBLUEOCEAN_FEATURE_AUTOFAVORITE_ENABLED=false \
 -jar $jenkins_bin/jenkins.war --enable-future-java \
 --httpPort=8088 --httpsPort=-1 --http2Port=-1 \
 --extraLibFolder=$jenkins_bin "$@"
