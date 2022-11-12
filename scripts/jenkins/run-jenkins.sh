@@ -3,6 +3,9 @@
 source ~/.zshrc
 SCRIPT_DIR=`dirname "$0"`
 
+unset AS_ADMIN_USER
+unset AS_ADMIN_PASSWORDFILE
+
 jenkins_bin=$HOME/apps/jenkins/current
 
 exec java -Xmx1g \
@@ -14,4 +17,3 @@ exec java -Xmx1g \
 -jar $jenkins_bin/jenkins.war --enable-future-java \
 --httpPort=8088 --httpsPort=-1 --http2Port=-1 \
 --extraLibFolder=$jenkins_bin "$@"
-
