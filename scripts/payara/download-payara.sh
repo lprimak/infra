@@ -7,7 +7,7 @@ fi
 payara_version=$1
 payara_basedir=${HOME}/apps/payara
 if [ ! -d ${HOME}/apps/payara ]; then
-    payara_basedir=$PWD/payara
+    payara_basedir=$PWD
 fi
 temp_dir=$payara_basedir/temp-${payara_version}
 target_dir=$payara_basedir/payara-${payara_version}
@@ -22,9 +22,17 @@ mvn dependency:unpack -Dartifact=fish.payara.distributions:payara:${payara_versi
 
 mvn dependency:copy -Dartifact=org.postgresql:postgresql:LATEST:jar \
     -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/pgjdbc -DoverWrite=false
-mv $temp_dir/pgjdbc/* $temp_dir/payara5/glassfish/lib
 
-mv $temp_dir/payara5 $target_dir
+if [ -d $temp_dir/payara5 ]; then
+    versioned_dir=payara5
+fi
+if [ -d $temp_dir/payara6 ]; then
+    versioned_dir=payara6
+fi
+
+mv $temp_dir/pgjdbc/* $temp_dir/${versioned_dir}/glassfish/lib
+
+mv $temp_dir/${versioned_dir} $target_dir
 rm -rf $temp_dir
 
 if [ -d ${HOME}/apps/payara ]; then
