@@ -23,6 +23,17 @@ mvn dependency:unpack -Dartifact=fish.payara.distributions:payara:${payara_versi
 mvn dependency:copy -Dartifact=org.postgresql:postgresql:LATEST:jar \
     -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/pgjdbc -DoverWrite=false
 
+mvn dependency:copy -Dartifact=org.ow2.asm:asm:LATEST:jar \
+    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/asm -DoverWrite=false -Dmdep.stripVersion=true
+mvn dependency:copy -Dartifact=org.ow2.asm:asm-analysis:LATEST:jar \
+    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/asm -DoverWrite=false -Dmdep.stripVersion=true
+mvn dependency:copy -Dartifact=org.ow2.asm:asm-commons:LATEST:jar \
+    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/asm -DoverWrite=false -Dmdep.stripVersion=true
+mvn dependency:copy -Dartifact=org.ow2.asm:asm-tree:LATEST:jar \
+    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/asm -DoverWrite=false -Dmdep.stripVersion=true
+mvn dependency:copy -Dartifact=org.ow2.asm:asm-util:LATEST:jar \
+    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/asm -DoverWrite=false -Dmdep.stripVersion=true
+
 if [ -d $temp_dir/payara5 ]; then
     versioned_dir=payara5
 fi
@@ -31,6 +42,8 @@ if [ -d $temp_dir/payara6 ]; then
 fi
 
 mv $temp_dir/pgjdbc/* $temp_dir/${versioned_dir}/glassfish/lib
+mkdir -p $temp_dir/${versioned_dir}/glassfish/modules/asm-latest
+mv $temp_dir/asm/* $temp_dir/${versioned_dir}/glassfish/modules/asm-latest
 
 mv $temp_dir/${versioned_dir} $target_dir
 rm -rf $temp_dir
