@@ -29,7 +29,7 @@ set resources.jdbc-connection-pool.PayaraPool.property.user=payara
 set resources.jdbc-connection-pool.PayaraPool.property.password=none
 set resources.jdbc-resource.jdbc/__default.pool-name=PayaraPool
 
-create-jdbc-connection-pool --resType=javax.sql.XADataSource --datasourceClassname=org.postgresql.ds.PGSimpleDataSource PayaraTimerPool
+create-jdbc-connection-pool --resType=javax.sql.XADataSource --datasourceClassname=org.postgresql.xa.PGXADataSource PayaraTimerPool
 set resources.jdbc-connection-pool.PayaraTimerPool.connection-validation-method=auto-commit
 set resources.jdbc-connection-pool.PayaraTimerPool.is-connection-validation-required=true
 set resources.jdbc-connection-pool.PayaraTimerPool.fail-all-connections=true
