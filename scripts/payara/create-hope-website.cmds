@@ -1,5 +1,3 @@
-create-domain --portbase 1100 hope-website
-start-domain
 enable-secure-admin
 set configs.config.server-config.admin-service.das-config.dynamic-reload-enabled=false
 set configs.config.server-config.admin-service.das-config.autodeploy-enabled=false
@@ -40,7 +38,6 @@ set resources.jdbc-resource.jdbc/__TimerPool.pool-name=PayaraTimerPool
 
 create-system-properties fish.payara.classloading.delegate=false
 
-create-system-properties cubus.config=\${user.home}/infra/etc/cubus.properties
 create-system-properties hope-imap-host=mail.hope.nyc.ny.us
 create-system-properties hope-smtp-host=smtp.aceinnovative.com
 create-system-properties com.flowlogix.pam-service-name=sshd
