@@ -16,6 +16,8 @@ set configs.config.server-config.http-service.access-log.write-interval-seconds=
 
 set configs.config.server-config.http-service.virtual-server.server.docroot=\${user.home}/var/website-content
 
+create-custom-resource --resType=java.lang.String --factoryClass=org.glassfish.resources.custom.factory.PrimitivesAndStringFactory faces/ProjectStage
+set resources.custom-resource.faces/ProjectStage.property.value=Production
 create-custom-resource --resType=java.lang.String --factoryClass=org.glassfish.resources.custom.factory.PrimitivesAndStringFactory jsf/ProjectStage
 set resources.custom-resource.jsf/ProjectStage.property.value=Production
 
