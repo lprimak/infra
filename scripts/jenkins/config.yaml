@@ -57,6 +57,9 @@ unclassified:
   location:
     adminAddress: "admin@flowlogix.com"
     url: "https://jenkins.hope.nyc.ny.us/"
+  mailer:
+    defaultSuffix: "@flowlogix.com"
+    smtpHost: "localhost"
   buildDiscarders:
     configuredBuildDiscarders:
     - simpleBuildDiscarder:

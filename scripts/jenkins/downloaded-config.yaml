@@ -76,6 +76,10 @@ jenkins:
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
+  nodeProperties:
+  - envVars:
+      env:
+      - key: "MAVEN_OPTS"
   numExecutors: 4
   primaryView:
     all:
@@ -164,6 +168,11 @@ unclassified:
             numToKeepStr: "10"
   casCGlobalConfig:
     configurationPath: "/Users/software/infra/scripts/jenkins/config.yaml"
+  enrichedSummaryConfig:
+    enrichedSummaryEnabled: false
+    httpClientDelayBetweenRetriesInSeconds: 1
+    httpClientMaxRetries: 3
+    httpClientTimeoutInSeconds: 1
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
@@ -176,14 +185,6 @@ unclassified:
     hookSecretConfigs:
     - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
     hookUrl: "https://jenkins.hope.nyc.ny.us/github-webhook/"
-  gitSCM:
-    addGitTagAction: false
-    allowSecondFetch: false
-    createAccountBasedOnEmail: false
-    disableGitToolChooser: false
-    hideCredentials: false
-    showEntireCommitSummaryInChanges: false
-    useExistingAccountWithSameEmail: false
   globalDefaultFlowDurabilityLevel:
     durabilityHint: PERFORMANCE_OPTIMIZED
   injectionConfig:
@@ -205,6 +206,8 @@ unclassified:
     url: "https://jenkins.hope.nyc.ny.us/"
   mailer:
     charset: "UTF-8"
+    defaultSuffix: "@flowlogix.com"
+    smtpHost: "localhost"
     useSsl: false
     useTls: false
   mavenModuleSet:
@@ -213,6 +216,14 @@ unclassified:
     pollingThreadCount: 10
   prismConfiguration:
     theme: PRISM
+  scmGit:
+    addGitTagAction: false
+    allowSecondFetch: false
+    createAccountBasedOnEmail: false
+    disableGitToolChooser: false
+    hideCredentials: false
+    showEntireCommitSummaryInChanges: false
+    useExistingAccountWithSameEmail: false
   timestamper:
     allPipelines: false
     elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
