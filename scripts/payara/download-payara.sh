@@ -44,9 +44,8 @@ if [ -d $temp_dir/payara6 ]; then
 fi
 
 mv $temp_dir/pgjdbc/* $temp_dir/${versioned_dir}/glassfish/lib
-module_updates_dir=$temp_dir/${versioned_dir}/glassfish/modules/updates
-mkdir -p $module_updates_dir
-mv $temp_dir/updates/* $module_updates_dir
+modules_dir=$temp_dir/${versioned_dir}/glassfish/modules
+mv $temp_dir/updates/* $modules_dir
 
 mv $temp_dir/${versioned_dir} $target_dir
 rm -rf $temp_dir
