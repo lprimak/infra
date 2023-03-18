@@ -17,7 +17,7 @@ if [ -d $target_dir ]; then
     exit 1
 fi
 
-maven_flags="-B -C -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+maven_flags="-B -C -ntp"
 
 mvn $(echo $maven_flags) dependency:unpack -Dartifact=fish.payara.distributions:payara:${payara_version}:zip \
     -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir -DoverWrite=false
