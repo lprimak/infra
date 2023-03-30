@@ -13,7 +13,9 @@ asadmin start-domain $domain_name
 asadmin multimode -f $SCRIPT_DIR/create-hope-website.cmds
 
 domain_dir=$HOME/var/payara-domains/${domain_name}/config
-keytool -importkeystore -srckeystore $domain_dir/cacerts.jks -destkeystore $domain_dir/cacerts.jks -deststoretype pkcs12 -srcstorepass changeit -deststorepass changeit 2>/dev/null
+if [ -f $domain_dir/cacerts.jks ]; then
+    keytool -importkeystore -srckeystore $domain_dir/cacerts.jks -destkeystore $domain_dir/cacerts.jks -deststoretype pkcs12 -srcstorepass changeit -deststorepass changeit 2>/dev/null
+fi
 $SCRIPT_DIR/import-certs.sh
 
 asadmin create-password-alias hope-db-username --passwordfile $HOME/var/secrets/hope-db-usernamefile
