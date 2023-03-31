@@ -36,6 +36,9 @@ mvn $(echo $maven_flags) dependency:copy -Dartifact=org.ow2.asm:asm-tree:LATEST:
 mvn $(echo $maven_flags) dependency:copy -Dartifact=org.ow2.asm:asm-util:LATEST:jar \
     -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/updates -DoverWrite=false -Dmdep.stripVersion=true
 
+mvn $(echo $maven_flags) dependency:copy -Dartifact=org.eclipse.persistence:org.eclipse.persistence.asm:LATEST:jar \
+    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/updates -DoverWrite=false -Dmdep.stripVersion=true
+
 if [ -d $temp_dir/payara5 ]; then
     versioned_dir=payara5
 fi
