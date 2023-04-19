@@ -1,47 +1,47 @@
 credentials:
   system:
     domainCredentials:
-    - credentials:
-      - string:
-          description: "Webhook - Inbound auth shared secret"
-          id: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
-          scope: GLOBAL
-          secret: "{AQAAABAAAAAwggwKTRlrbw61axjqB8XVMJ+lBRxn0oar10WMXxWkhUEeQuQTVEiHeKTF8/RNfPH3QcYnq6fD7G39Wo/m/HAb4A==}"
-      - string:
-          description: "WebHook edit permissions token for Jenkins"
-          id: "1da457b5-282f-4dcd-8358-e1aaee34bbb3"
-          scope: GLOBAL
-          secret: "{AQAAABAAAAAwBa6r91DHVT3OLSvdhTncUSsXJtdxkUmngCRRqyjP7og2BB056KdG4pEyRXwZTcPNhYhiAgvzc3SaFCD638E0SA==}"
-      - gitHubApp:
-          appID: "237865"
-          description: "Repo Access (Org) - GitHub App"
-          id: "bacccb11-36f5-4f8f-b45e-26b123a438b0"
-          owner: "flowlogix"
-          privateKey: "{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}"
-      - gitHubApp:
-          appID: "237865"
-          description: "Repo Access (personal) - GitHub App"
-          id: "187c3f6e-6b13-4024-8df2-10e702f213f8"
-          owner: "lprimak"
-          privateKey: "{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}"
-      - usernamePassword:
-          description: "website ftp credentials"
-          id: "8695b924-52bd-4fc2-9752-42041489b734"
-          password: "{AQAAABAAAAAQ1k6ETEpyIFMDymnyS8dsZPgPWktc9TZWw5LFMJnPENQ=}"
-          scope: GLOBAL
-          username: "lprimak"
-          usernameSecret: true
-      - usernamePassword:
-          description: "Jenkins Database username (no password)"
-          id: "9e238cbe-c0cc-4221-a4fb-1d2d8dc5fe1c"
-          password: "{AQAAABAAAAAQlvcc6wyBKimXZWfBOaXr86bKWdM0GgTyfh3ifZkuKYE=}"
-          scope: GLOBAL
-          username: "jenkins"
-          usernameSecret: true
+      - credentials:
+          - string:
+              description: "Webhook - Inbound auth shared secret"
+              id: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
+              scope: GLOBAL
+              secret: "{AQAAABAAAAAwggwKTRlrbw61axjqB8XVMJ+lBRxn0oar10WMXxWkhUEeQuQTVEiHeKTF8/RNfPH3QcYnq6fD7G39Wo/m/HAb4A==}"
+          - string:
+              description: "WebHook edit permissions token for Jenkins"
+              id: "1da457b5-282f-4dcd-8358-e1aaee34bbb3"
+              scope: GLOBAL
+              secret: "{AQAAABAAAAAwBa6r91DHVT3OLSvdhTncUSsXJtdxkUmngCRRqyjP7og2BB056KdG4pEyRXwZTcPNhYhiAgvzc3SaFCD638E0SA==}"
+          - gitHubApp:
+              appID: "237865"
+              description: "Repo Access (Org) - GitHub App"
+              id: "bacccb11-36f5-4f8f-b45e-26b123a438b0"
+              owner: "flowlogix"
+              privateKey: "{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}"
+          - gitHubApp:
+              appID: "237865"
+              description: "Repo Access (personal) - GitHub App"
+              id: "187c3f6e-6b13-4024-8df2-10e702f213f8"
+              owner: "lprimak"
+              privateKey: "{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}"
+          - usernamePassword:
+              description: "website ftp credentials"
+              id: "8695b924-52bd-4fc2-9752-42041489b734"
+              password: "{AQAAABAAAAAQ1k6ETEpyIFMDymnyS8dsZPgPWktc9TZWw5LFMJnPENQ=}"
+              scope: GLOBAL
+              username: "lprimak"
+              usernameSecret: true
+          - usernamePassword:
+              description: "Jenkins Database username (no password)"
+              id: "9e238cbe-c0cc-4221-a4fb-1d2d8dc5fe1c"
+              password: "{AQAAABAAAAAQlvcc6wyBKimXZWfBOaXr86bKWdM0GgTyfh3ifZkuKYE=}"
+              scope: GLOBAL
+              username: "jenkins"
+              usernameSecret: true
 jenkins:
   agentProtocols:
-  - "JNLP4-connect"
-  - "Ping"
+    - "JNLP4-connect"
+    - "Ping"
   authorizationStrategy:
     github:
       adminUserNames: "lprimak"
@@ -58,28 +58,28 @@ jenkins:
       excludeClientIPFromCrumb: false
   disableRememberMe: false
   disabledAdministrativeMonitors:
-  - "jenkins.diagnostics.ControllerExecutorsNoAgents"
-  - "org.jenkinsci.plugins.pipeline.maven.NonProductionGradeDatabaseWarningAdministrativeMonitor"
+    - "jenkins.diagnostics.ControllerExecutorsNoAgents"
+    - "org.jenkinsci.plugins.pipeline.maven.NonProductionGradeDatabaseWarningAdministrativeMonitor"
   globalNodeProperties:
-  - envVars:
-      env:
-      - key: "CHROME_BINARY"
-        value: "^${HOME}/apps/google-chrome/97/Google Chrome.app/Contents/MacOS/Google\
+    - envVars:
+        env:
+          - key: "CHROME_BINARY"
+            value: "^${HOME}/apps/google-chrome/97/Google Chrome.app/Contents/MacOS/Google\
           \ Chrome"
-      - key: "MAVEN_ADD_OPTIONS"
-        value: "-Dwebdriver.browser=firefox"
-      - key: "MAVEN_OPTS"
-        value: "-Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
+          - key: "MAVEN_ADD_OPTIONS"
+            value: "-Dwebdriver.browser=firefox"
+          - key: "MAVEN_OPTS"
+            value: "-Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
           \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver"
   labelAtoms:
-  - name: "built-in"
+    - name: "built-in"
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
   nodeProperties:
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
+    - envVars:
+        env:
+          - key: "MAVEN_OPTS"
   numExecutors: 4
   primaryView:
     all:
@@ -99,25 +99,25 @@ jenkins:
   slaveAgentPort: -1
   updateCenter:
     sites:
-    - id: "default"
-      url: "https://updates.jenkins.io/update-center.json"
+      - id: "default"
+        url: "https://updates.jenkins.io/update-center.json"
   views:
-  - calendar:
-      columns:
-      - "status"
-      - "weather"
-      - "jobName"
-      - "lastSuccess"
-      - "lastFailure"
-      - "lastDuration"
-      - "buildButton"
-      - "favoriteColumn"
-      - "issuesTotalColumn"
-      includeRegex: ".*"
-      name: "Build Timeline"
-      recurse: true
-  - all:
-      name: "all"
+    - calendar:
+        columns:
+          - "status"
+          - "weather"
+          - "jobName"
+          - "lastSuccess"
+          - "lastFailure"
+          - "lastDuration"
+          - "buildButton"
+          - "favoriteColumn"
+          - "issuesTotalColumn"
+        includeRegex: ".*"
+        name: "Build Timeline"
+        recurse: true
+    - all:
+        name: "all"
   viewsTabBar: "standard"
 globalCredentialsConfiguration:
   configuration:
@@ -137,35 +137,35 @@ security:
     useScriptSecurity: false
   queueItemAuthenticator:
     authenticators:
-    - global:
-        strategy: "triggeringUsersAuthorizationStrategy"
+      - global:
+          strategy: "triggeringUsersAuthorizationStrategy"
   sSHD:
     port: -1
   scriptApproval:
     approvedSignatures:
-    - "method io.jenkins.plugins.analysis.warnings.groovy.GroovyParser getId"
-    - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration getParsers"
-    - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration setParsers\
+      - "method io.jenkins.plugins.analysis.warnings.groovy.GroovyParser getId"
+      - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration getParsers"
+      - "method io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration setParsers\
       \ java.util.List"
-    - "new io.jenkins.plugins.analysis.warnings.groovy.GroovyParser java.lang.String\
+      - "new io.jenkins.plugins.analysis.warnings.groovy.GroovyParser java.lang.String\
       \ java.lang.String java.lang.String java.lang.String java.lang.String"
-    - "staticMethod io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration\
+      - "staticMethod io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration\
       \ getInstance"
 unclassified:
   bitbucketEndpointConfiguration:
     endpoints:
-    - bitbucketCloudEndpoint:
-        enableCache: false
-        manageHooks: false
-        repositoriesCacheDuration: 0
-        teamCacheDuration: 0
+      - bitbucketCloudEndpoint:
+          enableCache: false
+          manageHooks: false
+          repositoriesCacheDuration: 0
+          teamCacheDuration: 0
   buildDiscarders:
     configuredBuildDiscarders:
-    - simpleBuildDiscarder:
-        discarder:
-          logRotator:
-            daysToKeepStr: "10"
-            numToKeepStr: "10"
+      - simpleBuildDiscarder:
+          discarder:
+            logRotator:
+              daysToKeepStr: "10"
+              numToKeepStr: "10"
   casCGlobalConfig:
     configurationPath: "/Users/software/infra/scripts/jenkins/config.yaml"
   enrichedSummaryConfig:
@@ -180,10 +180,10 @@ unclassified:
     apiRateLimitChecker: ThrottleForNormalize
   gitHubPluginConfig:
     configs:
-    - credentialsId: "1da457b5-282f-4dcd-8358-e1aaee34bbb3"
-      name: "FlowLogix WebHook Auth"
+      - credentialsId: "1da457b5-282f-4dcd-8358-e1aaee34bbb3"
+        name: "FlowLogix WebHook Auth"
     hookSecretConfigs:
-    - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
+      - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
     hookUrl: "https://jenkins.hope.nyc.ny.us/github-webhook/"
   globalDefaultFlowDurabilityLevel:
     durabilityHint: PERFORMANCE_OPTIMIZED
@@ -231,19 +231,19 @@ unclassified:
   warningsParsers:
     consoleLogScanningPermitted: false
     parsers:
-    - example: "[2022-09-11T16:53:01.405-0500] [Payara 5.2022.3] [ERROR]"
-      id: "payara-logs"
-      name: "Payara Log Parser"
-      regexp: "\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[(WARNING|ERROR|FATAL|SEVERE)\\\
+      - example: "[2022-09-11T16:53:01.405-0500] [Payara 5.2022.3] [ERROR]"
+        id: "payara-logs"
+        name: "Payara Log Parser"
+        regexp: "\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[(WARNING|ERROR|FATAL|SEVERE)\\\
         ]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\\
         []*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\\
         [\\[\\n\\s+([\\s\\S]*?)(\\]\\])"
-      script: "return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(matcher.group(3)).setMessage(matcher.group(9).take(256)).buildOptional()"
+        script: "return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(matcher.group(3)).setMessage(matcher.group(9).take(256)).buildOptional()"
 tool:
   git:
     installations:
-    - home: "git"
-      name: "Default"
+      - home: "git"
+        name: "Default"
   mavenGlobalConfig:
     globalSettingsProvider: "standard"
     settingsProvider: "standard"
