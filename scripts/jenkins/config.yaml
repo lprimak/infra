@@ -19,7 +19,8 @@ jenkins:
         value: "-Dwebdriver.browser=firefox"
       - key: "MAVEN_OPTS"
         value: "-Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
-          \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver"
+          \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver\
+          \ -Dorg.slf4j.simpleLogger.log.org.apache.maven.plugin.internal.DefaultPluginValidationManager=off"
   views:
   - all:
       name: "all"
