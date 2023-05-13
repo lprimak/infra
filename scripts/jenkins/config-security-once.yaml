@@ -49,7 +49,7 @@ credentials:
       - usernamePassword:
           description: "FlowLogix Sonatype Nexus Maven Central Token"
           id: "0e35c931-3275-426a-95bf-a0c21279d013"
-          password: "{AQAAABAAAAAwLVFcwqpuU2+iUI9DqRNGAO6BrpmgnaRnLspV3kXbMqao/bfE1WkgaV6bDpOVccQAnoA+9KUh5R8UrUmKzcYKrA==}"
+          password: "{AQAAABAAAAAw2Ar0vOr/jxHAqN+phtIspmd06b0tBjjfJivbR2zDkf4Kph2SeEIyQyrX9eVMqXCuxP6nw2HgQmPehn94Fkz7HA==}"
           scope: GLOBAL
-          username: "5LfhdsCI"
+          username: "pR5cX4Xm"
           usernameSecret: true
