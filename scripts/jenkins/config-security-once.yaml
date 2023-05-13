@@ -35,7 +35,7 @@ credentials:
       - usernamePassword:
           description: "website ftp credentials"
           id: "8695b924-52bd-4fc2-9752-42041489b734"
-          password: "{AQAAABAAAAAQKGzSG2JMErofKwb74TE/qlYuNI6Qe5NwjTd43FVVvYE=}"
+          password: "{AQAAABAAAAAgSj5LnIjV73sZUTJY8qKySZSsPq7JuYs44vmZdOvKinqq1zbZHTXondEDxExQqo0z}"
           scope: GLOBAL
           username: "lprimak"
           usernameSecret: true
