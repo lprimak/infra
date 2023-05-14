@@ -53,8 +53,9 @@ echoStagingRepositoryId() {
 findStagingRepositoryId() {
   curl -s --request GET --netrc-file <(cat <<<"machine $nexus_host login $nexus_user password $nexus_password") \
     $nexus_url/service/local/staging/profile_repositories \
-    --header 'Accept: application/json' \
-    --header 'Content-Type: application/json' | jq -r '.data[] | select(.type != "closed") | .repositoryId'
+    --header 'Accept: application/json' --header 'Content-Type: application/json' | \
+    jq --arg pName "$1" -r '.data[] | select(.type != "closed") | select(.profileName == $pName) | .repositoryId'
+
 }
 
 closeRepository() {
@@ -154,7 +155,7 @@ releaseRepository() {
   fi
 }
 
-stagingRepositoryId=$(findStagingRepositoryId)
+stagingRepositoryId=$(findStagingRepositoryId "$1")
 if [ -z ${stagingRepositoryId} ]; then
   echo "No staging repository found. Nothing to do. Bye bye!"
   exit 1
@@ -163,7 +164,7 @@ echo "Found staging repository ${stagingRepositoryId}: Closing ..."
 closeRepository ${stagingRepositoryId}
 waitForRulesProcessiongToComplete ${stagingRepositoryId}
 waitForTransitionToComplete ${stagingRepositoryId}
-if [ "$1" == "--release" ]; then
+if [ "$2" == "--release" ]; then
   releaseRepository ${stagingRepositoryId}
 fi
 exit 0
