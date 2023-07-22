@@ -53,6 +53,11 @@ mv $temp_dir/updates/* $modules_dir
 mv $temp_dir/${versioned_dir} $target_dir
 rm -rf $temp_dir
 
+cat << EOF >> $target_dir/glassfish/config/asenv.conf
+    export SDKMAN_DIR AS_ADMIN_PORT JAVA_TOOL_OPTIONS
+    JAVA_TOOL_OPTIONS="-Djdk.util.zip.disableZip64ExtraFieldValidation=true --add-opens=java.base/java.io=ALL-UNNAMED"
+EOF
+
 if [ -d ${HOME}/apps/payara ]; then
     cat << EOF >> $target_dir/glassfish/config/asenv.conf
 
