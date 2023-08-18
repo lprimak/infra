@@ -68,3 +68,8 @@ if [ -d ${HOME}/apps/payara ]; then
 EOF
 
 fi
+
+cat << EOF >> $target_dir/glassfish/config/asenv.conf
+    export JAVA_TOOL_OPTIONS
+    JAVA_TOOL_OPTIONS="--add-opens=java.base/java.io=ALL-UNNAMED"
+EOF
