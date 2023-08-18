@@ -56,13 +56,15 @@ rm -rf $temp_dir
 if [ -d ${HOME}/apps/payara ]; then
     cat << EOF >> $target_dir/glassfish/config/asenv.conf
 
+    export SDKMAN_DIR AS_ADMIN_PORT
+
     # Override Defaults
-    export SDKMAN_DIR="${HOME}/.sdkman"
+    SDKMAN_DIR="${HOME}/.sdkman"
     [[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
     # sdk use java 11.0.14-zulu
     AS_DEF_DOMAINS_PATH="\${HOME}/var/payara-domains"
     AS_DEF_NODES_PATH="\${HOME}/var/payara-nodes"
-    export AS_ADMIN_PORT=1148
+    AS_ADMIN_PORT=1148
 EOF
 
 fi
