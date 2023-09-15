@@ -11,6 +11,7 @@ pipeline-githubnotify-step
 github-scm-trait-notification-context
 remote-file
 pipeline-maven
+pipeline-maven-database
 jobConfigHistory
 calendar-view
 warnings-ng
