@@ -1,7 +1,7 @@
 enable-secure-admin
 set configs.config.server-config.admin-service.das-config.dynamic-reload-enabled=false
 set configs.config.server-config.admin-service.das-config.autodeploy-enabled=false
-create-jvm-options -XX\\:+UseZGC
+create-jvm-options -XX\\:+UseZGC:-XX\\:+ZGenerational
 
 set configs.config.server-config.network-config.protocols.protocol.http-listener-2.ssl.cert-nickname=hope.crt 
 set configs.config.server-config.network-config.protocols.protocol.sec-admin-listener.ssl.cert-nickname=hope.crt
