@@ -5,7 +5,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 nexus_version=$1
-target_dir=${HOME}/apps/sonatype-nexus/nexus-${nexus_version}
+target_dir=${HOME}/apps/nexus/nexus-${nexus_version}
 
 if [ -d $target_dir -o -f ${target_dir}.gz ]; then
     echo "$target_dir or ${target_dir}.gz already exists"
