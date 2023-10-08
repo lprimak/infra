@@ -1,6 +1,7 @@
 - hosts: test1.oci.flowlogix.com
   tasks:
     - name: Upgrade OS
+      become: true
       ansible.builtin.package:
         update_cache: yes
 
@@ -10,5 +11,6 @@
       register: reboot_required_file
 
     - name: Reboot if required
+      become: true
       reboot:
       when: reboot_required_file.stat.exists == true
