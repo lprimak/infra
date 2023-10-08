@@ -3,14 +3,20 @@
     - name: Upgrade OS
       become: true
       ansible.builtin.package:
+        name: '*'
+        state: latest
         update_cache: yes
 
-    - name: Check if reboot required
-      stat:
-        path: /var/run/reboot-required
-      register: reboot_required_file
+    - name: Check if reboot_required
+      become: true
+      shell:
+        cmd: "needs-restarting -r"
+      changed_when: false
+      failed_when: reboot_required.rc != 0 and reboot_required.rc != 1
+      check_mode: false
+      register: reboot_required
 
     - name: Reboot if required
       become: true
       reboot:
-      when: reboot_required_file.stat.exists == true
+      when: reboot_required.rc == 1
