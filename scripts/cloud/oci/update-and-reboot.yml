@@ -7,7 +7,7 @@
         state: latest
         update_cache: yes
 
-    - name: Check if reboot_required
+    - name: Check if reboot is required
       become: true
       shell:
         cmd: "needs-restarting -r"
