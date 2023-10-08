@@ -1,1 +1,2 @@
+[linux_hosts]
 test1.oci.flowlogix.com ansible_user=opc

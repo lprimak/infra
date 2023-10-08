@@ -1,4 +1,4 @@
-- hosts: test1.oci.flowlogix.com
+- hosts: linux_hosts
   tasks:
     - name: Upgrade OS
       become: true
