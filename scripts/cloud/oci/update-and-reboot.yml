@@ -1,14 +1,13 @@
 - hosts: linux_hosts
+  become: true
   tasks:
     - name: Upgrade OS
-      become: true
       ansible.builtin.package:
         name: '*'
         state: latest
         update_cache: yes
 
     - name: Check if reboot is required
-      become: true
       shell:
         cmd: "needs-restarting -r"
       changed_when: false
@@ -17,6 +16,5 @@
       register: reboot_required
 
     - name: Reboot if required
-      become: true
       reboot:
       when: reboot_required.rc == 1
