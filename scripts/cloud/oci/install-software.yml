@@ -4,7 +4,7 @@
     - name: Install Apache
       become: true
       package:
-        name: 'httpd.aarch64'
+        name: 'httpd'
         state: latest
         update_cache: yes
 
