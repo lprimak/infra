@@ -1,0 +1,24 @@
+- hosts: linux_hosts
+  become: true
+  tasks:
+    - name: Install Apache
+      become: true
+      package:
+        name: 'httpd.aarch64'
+        state: latest
+        update_cache: yes
+
+    - name: Enable and Start Apache
+      service:
+        name: 'httpd.service'
+        state: started
+
+    - name: Open http(s) ports (firewall)
+      firewalld:
+        port: "{{ item }}/tcp"
+        state: enabled
+        immediate: true
+        permanent: true
+      loop:
+        - 80
+        - 443
