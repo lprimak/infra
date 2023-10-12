@@ -1,14 +1,14 @@
 - hosts: linux_hosts
   become: true
   tasks:
-    - name: Install Apache
+    - name: Install Apache Web Server
       become: true
       package:
         name: 'httpd'
         state: latest
         update_cache: yes
 
-    - name: Enable and Start Apache
+    - name: Enable and Start Apache Web Server
       service:
         name: 'httpd.service'
         enabled: true
