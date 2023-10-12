@@ -11,6 +11,7 @@
     - name: Enable and Start Apache
       service:
         name: 'httpd.service'
+        enabled: true
         state: started
 
     - name: Open http(s) ports (firewall)
