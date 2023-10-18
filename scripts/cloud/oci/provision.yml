@@ -1,0 +1,79 @@
+- hosts: localhost
+  collections:
+    - oracle.oci
+  tasks:
+  - name: Create VCN
+    oci_network_vcn:
+      compartment_id: "ocid1.tenancy.oc1..aaaaaaaajzdeabpe55pastcezhhjrqxopgyhvnjeqhi6hvjhvbeip7rl5e2a"
+      display_name: test network
+      cidr_block: 10.0.0.0/16
+    register: network
+
+  - name: Create a new Internet Gateway
+    oci_network_internet_gateway:
+      compartment_id: "{{ network.vcn.compartment_id }}"
+      vcn_id: "{{ network.vcn.id }}"
+      name: "inet-gw"
+      is_enabled: true
+    register: gateway
+
+  - name: Create route table to connect internet gateway to the VCN
+    oci_network_route_table:
+      compartment_id: "{{ network.vcn.compartment_id }}"
+      vcn_id: "{{ network.vcn.id }}"
+      name: "inet-route-table"
+      route_rules:
+        - cidr_block: "0.0.0.0/0"
+          network_entity_id: "{{ gateway.internet_gateway.id }}"
+    register: inetroute
+
+  - name: Create Subnet
+    oci_network_subnet:
+      compartment_id: "{{ network.vcn.compartment_id }}"
+      vcn_id: "{{ network.vcn.id }}"
+      availability_domain: "wjxn:US-CHICAGO-1-AD-2"
+      cidr_block: "10.0.0.0/24"
+      route_table_id: "{{ inetroute.route_table.id }}"
+    register: subnet
+
+  - name: Security List - Open HTTP(s) ports
+    oci_network_security_list:
+      # required
+      security_list_id: "{{ network.vcn.default_security_list_id }}"
+
+      # optional
+      purge_security_rules: false
+      ingress_security_rules:
+        - protocol: 6
+          source: 0.0.0.0/0
+          tcp_options:
+            # optional
+            destination_port_range:
+              # required
+              min: 80
+              max: 80
+          is_stateless: false
+          description: Open Port 80
+        - protocol: 6
+          source: 0.0.0.0/0
+          tcp_options:
+            destination_port_range:
+              min: 443
+              max: 443
+          is_stateless: false
+          description: Open Port 443
+
+  - name: Provision Web Server (test1)
+    oci_compute_instance:
+      name: test1 web server
+      compartment_id: "{{ network.vcn.compartment_id }}"
+      availability_domain: "{{ subnet.subnet.availability_domain }}"
+      shape: VM.Standard.A1.Flex
+      shape_config:
+        ocpus: 2
+        memory_in_gbs: 4
+      image_id: "ocid1.image.oc1.us-chicago-1.aaaaaaaamuljpdngivodn4gtramvxgztbuykhurwaueqcaxs7audzzav74ba"
+      subnet_id: "{{ subnet.subnet.id }}"
+      metadata:
+        ssh_authorized_keys:
+          "{{ lookup('file', '~/.ssh/oci-test1-key-2023-10-06.pem.pub' ) }}"
