@@ -9,6 +9,38 @@
       cidr_block: 10.0.0.0/16
     register: network
 
+  - name: Create Web Security List - Open HTTP(s) ports
+    oci_network_security_list:
+      compartment_id: "{{ network.vcn.compartment_id }}"
+      vcn_id: "{{ network.vcn.id }}"
+      name: "web-security-list"
+
+      purge_security_rules: false
+      egress_security_rules:
+        # Allow ssh connections outside
+        - destination: "0.0.0.0/0"
+          protocol: "all"
+      ingress_security_rules:
+        - protocol: 6
+          source: 0.0.0.0/0
+          tcp_options:
+            # optional
+            destination_port_range:
+              # required
+              min: 80
+              max: 80
+          is_stateless: false
+          description: Open Port 80
+        - protocol: 6
+          source: 0.0.0.0/0
+          tcp_options:
+            destination_port_range:
+              min: 443
+              max: 443
+          is_stateless: false
+          description: Open Port 443
+    register: web_security_list
+
   - name: Create a new Internet Gateway
     oci_network_internet_gateway:
       compartment_id: "{{ network.vcn.compartment_id }}"
@@ -34,34 +66,10 @@
       availability_domain: "wjxn:US-CHICAGO-1-AD-2"
       cidr_block: "10.0.0.0/24"
       route_table_id: "{{ inetroute.route_table.id }}"
+      security_list_ids:
+        - "{{ web_security_list.security_list.id }}"
+        - "{{ network.vcn.default_security_list_id }}"
     register: subnet
-
-  - name: Security List - Open HTTP(s) ports
-    oci_network_security_list:
-      # required
-      security_list_id: "{{ network.vcn.default_security_list_id }}"
-
-      # optional
-      purge_security_rules: false
-      ingress_security_rules:
-        - protocol: 6
-          source: 0.0.0.0/0
-          tcp_options:
-            # optional
-            destination_port_range:
-              # required
-              min: 80
-              max: 80
-          is_stateless: false
-          description: Open Port 80
-        - protocol: 6
-          source: 0.0.0.0/0
-          tcp_options:
-            destination_port_range:
-              min: 443
-              max: 443
-          is_stateless: false
-          description: Open Port 443
 
   - name: Provision Web Server (test1)
     oci_compute_instance:
@@ -77,3 +85,8 @@
       metadata:
         ssh_authorized_keys:
           "{{ lookup('file', '~/.ssh/oci-test1-key-2023-10-06.pem.pub' ) }}"
+    register: webserver
+
+  - name: display IP
+    debug:
+      msg: "Created instance with IP {{ webserver.instance.primary_public_ip }}"
