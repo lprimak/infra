@@ -89,4 +89,4 @@
 
   - name: display IP
     debug:
-      msg: "Created instance with IP {{ webserver.instance.primary_public_ip }}"
+      msg: "Server instance {{ webserver.instance.display_name }} with IP {{ webserver.instance.primary_public_ip }}"
