@@ -40,7 +40,7 @@
       no_log: true
       register: selinux
 
-    - name: make content and config directories
+    - name: Make Content and Config directories
       file:
         path: "{{ item }}"
         owner: "{{ ansible_env.SUDO_USER }}"
@@ -64,7 +64,7 @@
           DocumentRoot "{{ content_dir }}/html"
           <Directory "{{ content_dir }}/html">
               Options Indexes FollowSymLinks
-              AllowOverride None
+              AllowOverride All
               Require all granted
           </Directory>
         create: true
@@ -77,9 +77,10 @@
         line: '# Disabled by FlowLogix --- \1'
         backrefs: yes
         state: present
+      notify: Reload Apache
 
     - name: SeLinux fix file permissions
-      command: restorecon -Rv "{{ content_dir}}"
+      command: restorecon -Rv "{{ content_dir }}"
       changed_when: false
 
   handlers:
