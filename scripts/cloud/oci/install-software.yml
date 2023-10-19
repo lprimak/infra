@@ -1,5 +1,9 @@
 - hosts: linux_hosts
   become: true
+  vars:
+    content_dir: "/var/flowlogix"
+    etc_conf_d: "{{ content_dir }}/etc/httpd/conf.d"
+    os_etc_conf_d: "/etc/httpd/conf.d"
   tasks:
     - name: Install Apache Web Server
       package:
@@ -23,30 +27,46 @@
         - 80
         - 443
 
-    - name: make content directory
-      file:
-        path: /var/flowlogix
-        owner: "{{ ansible_env.SUDO_USER }}"
-        state: directory
-
     - name: Enable SeLinux content directory
-      command: semanage fcontext -a -t httpd_sys_content_t "/var/flowlogix(/.*)?"
+      command: semanage fcontext -a -t httpd_sys_content_t "{{ content_dir }}(/.*)?"
       changed_when: false
       failed_when: false
       no_log: true
       register: selinux
 
-    - name: display selinux stuff
-      debug:
-        msg: "stdout: {{ selinux.stdout }} stderr: {{ selinux.stderr }}"
+    - name: make content and config directories
+      file:
+        path: "{{ item }}"
+        owner: "{{ ansible_env.SUDO_USER }}"
+        state: directory
+      loop:
+        - "{{ etc_conf_d }}"
+        - "{{ content_dir }}/html"
 
     - name: Enable own Apache config
       blockinfile:
-        path: /etc/httpd/conf.d/flowlogix.conf
+        path: "{{ os_etc_conf_d }}/flowlogix.conf"
         block: |
-          IncludeOptional /var/flowlogix/etc/httpd/conf.d/*
+          IncludeOptional "{{ etc_conf_d }}/*"
         create: true
       notify: Reload Apache
+
+    - name: Write apache config for docroot
+      blockinfile:
+        path: "{{ os_etc_conf_d }}/docroot.conf"
+        block: |
+          DocumentRoot "{{ content_dir }}/html"
+          <Directory "{{ content_dir }}/html">
+              Options Indexes FollowSymLinks
+              AllowOverride None
+              Require all granted
+          </Directory>
+        create: true
+      notify: Reload Apache
+
+    - name: SeLinux fix file permissions
+      command: restorecon -Rv "{{ content_dir}}"
+      changed_when: false
 
   handlers:
     - name: Reload Apache
