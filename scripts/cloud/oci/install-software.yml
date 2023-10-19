@@ -11,6 +11,12 @@
         state: latest
         update_cache: yes
 
+    - name: Install Apache Mod_SSL
+      package:
+        name: 'mod_ssl'
+        state: latest
+        update_cache: yes
+
     - name: Enable and Start Apache Web Server
       service:
         name: 'httpd.service'
@@ -63,6 +69,14 @@
           </Directory>
         create: true
       notify: Reload Apache
+
+    - name: Disable self-signed certificates
+      lineinfile:
+        dest: "{{ os_etc_conf_d }}/ssl.conf"
+        regexp: '(?i)^(SSLCertificate(Key)?File.*)'
+        line: '# Disabled by FlowLogix --- \1'
+        backrefs: yes
+        state: present
 
     - name: SeLinux fix file permissions
       command: restorecon -Rv "{{ content_dir}}"
