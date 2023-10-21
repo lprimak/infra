@@ -17,12 +17,6 @@
         state: latest
         update_cache: yes
 
-    - name: Enable and Start Apache Web Server
-      service:
-        name: 'httpd.service'
-        enabled: true
-        state: started
-
     - name: Open http(s) ports (firewall)
       firewalld:
         port: "{{ item }}/tcp"
@@ -79,9 +73,33 @@
         state: present
       notify: Reload Apache
 
+    - name: Copy SSL certificates
+      become: false
+      failed_when: false
+      copy:
+        src: "~/var/ssl-links/"
+        dest: "{{ content_dir }}/etc/ssl/"
+        mode: preserve
+      notify: Reload Apache
+
+    - name: Copy Apache Config
+      become: false
+      failed_when: false
+      copy:
+        src: "~/infra/etc/httpd/"
+        dest: "{{ content_dir }}/etc/httpd/"
+        mode: preserve
+      notify: Reload Apache
+
     - name: SeLinux fix file permissions
       command: restorecon -Rv "{{ content_dir }}"
       changed_when: false
+
+    - name: Enable and Start Apache Web Server
+      service:
+        name: 'httpd.service'
+        enabled: true
+        state: started
 
   handlers:
     - name: Reload Apache
