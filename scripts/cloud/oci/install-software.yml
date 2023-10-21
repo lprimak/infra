@@ -5,6 +5,10 @@
     etc_conf_d: "{{ content_dir }}/etc/httpd/conf.d"
     os_etc_conf_d: "/etc/httpd/conf.d"
   tasks:
+    - name: Set Hostname
+      hostname:
+        name: web1
+
     - name: Install Apache Web Server
       package:
         name: 'httpd'

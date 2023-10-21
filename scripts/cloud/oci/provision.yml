@@ -5,10 +5,13 @@
   vars:
     zero_cidr: "0.0.0.0/0"
   tasks:
+  - name: include vars
+    include_vars: "{{ playbook_dir }}/config_vars.yaml"
+
   - name: Create VCN
     oci_network_vcn:
-      compartment_id: "ocid1.tenancy.oc1..aaaaaaaajzdeabpe55pastcezhhjrqxopgyhvnjeqhi6hvjhvbeip7rl5e2a"
-      display_name: test network
+      compartment_id: "{{ compartment_id }}"
+      display_name: "{{ network_name }}"
       cidr_block: 10.0.0.0/16
     register: network
 
@@ -66,7 +69,7 @@
     oci_network_subnet:
       compartment_id: "{{ network.vcn.compartment_id }}"
       vcn_id: "{{ network.vcn.id }}"
-      availability_domain: "wjxn:US-CHICAGO-1-AD-2"
+      availability_domain: "{{ availability_domain }}"
       cidr_block: "10.0.0.0/24"
       route_table_id: "{{ inetroute.route_table.id }}"
       security_list_ids:
@@ -76,20 +79,20 @@
 
   - name: Provision Web Server (test1)
     oci_compute_instance:
-      name: test1 web server
+      name: "{{ host_name }}"
       compartment_id: "{{ network.vcn.compartment_id }}"
       availability_domain: "{{ subnet.subnet.availability_domain }}"
       shape: VM.Standard.A1.Flex
       shape_config:
         ocpus: 2
         memory_in_gbs: 4
-      image_id: "ocid1.image.oc1.us-chicago-1.aaaaaaaamuljpdngivodn4gtramvxgztbuykhurwaueqcaxs7audzzav74ba"
+      image_id: "{{ image_id }}"
       subnet_id: "{{ subnet.subnet.id }}"
       metadata:
         ssh_authorized_keys:
           "{{ lookup('file', '~/.ssh/oci-test1-key-2023-10-06.pem.pub' ) }}"
     register: webserver
 
-  - name: display IP
+  - name: Display IP
     debug:
       msg: "Server instance {{ webserver.instance.display_name }} with IP {{ webserver.instance.primary_public_ip }}"

@@ -1,0 +1,29 @@
+- hosts: localhost
+  gather_facts: false
+  collections:
+    - oracle.oci
+  tasks:
+  - name: include vars
+    include_vars: "{{ playbook_dir }}/config_vars.yaml"
+
+  - name: Look up VCN
+    oci_network_vcn:
+      compartment_id: "{{ compartment_id }}"
+      display_name: "{{ network_name }}"
+    check_mode: true
+    register: network
+
+  - name: Look up Web Server (test1)
+    oci_compute_instance:
+      name: "{{ host_name }}"
+      compartment_id: "{{ network.vcn.compartment_id }}"
+    check_mode: true
+    changed_when: false
+    register: webserver
+
+  - name: Remove Web Server (test1)
+    oci_compute_instance:
+      id: "{{ webserver.instance.id }}"
+      compartment_id: "{{ network.vcn.compartment_id }}"
+      state: absent
+    when: webserver.instance.id is defined
