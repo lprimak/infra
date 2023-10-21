@@ -80,6 +80,7 @@
         src: "~/var/ssl-links/"
         dest: "{{ content_dir }}/etc/ssl/"
         copy_links: true
+        delete: true
       notify: Reload Apache
       tags: ssl
 
@@ -87,10 +88,16 @@
       become: false
       failed_when: false
       synchronize:
-        src: "~/infra/etc/httpd/"
+        src: "{{ item }}/etc/httpd/"
         dest: "{{ content_dir }}/etc/httpd/"
         copy_links: true
+        checksum: true
+        delete: true
+      loop:
+        - "~/infra"
+        - "~/dev/infra"
       notify: Reload Apache
+      tags: config
 
     - name: SeLinux fix file permissions
       command: restorecon -Rv "{{ content_dir }}"
