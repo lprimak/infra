@@ -9,6 +9,9 @@ $SCRIPT_DIR/letsencrypt-common.sh certonly -d '*.hope.nyc.ny.us,hope.nyc.ny.us' 
 --authenticator dns-dynu --dns-dynu-credentials $HOME/var/secrets/dynu-credentials.ini \
 "$@"
 
+$SCRIPT_DIR/letsencrypt-common.sh certonly -d '*.flowlogix.com,flowlogix.com' \
+--authenticator cpanel --cpanel-credentials $HOME/var/secrets/directnic-credentials.ini "$@"
+
 $SCRIPT_DIR/letsencrypt-common.sh certonly -d 'lennyprimak.com,www.lennyprimak.com' \
 --webroot -w $HOME/var/website-content "$@"
 
@@ -18,3 +21,5 @@ ln -s $cert_links_src/hope.nyc.ny.us/fullchain.pem $cert_links_dst/hope-fullchai
 ln -s $cert_links_src/hope.nyc.ny.us/privkey.pem $cert_links_dst/hope-fullchain.pem.key
 ln -s $cert_links_src/lennyprimak.com/fullchain.pem $cert_links_dst/lp-fullchain.pem
 ln -s $cert_links_src/lennyprimak.com/privkey.pem $cert_links_dst/lp-fullchain.pem.key
+ln -s $cert_links_src/flowlogix.com/fullchain.pem $cert_links_dst/fl-fullchain.pem
+ln -s $cert_links_src/flowlogix.com/privkey.pem $cert_links_dst/fl-fullchain.pem.key
