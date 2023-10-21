@@ -1,2 +1,2 @@
 [linux_hosts]
-test1.flowlogix.com ansible_user=opc
+test1.flowlogix.com ansible_user=flowlogix

@@ -4,6 +4,11 @@
     - oracle.oci
   vars:
     zero_cidr: "0.0.0.0/0"
+    user_override: |
+      #cloud-config
+      system_info:
+        default_user:
+          name: flowlogix
   tasks:
   - name: include vars
     include_vars: "{{ playbook_dir }}/config_vars.yaml"
@@ -91,6 +96,7 @@
       metadata:
         ssh_authorized_keys:
           "{{ lookup('file', '~/.ssh/oci-test1-key-2023-10-06.pem.pub' ) }}"
+        user_data: "{{ user_override|b64encode }}"
     register: webserver
 
   - name: Display IP
