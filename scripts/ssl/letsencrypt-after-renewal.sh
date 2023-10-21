@@ -2,6 +2,8 @@
 
 SCRIPT_DIR=`dirname "$0"`
 
+domain_name=hope-website
+export domain_name
 $SCRIPT_DIR/../payara/import-certs.sh 2>/dev/null
 OCI_DIR=$HOME/infra/scripts/cloud/oci
 
