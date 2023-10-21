@@ -9,6 +9,12 @@
       hostname:
         name: web1
 
+    - name: Ensure OCI doesn't clobber the hostname
+      lineinfile:
+        path: /etc/oci-hostname.conf
+        regexp: '^PRESERVE_HOSTINFO'
+        line: 'PRESERVE_HOSTINFO=2'
+
     - name: Install Apache Web Server
       package:
         name: 'httpd'
@@ -71,11 +77,13 @@
     - name: Disable self-signed certificates
       lineinfile:
         dest: "{{ os_etc_conf_d }}/ssl.conf"
-        regexp: '(?i)^(SSLCertificate(Key)?File.*)'
+        regexp: "(?i)^({{ item }}.*)"
         line: '# Disabled by FlowLogix --- \1'
         backrefs: yes
-        state: present
       notify: Reload Apache
+      loop:
+        - SSLCertificateFile
+        - SSLCertificateKeyFile
 
     - name: Copy SSL certificates
       become: false
