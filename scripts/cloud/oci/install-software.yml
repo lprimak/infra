@@ -92,6 +92,7 @@
         dest: "{{ content_dir }}/etc/httpd/"
         copy_links: true
         checksum: true
+        times: false
         delete: true
       loop:
         - "~/infra"
