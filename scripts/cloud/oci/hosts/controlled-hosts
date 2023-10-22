@@ -1,2 +1,3 @@
 [linux_hosts]
+web1.flowlogix.com ansible_user=flowlogix
 test1.flowlogix.com ansible_user=flowlogix
