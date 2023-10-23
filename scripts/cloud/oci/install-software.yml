@@ -20,7 +20,7 @@
 
     - name: Set Hostname
       hostname:
-        name: web1
+        name: "{{ inventory_hostname_short }}"
 
     - name: Install Apache Web Server
       package:
