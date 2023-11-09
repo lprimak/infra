@@ -4,5 +4,6 @@ web_network_name: "web server network"
 sec_network_name: "secure network"
 web_host_name: "test1 web server"
 sec_host_name: 'sectest1 server'
-availability_domain: "wjxn:US-CHICAGO-1-AD-2"
+web_availability_domain: "wjxn:US-CHICAGO-1-AD-2"
+sec_availability_domain: "wjxn:US-CHICAGO-1-AD-3"
 image_id: "ocid1.image.oc1.us-chicago-1.aaaaaaaamuljpdngivodn4gtramvxgztbuykhurwaueqcaxs7audzzav74ba"

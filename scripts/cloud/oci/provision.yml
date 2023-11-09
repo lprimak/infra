@@ -17,6 +17,7 @@
     oci_network_vcn:
       compartment_id: "{{ compartment_id }}"
       display_name: "{{ lookup('vars', item + '_network_name') }}"
+      dns_label: "{{ item }}"
       cidr_block: 10.0.0.0/16
     register: network
     loop:
@@ -92,7 +93,8 @@
     oci_network_subnet:
       compartment_id: "{{ web_network.vcn.compartment_id }}"
       vcn_id: "{{ web_network.vcn.id }}"
-      availability_domain: "{{ availability_domain }}"
+      availability_domain: "{{ web_availability_domain }}"
+      dns_label: fl
       cidr_block: "10.0.0.0/24"
       route_table_id: "{{ web_inetroute.route_table.id }}"
       security_list_ids:
@@ -107,7 +109,8 @@
     oci_network_subnet:
       compartment_id: "{{ sec_network.vcn.compartment_id }}"
       vcn_id: "{{ sec_network.vcn.id }}"
-      availability_domain: "{{ availability_domain }}"
+      availability_domain: "{{ sec_availability_domain }}"
+      dns_label: fl
       cidr_block: "10.0.0.0/24"
       route_table_id: "{{ sec_inetroute.route_table.id }}"
       security_list_ids:
@@ -125,7 +128,7 @@
       shape: VM.Standard.A1.Flex
       shape_config:
         ocpus: 2
-        memory_in_gbs: 4
+        memory_in_gbs: 2
       image_id: "{{ image_id }}"
       subnet_id: "{{ web_subnet.subnet.id }}"
       metadata:
@@ -136,8 +139,29 @@
     tags:
       - web
 
-  - name: Display IP
-    debug:
-      msg: "Server instance {{ webserver.instance.display_name }} with IP {{ webserver.instance.primary_public_ip }}"
+  - name: Provision Docker Server (sectest1)
+    oci_compute_instance:
+      name: "{{ sec_host_name }}"
+      compartment_id: "{{ sec_network.vcn.compartment_id }}"
+      availability_domain: "{{ sec_subnet.subnet.availability_domain }}"
+      shape: VM.Standard.A1.Flex
+      shape_config:
+        ocpus: 4
+        memory_in_gbs: 16
+      image_id: "{{ image_id }}"
+      subnet_id: "{{ sec_subnet.subnet.id }}"
+      metadata:
+        ssh_authorized_keys:
+          "{{ lookup('file', '~/.ssh/oci-test1-key-2023-10-06.pem.pub' ) }}"
+        user_data: "{{ user_override|b64encode }}"
+    register: docker_server
     tags:
-      - web
+      - docker
+
+  - name: Display IPs
+    debug:
+      msg: "Server instance {{ lookup('vars', item).instance.display_name }} with IP {{ lookup('vars', item).instance.primary_public_ip }}"
+    when: lookup('vars', item).instance.id is defined
+    loop:
+      - webserver
+      - docker_server

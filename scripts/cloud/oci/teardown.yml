@@ -11,6 +11,7 @@
       compartment_id: "{{ compartment_id }}"
       display_name: "{{ web_network_name }}"
     check_mode: true
+    changed_when: false
     register: network
 
   - name: Look up Test Server(s)
@@ -19,6 +20,7 @@
       compartment_id: "{{ network.vcn.compartment_id }}"
     check_mode: true
     changed_when: false
+    when: network.vcn.compartment_id is defined
     register: servers
     loop:
       - web
