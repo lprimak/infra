@@ -9,21 +9,27 @@
   - name: Look up VCN
     oci_network_vcn:
       compartment_id: "{{ compartment_id }}"
-      display_name: "{{ network_name }}"
+      display_name: "{{ web_network_name }}"
     check_mode: true
     register: network
 
-  - name: Look up Web Server (test1)
+  - name: Look up Test Server(s)
     oci_compute_instance:
-      name: "{{ host_name }}"
+      name: "{{ lookup('vars', item + '_host_name') }}"
       compartment_id: "{{ network.vcn.compartment_id }}"
     check_mode: true
     changed_when: false
-    register: webserver
+    register: servers
+    loop:
+      - web
+      - sec
 
-  - name: Remove Web Server (test1)
+  - name: Remove Test Server(s)
     oci_compute_instance:
-      id: "{{ webserver.instance.id }}"
+      id: "{{ item.instance.id }}"
       compartment_id: "{{ network.vcn.compartment_id }}"
       state: absent
-    when: webserver.instance.id is defined
+    when: item.instance.id is defined
+    no_log: true
+    loop:
+      "{{ servers.results }}"

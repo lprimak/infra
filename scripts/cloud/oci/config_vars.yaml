@@ -1,6 +1,8 @@
 # Global Vairables
 compartment_id: "ocid1.tenancy.oc1..aaaaaaaajzdeabpe55pastcezhhjrqxopgyhvnjeqhi6hvjhvbeip7rl5e2a"
-network_name: "web server network"
-host_name: "test1 web server"
+web_network_name: "web server network"
+sec_network_name: "secure network"
+web_host_name: "test1 web server"
+sec_host_name: 'sectest1 server'
 availability_domain: "wjxn:US-CHICAGO-1-AD-2"
 image_id: "ocid1.image.oc1.us-chicago-1.aaaaaaaamuljpdngivodn4gtramvxgztbuykhurwaueqcaxs7audzzav74ba"

@@ -13,17 +13,53 @@
   - name: include vars
     include_vars: "{{ playbook_dir }}/config_vars.yaml"
 
-  - name: Create VCN
+  - name: Create VCNs
     oci_network_vcn:
       compartment_id: "{{ compartment_id }}"
-      display_name: "{{ network_name }}"
+      display_name: "{{ lookup('vars', item + '_network_name') }}"
       cidr_block: 10.0.0.0/16
     register: network
+    loop:
+      - web
+      - sec
+
+  - name: Create a new Internet Gateway
+    oci_network_internet_gateway:
+      compartment_id: "{{ item.vcn.compartment_id }}"
+      vcn_id: "{{ item.vcn.id }}"
+      name: "inet-gw"
+      is_enabled: true
+    register: gateway
+    no_log: true
+    loop:
+      "{{ network.results }}"
+
+  - name: Create route table to connect internet gateway to the VCN
+    oci_network_route_table:
+      compartment_id: "{{ item.internet_gateway.compartment_id }}"
+      vcn_id: "{{ item.internet_gateway.vcn_id }}"
+      name: "inet-route-table"
+      route_rules:
+        - cidr_block: "{{ zero_cidr }}"
+          network_entity_id: "{{ item.internet_gateway.id }}"
+    register: inetroute
+    no_log: true
+    loop:
+      "{{ gateway.results }}"
+
+  - name: Set network variables
+    set_fact:
+      web_network: "{{ network.results[0] }}"
+      sec_network: "{{ network.results[1] }}"
+      web_gateway: "{{ gateway.results[0] }}"
+      sec_gateway: "{{ gateway.results[1] }}"
+      web_inetroute: "{{ inetroute.results[0] }}"
+      sec_inetroute: "{{ inetroute.results[1] }}"
 
   - name: Create Web Security List - Open HTTP(s) ports
     oci_network_security_list:
-      compartment_id: "{{ network.vcn.compartment_id }}"
-      vcn_id: "{{ network.vcn.id }}"
+      compartment_id: "{{ web_network.vcn.compartment_id }}"
+      vcn_id: "{{ web_network.vcn.id }}"
       name: "web-security-list"
 
       purge_security_rules: false
@@ -52,53 +88,56 @@
           description: Open Port 443
     register: web_security_list
 
-  - name: Create a new Internet Gateway
-    oci_network_internet_gateway:
-      compartment_id: "{{ network.vcn.compartment_id }}"
-      vcn_id: "{{ network.vcn.id }}"
-      name: "inet-gw"
-      is_enabled: true
-    register: gateway
-
-  - name: Create route table to connect internet gateway to the VCN
-    oci_network_route_table:
-      compartment_id: "{{ network.vcn.compartment_id }}"
-      vcn_id: "{{ network.vcn.id }}"
-      name: "inet-route-table"
-      route_rules:
-        - cidr_block: "{{ zero_cidr }}"
-          network_entity_id: "{{ gateway.internet_gateway.id }}"
-    register: inetroute
-
-  - name: Create Subnet
+  - name: Create Subnet (web)
     oci_network_subnet:
-      compartment_id: "{{ network.vcn.compartment_id }}"
-      vcn_id: "{{ network.vcn.id }}"
+      compartment_id: "{{ web_network.vcn.compartment_id }}"
+      vcn_id: "{{ web_network.vcn.id }}"
       availability_domain: "{{ availability_domain }}"
       cidr_block: "10.0.0.0/24"
-      route_table_id: "{{ inetroute.route_table.id }}"
+      route_table_id: "{{ web_inetroute.route_table.id }}"
       security_list_ids:
         - "{{ web_security_list.security_list.id }}"
-        - "{{ network.vcn.default_security_list_id }}"
-    register: subnet
+        - "{{ web_network.vcn.default_security_list_id }}"
+    register: web_subnet
+    tags:
+      - web
+      - network
+
+  - name: Create Subnet (secure)
+    oci_network_subnet:
+      compartment_id: "{{ sec_network.vcn.compartment_id }}"
+      vcn_id: "{{ sec_network.vcn.id }}"
+      availability_domain: "{{ availability_domain }}"
+      cidr_block: "10.0.0.0/24"
+      route_table_id: "{{ sec_inetroute.route_table.id }}"
+      security_list_ids:
+        - "{{ sec_network.vcn.default_security_list_id }}"
+    register: sec_subnet
+    tags:
+      - sec
+      - network
 
   - name: Provision Web Server (test1)
     oci_compute_instance:
-      name: "{{ host_name }}"
-      compartment_id: "{{ network.vcn.compartment_id }}"
-      availability_domain: "{{ subnet.subnet.availability_domain }}"
+      name: "{{ web_host_name }}"
+      compartment_id: "{{ web_network.vcn.compartment_id }}"
+      availability_domain: "{{ web_subnet.subnet.availability_domain }}"
       shape: VM.Standard.A1.Flex
       shape_config:
         ocpus: 2
         memory_in_gbs: 4
       image_id: "{{ image_id }}"
-      subnet_id: "{{ subnet.subnet.id }}"
+      subnet_id: "{{ web_subnet.subnet.id }}"
       metadata:
         ssh_authorized_keys:
           "{{ lookup('file', '~/.ssh/oci-test1-key-2023-10-06.pem.pub' ) }}"
         user_data: "{{ user_override|b64encode }}"
     register: webserver
+    tags:
+      - web
 
   - name: Display IP
     debug:
       msg: "Server instance {{ webserver.instance.display_name }} with IP {{ webserver.instance.primary_public_ip }}"
+    tags:
+      - web
