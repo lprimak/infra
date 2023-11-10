@@ -105,6 +105,12 @@
         enabled: true
         state: started
 
+    - name: Reload Apache
+      service:
+        name: "httpd.service"
+        state: reloaded
+      tags: reload_apache
+
   handlers:
     - name: Reload Apache
       service:

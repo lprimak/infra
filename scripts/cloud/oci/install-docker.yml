@@ -56,6 +56,12 @@
         enabled: true
         state: started
 
+    - name: Reload Docker
+      service:
+        name: 'docker'
+        state: restarted
+      tags: reload_docker
+
   handlers:
     - name: Reload Docker
       systemd_service:

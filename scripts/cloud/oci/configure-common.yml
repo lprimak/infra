@@ -36,7 +36,4 @@
         dest: "{{ content_dir }}/etc/ssl/"
         copy_links: true
         delete: true
-      notify:
-        - Reload Apache
-        - Reload Docker
       tags: ssl
