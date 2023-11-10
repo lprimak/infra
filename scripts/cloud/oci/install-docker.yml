@@ -16,7 +16,7 @@
       rpm_key:
         key: "{{ docker_base }}/gpg"
 
-    - name: Install docker CE
+    - name: Install docker engine
       package:
         name:
           - docker-ce
@@ -51,7 +51,7 @@
           --tlskey=/var/flowlogix/etc/ssl/fl-fullchain.pem.key
       notify: Reload Docker
 
-    - name: Enable and Start Docker CE
+    - name: Enable and Start Docker engine
       service:
         name: 'docker'
         enabled: true
