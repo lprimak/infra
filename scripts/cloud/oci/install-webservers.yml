@@ -1,6 +1,7 @@
-- hosts: linux_hosts
+- hosts: webservers
   become: true
   vars:
+    ansible_user: flowlogix
     content_dir: "/var/flowlogix"
     etc_conf_d: "{{ content_dir }}/etc/httpd/conf.d"
     os_etc_conf_d: "/etc/httpd/conf.d"

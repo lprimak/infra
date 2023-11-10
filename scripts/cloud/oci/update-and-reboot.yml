@@ -1,5 +1,7 @@
-- hosts: linux_hosts
+- hosts: all:!localhost
   become: true
+  vars:
+    ansible_user: flowlogix
   tasks:
     - name: Upgrade OS
       package:

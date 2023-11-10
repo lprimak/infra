@@ -1,3 +1,6 @@
-[linux_hosts]
-web1.flowlogix.com ansible_user=flowlogix
-test1.flowlogix.com ansible_user=flowlogix
+[webservers]
+web1.flowlogix.com
+webtest1.flowlogix.com
+
+[docker]
+sectest1.flowlogix.com

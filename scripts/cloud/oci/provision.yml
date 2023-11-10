@@ -52,75 +52,58 @@
     set_fact:
       web_network: "{{ network.results[0] }}"
       sec_network: "{{ network.results[1] }}"
-      web_gateway: "{{ gateway.results[0] }}"
-      sec_gateway: "{{ gateway.results[1] }}"
       web_inetroute: "{{ inetroute.results[0] }}"
       sec_inetroute: "{{ inetroute.results[1] }}"
 
-  - name: Create Web Security List - Open HTTP(s) ports
-    oci_network_security_list:
+  - name: Create web security group
+    oci_network_security_group:
       compartment_id: "{{ web_network.vcn.compartment_id }}"
       vcn_id: "{{ web_network.vcn.id }}"
-      name: "web-security-list"
+      display_name: 'web security group'
+    register: web_security_group
 
-      purge_security_rules: false
-      egress_security_rules:
-        # Allow ssh connections outside
-        - destination: "{{ zero_cidr }}"
-          protocol: "all"
-      ingress_security_rules:
-        - protocol: 6
+  - name: Configure web security group
+    oci_network_security_group_security_rule_actions:
+      network_security_group_id: "{{ web_security_group.network_security_group.id }}"
+      action: add
+      security_rules:
+        -
+          direction: INGRESS
+          is_stateless: false
+          protocol: 6
           source: "{{ zero_cidr }}"
           tcp_options:
             # optional
             destination_port_range:
               # required
-              min: 80
-              max: 80
-          is_stateless: false
-          description: Open Port 80
-        - protocol: 6
-          source: "{{ zero_cidr }}"
-          tcp_options:
-            destination_port_range:
-              min: 443
-              max: 443
-          is_stateless: false
-          description: Open Port 443
-    register: web_security_list
+              min: "{{ item }}"
+              max: "{{ item }}"
+          description: "Open Port {{ item }}"
+    loop:
+      - 80
+      - 443
 
-  - name: Create Subnet (web)
+  - name: Create Subnets
     oci_network_subnet:
       compartment_id: "{{ web_network.vcn.compartment_id }}"
-      vcn_id: "{{ web_network.vcn.id }}"
-      availability_domain: "{{ web_availability_domain }}"
+      vcn_id: "{{ lookup('vars', item + '_network').vcn.id }}"
+      availability_domain: "{{ lookup('vars', item + '_availability_domain') }}"
       dns_label: fl
       cidr_block: "10.0.0.0/24"
-      route_table_id: "{{ web_inetroute.route_table.id }}"
+      route_table_id: "{{ lookup('vars', item + '_inetroute').route_table.id }}"
       security_list_ids:
-        - "{{ web_security_list.security_list.id }}"
-        - "{{ web_network.vcn.default_security_list_id }}"
-    register: web_subnet
-    tags:
+        - "{{ lookup('vars', item + '_network').vcn.default_security_list_id }}"
+    register: subnets
+    loop:
       - web
-      - network
-
-  - name: Create Subnet (secure)
-    oci_network_subnet:
-      compartment_id: "{{ sec_network.vcn.compartment_id }}"
-      vcn_id: "{{ sec_network.vcn.id }}"
-      availability_domain: "{{ sec_availability_domain }}"
-      dns_label: fl
-      cidr_block: "10.0.0.0/24"
-      route_table_id: "{{ sec_inetroute.route_table.id }}"
-      security_list_ids:
-        - "{{ sec_network.vcn.default_security_list_id }}"
-    register: sec_subnet
-    tags:
       - sec
-      - network
 
-  - name: Provision Web Server (test1)
+  - name: Set subnet variables
+    set_fact:
+      web_subnet: "{{ subnets.results[0] }}"
+      sec_subnet: "{{ subnets.results[1] }}"
+
+  - name: Provision Web Server (webtest1)
     oci_compute_instance:
       name: "{{ web_host_name }}"
       compartment_id: "{{ web_network.vcn.compartment_id }}"
@@ -131,6 +114,8 @@
         memory_in_gbs: 2
       image_id: "{{ image_id }}"
       subnet_id: "{{ web_subnet.subnet.id }}"
+      create_vnic_details:
+        nsg_ids: "{{ web_security_group.network_security_group.id }}"
       metadata:
         ssh_authorized_keys:
           "{{ lookup('file', '~/.ssh/oci-test1-key-2023-10-06.pem.pub' ) }}"
@@ -146,7 +131,7 @@
       availability_domain: "{{ sec_subnet.subnet.availability_domain }}"
       shape: VM.Standard.A1.Flex
       shape_config:
-        ocpus: 4
+        ocpus: 2
         memory_in_gbs: 16
       image_id: "{{ image_id }}"
       subnet_id: "{{ sec_subnet.subnet.id }}"
@@ -161,7 +146,10 @@
   - name: Display IPs
     debug:
       msg: "Server instance {{ lookup('vars', item).instance.display_name }} with IP {{ lookup('vars', item).instance.primary_public_ip }}"
-    when: lookup('vars', item).instance.id is defined
+    when: lookup('vars', item, default='').instance.id is defined
     loop:
       - webserver
       - docker_server
+    tags:
+      - web
+      - docker
