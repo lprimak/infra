@@ -51,6 +51,15 @@
           --tlskey=/var/flowlogix/etc/ssl/fl-fullchain.pem.key
       notify: Reload Docker
 
+    - name: Open docker ports (firewall)
+      firewalld:
+        port: "{{ item }}/tcp"
+        state: enabled
+        immediate: true
+        permanent: true
+      loop:
+        - 2376
+
     - name: Enable and Start Docker engine
       service:
         name: 'docker'

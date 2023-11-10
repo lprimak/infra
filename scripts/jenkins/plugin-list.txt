@@ -27,3 +27,4 @@ pipeline-graph-view
 postgresql-api
 jacoco
 pipeline-utility-steps
+docker-plugin
