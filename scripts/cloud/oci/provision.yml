@@ -81,31 +81,6 @@
       - 80
       - 443
 
-  - name: Create docker security group
-    oci_network_security_group:
-      compartment_id: "{{ web_network.vcn.compartment_id }}"
-      vcn_id: "{{ sec_network.vcn.id }}"
-      display_name: 'docker security group'
-    register: docker_security_group
-
-  - name: Configure docker security group
-    oci_network_security_group_security_rule_actions:
-      network_security_group_id: "{{ docker_security_group.network_security_group.id }}"
-      action: add
-      security_rules:
-        -
-          direction: INGRESS
-          is_stateless: false
-          protocol: 6
-          source: "{{ zero_cidr }}"
-          tcp_options:
-            destination_port_range:
-              min: "{{ item }}"
-              max: "{{ item }}"
-          description: "Open Port {{ item }}"
-    loop:
-      - 2376
-
   - name: Create Subnets
     oci_network_subnet:
       compartment_id: "{{ web_network.vcn.compartment_id }}"
@@ -158,8 +133,6 @@
         memory_in_gbs: 20
       image_id: "{{ image_id }}"
       subnet_id: "{{ sec_subnet.subnet.id }}"
-      create_vnic_details:
-        nsg_ids: "{{ docker_security_group.network_security_group.id }}"
       metadata:
         ssh_authorized_keys:
           "{{ lookup('file', '~/.ssh/oci-test1-key-2023-10-06.pem.pub' ) }}"

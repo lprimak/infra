@@ -6,9 +6,6 @@ SCRIPT_DIR=`dirname "$0"`
 unset AS_ADMIN_USER
 unset AS_ADMIN_PASSWORDFILE
 
-export DOCKER_TLS_VERIFY=1
-export DOCKER_CERT_PATH=$HOME/var/ssl-links/docker
-
 jenkins_bin=$HOME/apps/jenkins/current
 
 exec java -Xmx1g -XX:+UseZGC -XX:+ZGenerational \

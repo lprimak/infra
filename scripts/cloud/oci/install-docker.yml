@@ -33,51 +33,8 @@
         groups: docker
         append: true
 
-    - name: Create docker configuration directory
-      file:
-        dest: /etc/systemd/system/docker.service.d/
-        state: directory
-
-    - name: Configure Docker
-      copy:
-        dest: /etc/systemd/system/docker.service.d/override.conf
-        content: |
-          [Service]
-          ExecStart=
-          ExecStart=/usr/bin/dockerd -H fd:// -H 0.0.0.0:2376 \
-          --tlsverify \
-          --tlscert=/var/flowlogix/etc/ssl/fl-fullchain.pem \
-          --tlscacert=/var/flowlogix/etc/ssl/fl-fullchain.pem \
-          --tlskey=/var/flowlogix/etc/ssl/fl-fullchain.pem.key
-      notify: Reload Docker
-
-    - name: Open docker ports (firewall)
-      firewalld:
-        port: "{{ item }}/tcp"
-        state: enabled
-        immediate: true
-        permanent: true
-      loop:
-        - 2376
-
     - name: Enable and Start Docker engine
       service:
         name: 'docker'
         enabled: true
         state: started
-
-    - name: Reload Docker
-      service:
-        name: 'docker'
-        state: restarted
-      tags: reload_docker
-
-  handlers:
-    - name: Reload Docker
-      systemd_service:
-        daemon_reload: true
-
-    - name: Reload Docker
-      service:
-        name: 'docker'
-        state: restarted

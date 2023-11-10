@@ -47,6 +47,17 @@
         - "{{ etc_conf_d }}"
         - "{{ content_dir }}/html"
 
+    - name: Copy SSL certificates
+      become: false
+      failed_when: false
+      synchronize:
+        src: "~/var/ssl-links/"
+        dest: "{{ content_dir }}/etc/ssl/"
+        copy_links: true
+        delete: true
+      notify: Reload Apache
+      tags: ssl
+
     - name: Enable own Apache config
       blockinfile:
         path: "{{ os_etc_conf_d }}/flowlogix.conf"
@@ -104,12 +115,6 @@
         name: 'httpd.service'
         enabled: true
         state: started
-
-    - name: Reload Apache
-      service:
-        name: "httpd.service"
-        state: reloaded
-      tags: reload_apache
 
   handlers:
     - name: Reload Apache
