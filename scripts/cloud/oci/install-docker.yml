@@ -1,0 +1,40 @@
+#- import_playbook: "{{ playbook_dir }}/configure-common.yml"
+- hosts: docker
+  become: true
+  vars:
+    ansible_user: flowlogix
+    docker_base: https://download.docker.com/linux/centos
+    os_version: 9
+  tasks:
+    - name: Add docker repository
+      yum_repository:
+        name: docker_repo
+        description: Docker Repository
+        baseurl: "{{ docker_base }}/{{ os_version }}/{{ ansible_architecture }}/stable"
+
+    - name: Verify PGP keys
+      rpm_key:
+        key: "{{ docker_base }}/gpg"
+
+    - name: Install docker CE
+      package:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: latest
+        update_cache: yes
+
+    - name: Enable and Start Docker CE
+      service:
+        name: 'docker'
+        enabled: true
+        state: started
+
+    - name: Add docker group
+      user:
+        name: "{{ ansible_env.SUDO_USER }}"
+        groups: docker
+        append: true
