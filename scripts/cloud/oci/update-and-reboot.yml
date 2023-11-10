@@ -1,3 +1,4 @@
+- import_playbook: "{{ playbook_dir }}/configure-common.yml"
 - hosts: all:!localhost
   become: true
   vars:

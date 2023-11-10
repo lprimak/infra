@@ -1,0 +1,21 @@
+- hosts: all:!localhost
+  become: true
+  vars:
+    ansible_user: flowlogix
+    oci_hostname_conf_name: "/etc/oci-hostname.conf"
+  tasks:
+    - name: Check for OCI hostname file
+      stat:
+        path: "{{ oci_hostname_conf_name }}"
+      register: oci_hostname_conf
+
+    - name: Ensure OCI doesn't clobber the hostname
+      lineinfile:
+        path: "{{ oci_hostname_conf_name }}"
+        regexp: '^PRESERVE_HOSTINFO'
+        line: 'PRESERVE_HOSTINFO=2'
+      when: oci_hostname_conf.stat.exists
+
+    - name: Set Hostname
+      hostname:
+        name: "{{ inventory_hostname_short }}"

@@ -1,3 +1,4 @@
+- import_playbook: "{{ playbook_dir }}/configure-common.yml"
 - hosts: webservers
   become: true
   vars:
@@ -5,24 +6,7 @@
     content_dir: "/var/flowlogix"
     etc_conf_d: "{{ content_dir }}/etc/httpd/conf.d"
     os_etc_conf_d: "/etc/httpd/conf.d"
-    oci_hostname_conf_name: "/etc/oci-hostname.conf"
   tasks:
-    - name: Check for OCI hostname file
-      stat:
-        path: "{{ oci_hostname_conf_name }}"
-      register: oci_hostname_conf
-
-    - name: Ensure OCI doesn't clobber the hostname
-      lineinfile:
-        path: "{{ oci_hostname_conf_name }}"
-        regexp: '^PRESERVE_HOSTINFO'
-        line: 'PRESERVE_HOSTINFO=2'
-      when: oci_hostname_conf.stat.exists
-
-    - name: Set Hostname
-      hostname:
-        name: "{{ inventory_hostname_short }}"
-
     - name: Install Apache Web Server
       package:
         name: 'httpd'
