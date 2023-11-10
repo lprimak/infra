@@ -47,6 +47,7 @@
           ExecStart=/usr/bin/dockerd -H fd:// -H 0.0.0.0:2376 \
           --tlsverify \
           --tlscert=/var/flowlogix/etc/ssl/fl-fullchain.pem \
+          --tlscacert=/var/flowlogix/etc/ssl/fl-fullchain.pem \
           --tlskey=/var/flowlogix/etc/ssl/fl-fullchain.pem.key
       notify: Reload Docker
 
