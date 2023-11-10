@@ -33,8 +33,36 @@
         groups: docker
         append: true
 
+    - name: Create docker configuration directory
+      file:
+        dest: /etc/systemd/system/docker.service.d/
+        state: directory
+      tags: docker_config
+
+    - name: Configure Docker
+      copy:
+        dest: /etc/systemd/system/docker.service.d/override.conf
+        content: |
+          [Service]
+          ExecStart=
+          ExecStart=/usr/bin/dockerd -H fd:// --insecure-registry http://nexus.hope.nyc.ny.us:8023
+      notify:
+        - Reload systemd
+        - Reload Docker
+      tags: docker_config
+
     - name: Enable and Start Docker engine
       service:
         name: 'docker'
         enabled: true
         state: started
+
+  handlers:
+    - name: Reload systemd
+      systemd_service:
+        daemon_reload: true
+
+    - name: Reload Docker
+      service:
+        name: 'docker'
+        state: restarted
