@@ -6,21 +6,12 @@
   - name: include vars
     include_vars: "{{ playbook_dir }}/config_vars.yaml"
 
-  - name: Look up VCN
-    oci_network_vcn:
-      compartment_id: "{{ compartment_id }}"
-      display_name: "{{ web_network_name }}"
-    check_mode: true
-    changed_when: false
-    register: network
-
   - name: Look up Test Server(s)
     oci_compute_instance:
       name: "{{ lookup('vars', item + '_host_name') }}"
-      compartment_id: "{{ network.vcn.compartment_id }}"
+      compartment_id: "{{ compartment_id }}"
     check_mode: true
     changed_when: false
-    when: network.vcn.compartment_id is defined
     register: servers
     loop:
       - web
@@ -29,7 +20,7 @@
   - name: Remove Test Server(s)
     oci_compute_instance:
       id: "{{ item.instance.id }}"
-      compartment_id: "{{ network.vcn.compartment_id }}"
+      compartment_id: "{{ compartment_id }}"
       state: absent
     when: item.instance.id is defined
     no_log: true
