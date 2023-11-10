@@ -132,7 +132,7 @@
       shape: VM.Standard.A1.Flex
       shape_config:
         ocpus: 2
-        memory_in_gbs: 16
+        memory_in_gbs: 20
       image_id: "{{ image_id }}"
       subnet_id: "{{ sec_subnet.subnet.id }}"
       metadata:
