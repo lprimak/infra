@@ -3,6 +3,7 @@
   vars:
     ansible_user: flowlogix
     oci_hostname_conf_name: "/etc/oci-hostname.conf"
+    content_dir: "/var/flowlogix"
   tasks:
     - name: Check for OCI hostname file
       stat:
@@ -19,3 +20,16 @@
     - name: Set Hostname
       hostname:
         name: "{{ inventory_hostname_short }}"
+
+    - name: Copy SSL certificates
+      become: false
+      failed_when: false
+      synchronize:
+        src: "~/var/ssl-links/"
+        dest: "{{ content_dir }}/etc/ssl/"
+        copy_links: true
+        delete: true
+      notify:
+        - Reload Apache
+        - Reload Docker
+      tags: ssl

@@ -79,17 +79,6 @@
         - SSLCertificateFile
         - SSLCertificateKeyFile
 
-    - name: Copy SSL certificates
-      become: false
-      failed_when: false
-      synchronize:
-        src: "~/var/ssl-links/"
-        dest: "{{ content_dir }}/etc/ssl/"
-        copy_links: true
-        delete: true
-      notify: Reload Apache
-      tags: ssl
-
     - name: Copy Apache Config
       become: false
       failed_when: false
