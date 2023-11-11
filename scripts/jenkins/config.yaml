@@ -28,7 +28,34 @@ jenkins:
       includeRegex: ".*"
       name: "Build Timeline"
       recurse: true
-  numExecutors: 4
+  numExecutors: 0
+  nodes:
+    - permanent:
+        launcher:
+          inbound:
+            webSocket: true
+        name: "nova"
+        nodeDescription: "Nova local agent"
+        numExecutors: 4
+        remoteFS: "hope-node"
+  clouds:
+    - docker:
+        dockerApi:
+          dockerHost:
+            uri: "tcp://localhost:2375"
+          connectTimeout: 15
+          readTimeout: 30
+        errorDuration: 30
+        name: "oci-docker"
+        templates:
+          - connector: "attach"
+            dockerTemplateBase:
+              image: "jenkins/agent"
+            name: "oci-docker"
+            labelString: "docker-java-agent"
+            instanceCapStr: "10"
+            pullTimeout: 300
+            mode: EXCLUSIVE
 security:
   globalJobDslSecurityConfiguration:
     useScriptSecurity: false

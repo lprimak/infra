@@ -60,14 +60,30 @@ jenkins:
       authenticatedUserReadPermission: true
       organizationNames: "flowlogix"
       useRepositoryPermissions: false
+  clouds:
+  - docker:
+      dockerApi:
+        connectTimeout: 15
+        dockerHost:
+          uri: "tcp://localhost:2375"
+        readTimeout: 30
+      errorDuration: 30
+      name: "oci-docker"
+      templates:
+      - connector: "attach"
+        dockerTemplateBase:
+          cpuPeriod: 0
+          cpuQuota: 0
+          image: "jenkins/agent"
+        instanceCapStr: "10"
+        labelString: "docker-java-agent"
+        mode: EXCLUSIVE
+        name: "oci-docker"
+        pullTimeout: 300
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false
   disableRememberMe: false
-  disabledAdministrativeMonitors:
-  - "jenkins.diagnostics.ControllerExecutorsNoAgents"
-  - "org.jenkinsci.plugins.pipeline.maven.NonProductionGradeDatabaseWarningAdministrativeMonitor"
-  - "hudson.util.DoubleLaunchChecker"
   globalNodeProperties:
   - envVars:
       env:
@@ -81,6 +97,8 @@ jenkins:
           \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver -Dorg.slf4j.simpleLogger.log.org.apache.maven.plugin.internal.DefaultPluginValidationManager=off"
   labelAtoms:
   - name: "built-in"
+  - name: "docker-java-agent"
+  - name: "nova"
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
@@ -88,7 +106,16 @@ jenkins:
   - envVars:
       env:
       - key: "MAVEN_OPTS"
-  numExecutors: 4
+  nodes:
+  - permanent:
+      launcher:
+        inbound:
+          webSocket: true
+      name: "nova"
+      nodeDescription: "Nova local agent"
+      numExecutors: 4
+      remoteFS: "hope-node"
+  numExecutors: 0
   primaryView:
     all:
       name: "all"
