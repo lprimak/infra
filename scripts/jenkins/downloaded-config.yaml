@@ -72,8 +72,6 @@ jenkins:
       templates:
       - connector: "attach"
         dockerTemplateBase:
-          cpuPeriod: 0
-          cpuQuota: 0
           image: "jenkins/agent"
         instanceCapStr: "10"
         labelString: "docker-java-agent"
