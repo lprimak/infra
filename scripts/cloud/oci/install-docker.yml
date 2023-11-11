@@ -45,7 +45,7 @@
         content: |
           [Service]
           ExecStart=
-          ExecStart=/usr/bin/dockerd -H fd:// --insecure-registry http://nexus.hope.nyc.ny.us:8023
+          ExecStart=/usr/bin/dockerd -H fd:// --registry-mirror https://nexus.hope.nyc.ny.us:8023
       notify:
         - Reload systemd
         - Reload Docker
