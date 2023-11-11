@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+<key>UserName</key>
+<string>software</string>
+    <key>Label</key>
+    <string>com.flowlogix.jenkins.agent</string>
+    <key>KeepAlive</key>
+    <true/>
+    <key>ProgramArguments</key>
+    <array>
+      <string>/Users/software/infra/scripts/jenkins/run-agent.sh</string>
+    </array>
+    <key>StandardOutPath</key>
+    <string>/Users/software/var/log/jenkins-agent.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/software/var/log/jenkins-agent.log</string>
+  </dict>
+</plist>
