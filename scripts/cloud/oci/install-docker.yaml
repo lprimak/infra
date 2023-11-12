@@ -38,7 +38,16 @@
     - name: Create docker configuration directory
       file:
         dest: /etc/systemd/system/docker.service.d/
-        state: absent
+        state: directory
+      tags: docker_config
+
+    - name: Configure Docker
+      copy:
+        dest: /etc/systemd/system/docker.service.d/override.conf
+        content: |
+          [Service]
+          ExecStart=
+          ExecStart=/usr/bin/dockerd -H fd:// --registry-mirror https://registry-1.docker.io
       notify:
         - Reload systemd
         - Reload Docker
