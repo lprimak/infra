@@ -50,7 +50,7 @@ jenkins:
         templates:
           - connector: "attach"
             dockerTemplateBase:
-              image: "docker-private.flowlogix.com/java21 "
+              image: "azul/zulu-openjdk-alpine:21-latest"
             name: "oci-docker"
             labelString: "docker-java-agent"
             instanceCapStr: "10"
