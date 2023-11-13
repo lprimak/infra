@@ -11,7 +11,7 @@
           name: flowlogix
   tasks:
   - name: include vars
-    include_vars: "{{ playbook_dir }}/config_vars.yaml"
+    include_vars: "{{ playbook_dir }}/config-vars.yaml"
 
   - name: Create VCNs
     oci_network_vcn:
@@ -101,7 +101,7 @@
       web_subnet: "{{ subnets.results[0] }}"
       sec_subnet: "{{ subnets.results[1] }}"
 
-  - name: Provision Web Server (webtest1)
+  - name: Provision Web Server
     oci_compute_instance:
       name: "{{ web_host_name }}"
       compartment_id: "{{ web_network.vcn.compartment_id }}"
@@ -122,9 +122,9 @@
     tags:
       - web
 
-  - name: Provision Docker Server (sectest1)
+  - name: Provision Container Server
     oci_compute_instance:
-      name: "{{ sec_host_name }}"
+      name: "{{ docker_host_name }}"
       compartment_id: "{{ sec_network.vcn.compartment_id }}"
       availability_domain: "{{ sec_subnet.subnet.availability_domain }}"
       shape: VM.Standard.A1.Flex

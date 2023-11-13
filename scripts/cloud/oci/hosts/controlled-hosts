@@ -1,6 +1,5 @@
 [webservers]
 web1.flowlogix.com
-webtest1.flowlogix.com
 
 [docker]
-sectest1.flowlogix.com
+containers.flowlogix.com
