@@ -25,7 +25,7 @@ echo -e "set ssl cert $HOME/var/ssl-links/lp-fullchain.pem <<\n$(cat $HOME/var/s
 socat tcp-connect:localhost:9999 -
 echo "commit ssl cert $HOME/var/ssl-links/lp-fullchain.pem" | socat tcp-connect:localhost:9999 -
 
-ansible-playbook -i $OCI_DIR/hosts -t ssl $OCI_DIR/install-webservers.yml
+ansible-playbook -i $OCI_DIR/hosts -t ssl $OCI_DIR/install-webservers.yaml
 
 # Email Notification
 # Original script located at https://github.com/hstock/certbot-renew-email
