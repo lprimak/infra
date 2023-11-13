@@ -8,6 +8,8 @@ unset AS_ADMIN_PASSWORDFILE
 
 jenkins_bin=$HOME/apps/jenkins/current
 
+$SCRIPT_DIR/containers-tunnel.sh
+
 exec java -Xmx1g -XX:+UseZGC -XX:+ZGenerational \
 --add-opens java.base/java.lang=ALL-UNNAMED --add-opens=java.base/java.io=ALL-UNNAMED \
 --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.util.concurrent=ALL-UNNAMED \
