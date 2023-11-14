@@ -35,19 +35,43 @@
         groups: docker
         append: true
 
-    - name: Create docker configuration directory
+    - name: Create docker systemd configuration directory
       file:
         dest: /etc/systemd/system/docker.service.d/
         state: directory
       tags: docker_config
 
-    - name: Configure Docker
+    - name: Create docker configuration directory
+      file:
+        dest: /etc/docker
+        state: directory
+      tags: docker_config
+
+    - name: Configure Docker (systemd)
       copy:
         dest: /etc/systemd/system/docker.service.d/override.conf
         content: |
           [Service]
           ExecStart=
-          ExecStart=/usr/bin/dockerd -H fd:// --registry-mirror https://registry-1.docker.io
+          ExecStart=/usr/bin/dockerd -H fd://
+      notify:
+        - Reload systemd
+        - Reload Docker
+      tags: docker_config
+
+    - name: Configure Docker (json)
+      copy:
+        dest: /etc/docker/daemon.json
+        content: |
+          {
+            "experimental": true,
+            "features": {
+              "containerd-snapshotter": true
+            },
+            "registry-mirrors": [
+              "https://registry-1.docker.io"
+            ]
+          }
       notify:
         - Reload systemd
         - Reload Docker
