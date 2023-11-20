@@ -1,0 +1,4 @@
+RUN ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
+COPY exports/maven.tar.gz /tmp/
+RUN tar zxf /tmp/maven.tar.gz -C /usr/share && rm -f /tmp/maven.tar.gz
+ENV MAVEN_HOME /usr/share/maven

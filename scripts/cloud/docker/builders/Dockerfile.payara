@@ -1,0 +1,8 @@
+FROM maven-builder
+ARG PAYARA_VERSION=6.2023.11
+
+COPY download-payara.sh .
+RUN apk --update --no-cache add zsh \
+    && ./download-payara.sh $PAYARA_VERSION && mv payara-$PAYARA_VERSION /usr/share/payara \
+    && /usr/share/payara/bin/asadmin delete-domain --domaindir /usr/share/payara/glassfish/domains domain1 \
+    && tar czf /var/build/payara.tar.gz -C /usr/share payara

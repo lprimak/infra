@@ -19,3 +19,7 @@
     - name: Set Hostname
       hostname:
         name: "{{ inventory_hostname_short }}"
+
+    - name: Grow Filesystem
+      command: /usr/libexec/oci-growfs -y
+      changed_when: false

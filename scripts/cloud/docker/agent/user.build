@@ -1,0 +1,3 @@
+RUN addgroup -g 1000 flowlogix && adduser -u 1000 -G flowlogix -D -g "" flowlogix
+USER flowlogix
+WORKDIR /home/flowlogix

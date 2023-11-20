@@ -35,6 +35,22 @@
         groups: docker
         append: true
 
+    - name: SSH config
+      copy:
+        dest: ~/.ssh/config
+        content: |
+          Host github.com
+              IdentityFile ~/.ssh/github-key.pem
+              StrictHostKeyChecking = accept-new
+      become: false
+
+    - name: Copy GH SSH key
+      copy:
+        dest: ~/.ssh/github-key.pem
+        src: ~/.ssh/github-key.pem
+        mode: 0600
+      become: false
+
     - name: Create docker systemd configuration directory
       file:
         dest: /etc/systemd/system/docker.service.d/

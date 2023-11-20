@@ -128,10 +128,14 @@
       compartment_id: "{{ sec_network.vcn.compartment_id }}"
       availability_domain: "{{ sec_subnet.subnet.availability_domain }}"
       shape: VM.Standard.A1.Flex
+      key_by: [compartment_id, availability_domain, display_name]
       shape_config:
         ocpus: 2
         memory_in_gbs: 20
-      image_id: "{{ image_id }}"
+      source_details:
+        source_type: image
+        image_id: "{{ image_id }}"
+        boot_volume_size_in_gbs: 100
       subnet_id: "{{ sec_subnet.subnet.id }}"
       metadata:
         ssh_authorized_keys:

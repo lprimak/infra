@@ -52,6 +52,7 @@ mv $temp_dir/updates/* $modules_dir
 
 mv $temp_dir/${versioned_dir} $target_dir
 rm -rf $temp_dir
+rm -rf $target_dir/META-INF
 
 if [ -d ${HOME}/apps/payara ]; then
     cat << EOF >> $target_dir/glassfish/config/asenv.conf
@@ -66,6 +67,9 @@ if [ -d ${HOME}/apps/payara ]; then
     AS_DEF_NODES_PATH="\${HOME}/var/payara-nodes"
     AS_ADMIN_PORT=1148
 EOF
-
+else
+    cat << EOF >> $target_dir/glassfish/config/asenv.conf
+    AS_DEF_DOMAINS_PATH="\${HOME}/var/payara-domains"
+    AS_DEF_NODES_PATH="\${HOME}/var/payara-nodes"
+EOF
 fi
-

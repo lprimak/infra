@@ -51,8 +51,25 @@ jenkins:
           - connector: "attach"
             dockerTemplateBase:
               image: "azul/zulu-openjdk-alpine:21-latest"
+              mounts:
+              - "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
             name: "oci-docker"
             labelString: "docker-java-agent"
+            instanceCapStr: "10"
+            pullTimeout: 300
+            mode: EXCLUSIVE
+          - connector: "attach"
+            dockerTemplateBase:
+              image: "lprimak/jenkins-agent-maven4"
+              mounts:
+              - "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
+            nodeProperties:
+            - envVars:
+                env:
+                - key: "MAVEN_OPTS_DOCKER"
+                  value: "-Dwebdriver.gecko.driver=/usr/bin/geckodriver"
+            name: "docker-maven4"
+            labelString: "another-java-agent"
             instanceCapStr: "10"
             pullTimeout: 300
             mode: EXCLUSIVE
