@@ -19,8 +19,7 @@ jenkins:
         value: "-Dwebdriver.browser=firefox"
       - key: "MAVEN_OPTS"
         value: "-Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
-          \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver\
-          \ -Dorg.slf4j.simpleLogger.log.org.apache.maven.plugin.internal.DefaultPluginValidationManager=off"
+          \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver"
   views:
   - all:
       name: "all"
@@ -38,41 +37,16 @@ jenkins:
         nodeDescription: "Nova local agent"
         numExecutors: 4
         remoteFS: "hope-node"
-  clouds:
-    - docker:
-        dockerApi:
-          dockerHost:
-            uri: "tcp://localhost:2375"
-          connectTimeout: 15
-          readTimeout: 30
-        errorDuration: 30
-        name: "oci-docker"
-        templates:
-          - connector: "attach"
-            dockerTemplateBase:
-              image: "azul/zulu-openjdk-alpine:21-latest"
-              mounts:
-              - "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
-            name: "oci-docker"
-            labelString: "docker-java-agent"
-            instanceCapStr: "10"
-            pullTimeout: 300
-            mode: EXCLUSIVE
-          - connector: "attach"
-            dockerTemplateBase:
-              image: "lprimak/jenkins-agent-maven4"
-              mounts:
-              - "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
-            nodeProperties:
-            - envVars:
-                env:
-                - key: "MAVEN_OPTS_DOCKER"
-                  value: "-Dwebdriver.gecko.driver=/usr/bin/geckodriver"
-            name: "docker-maven4"
-            labelString: "another-java-agent"
-            instanceCapStr: "10"
-            pullTimeout: 300
-            mode: EXCLUSIVE
+    - permanent:
+        launcher:
+          inbound:
+            webSocket: true
+        name: "containers"
+        labelString: "docker-agent"
+        nodeDescription: "Docker Containers agent"
+        numExecutors: 4
+        remoteFS: "containers-node"
+        mode: EXCLUSIVE
 security:
   globalJobDslSecurityConfiguration:
     useScriptSecurity: false

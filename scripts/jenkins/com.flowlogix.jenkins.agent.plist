@@ -11,6 +11,7 @@
     <key>ProgramArguments</key>
     <array>
       <string>/Users/software/infra/scripts/jenkins/run-agent.sh</string>
+      <string>nova</string>
     </array>
     <key>StandardOutPath</key>
     <string>/Users/software/var/log/jenkins-agent.log</string>

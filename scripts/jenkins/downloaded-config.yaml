@@ -72,16 +72,37 @@ jenkins:
       templates:
       - connector: "attach"
         dockerTemplateBase:
-          image: "jenkins/agent"
+          image: "azul/zulu-openjdk-alpine:21-latest"
+          mounts:
+          - "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
+          mountsString: "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
         instanceCapStr: "10"
         labelString: "docker-java-agent"
         mode: EXCLUSIVE
         name: "oci-docker"
         pullTimeout: 300
+      - connector: "attach"
+        dockerTemplateBase:
+          image: "lprimak/jenkins-agent-maven4"
+          mounts:
+          - "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
+          mountsString: "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
+        instanceCapStr: "10"
+        labelString: "another-java-agent"
+        mode: EXCLUSIVE
+        name: "docker-maven4"
+        nodeProperties:
+        - envVars:
+            env:
+            - key: "MAVEN_OPTS_DOCKER"
+              value: "-Dwebdriver.gecko.driver=/usr/bin/geckodriver"
+        pullTimeout: 300
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false
   disableRememberMe: false
+  disabledAdministrativeMonitors:
+  - "hudson.util.DoubleLaunchChecker"
   globalNodeProperties:
   - envVars:
       env:
@@ -94,6 +115,7 @@ jenkins:
         value: "-Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
           \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver -Dorg.slf4j.simpleLogger.log.org.apache.maven.plugin.internal.DefaultPluginValidationManager=off"
   labelAtoms:
+  - name: "another-java-agent"
   - name: "built-in"
   - name: "docker-java-agent"
   - name: "nova"
