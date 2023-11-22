@@ -60,43 +60,6 @@ jenkins:
       authenticatedUserReadPermission: true
       organizationNames: "flowlogix"
       useRepositoryPermissions: false
-  clouds:
-  - docker:
-      dockerApi:
-        connectTimeout: 15
-        dockerHost:
-          uri: "tcp://localhost:2375"
-        readTimeout: 30
-      errorDuration: 30
-      name: "oci-docker"
-      templates:
-      - connector: "attach"
-        dockerTemplateBase:
-          image: "azul/zulu-openjdk-alpine:21-latest"
-          mounts:
-          - "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
-          mountsString: "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
-        instanceCapStr: "10"
-        labelString: "docker-java-agent"
-        mode: EXCLUSIVE
-        name: "oci-docker"
-        pullTimeout: 300
-      - connector: "attach"
-        dockerTemplateBase:
-          image: "lprimak/jenkins-agent-maven4"
-          mounts:
-          - "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
-          mountsString: "type=bind,src=/home/flowlogix/.ssh,dst=/home/flowlogix/.ssh"
-        instanceCapStr: "10"
-        labelString: "another-java-agent"
-        mode: EXCLUSIVE
-        name: "docker-maven4"
-        nodeProperties:
-        - envVars:
-            env:
-            - key: "MAVEN_OPTS_DOCKER"
-              value: "-Dwebdriver.gecko.driver=/usr/bin/geckodriver"
-        pullTimeout: 300
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false
@@ -106,33 +69,47 @@ jenkins:
   globalNodeProperties:
   - envVars:
       env:
-      - key: "CHROME_BINARY"
-        value: "^${HOME}/apps/google-chrome/97/Google Chrome.app/Contents/MacOS/Google\
-          \ Chrome"
       - key: "MAVEN_ADD_OPTIONS"
         value: "-Dwebdriver.browser=firefox"
-      - key: "MAVEN_OPTS"
-        value: "-Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
-          \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver -Dorg.slf4j.simpleLogger.log.org.apache.maven.plugin.internal.DefaultPluginValidationManager=off"
   labelAtoms:
-  - name: "another-java-agent"
   - name: "built-in"
-  - name: "docker-java-agent"
+  - name: "containers"
+  - name: "docker-agent"
   - name: "nova"
   markupFormatter: "plainText"
   mode: NORMAL
   myViewsTabBar: "standard"
-  nodeProperties:
-  - envVars:
-      env:
-      - key: "MAVEN_OPTS"
   nodes:
+  - permanent:
+      labelString: "docker-agent"
+      launcher:
+        inbound:
+          webSocket: true
+      mode: EXCLUSIVE
+      name: "containers"
+      nodeDescription: "Docker Containers agent"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "MAVEN_OPTS"
+            value: "-Dwebdriver.gecko.driver=/usr/bin/geckodriver"
+      numExecutors: 4
+      remoteFS: "containers-node"
   - permanent:
       launcher:
         inbound:
           webSocket: true
       name: "nova"
       nodeDescription: "Nova local agent"
+      nodeProperties:
+      - envVars:
+          env:
+          - key: "CHROME_BINARY"
+            value: "^${HOME}/apps/google-chrome/97/Google Chrome.app/Contents/MacOS/Google\
+              \ Chrome"
+          - key: "MAVEN_OPTS"
+            value: "-Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
+              \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver"
       numExecutors: 4
       remoteFS: "hope-node"
   numExecutors: 0
@@ -151,7 +128,7 @@ jenkins:
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
-  slaveAgentPort: -1
+  slaveAgentPort: 0
   updateCenter:
     sites:
     - id: "default"
@@ -178,6 +155,9 @@ globalCredentialsConfiguration:
   configuration:
     providerFilter: "none"
     typeFilter: "none"
+appearance:
+  prism:
+    theme: PRISM
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
@@ -271,8 +251,6 @@ unclassified:
     localRepository: "default"
   pollSCM:
     pollingThreadCount: 10
-  prismConfiguration:
-    theme: PRISM
   scmGit:
     addGitTagAction: false
     allowSecondFetch: false

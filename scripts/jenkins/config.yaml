@@ -13,13 +13,8 @@ jenkins:
   globalNodeProperties:
   - envVars:
       env:
-      - key: "CHROME_BINARY"
-        value: "^${HOME}/apps/google-chrome/97/Google Chrome.app/Contents/MacOS/Google Chrome"
       - key: "MAVEN_ADD_OPTIONS"
         value: "-Dwebdriver.browser=firefox"
-      - key: "MAVEN_OPTS"
-        value: "-Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
-          \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver"
   views:
   - all:
       name: "all"
@@ -37,6 +32,14 @@ jenkins:
         nodeDescription: "Nova local agent"
         numExecutors: 4
         remoteFS: "hope-node"
+        nodeProperties:
+        - envVars:
+            env:
+              - key: "CHROME_BINARY"
+                value: "^${HOME}/apps/google-chrome/97/Google Chrome.app/Contents/MacOS/Google Chrome"
+              - key: "MAVEN_OPTS"
+                value: "-Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
+                \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver"
     - permanent:
         launcher:
           inbound:
@@ -47,6 +50,11 @@ jenkins:
         numExecutors: 4
         remoteFS: "containers-node"
         mode: EXCLUSIVE
+        nodeProperties:
+          - envVars:
+              env:
+                - key: "MAVEN_OPTS"
+                  value: "-Dwebdriver.gecko.driver=/usr/bin/geckodriver"
 security:
   globalJobDslSecurityConfiguration:
     useScriptSecurity: false
