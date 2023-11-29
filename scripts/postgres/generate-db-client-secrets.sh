@@ -14,7 +14,8 @@ openssl req -new -sha256 -key $client_dir/postgresql.key -out $client_dir/client
 
 openssl x509 -req -in $client_dir/client.csr -CA $client_dir/root.crt -CAkey server/ca.key -CAcreateserial -out $client_dir/postgresql.crt -days 365 -sha256
 
-chmod og-rwx,g+rw $client_dir/*.key $client_dir/postgresql.crt $client_dir/*.pk8
+chmod og-rwx,g+rw $client_dir/*.key $client_dir/postgresql.crt
 rm -f $client_dir/*.csr $client_dir/*.srl $client_dir/root.crt
 
-echo generate pk8 key: openssl pkcs8 -topk8 -inform PEM -outform DER -nocrypt -in postgresql.key -out postgresql.pk8
+echo generate pk8 key:
+echo openssl pkcs8 -topk8 -inform PEM -outform DER -nocrypt -in postgresql.key -out postgresql.pk8
