@@ -1,6 +1,6 @@
 FROM azul/zulu-openjdk-alpine:21-latest
 
-ARG MAVEN_VERSION=4.0.0-alpha-8
+ARG MAVEN_VERSION=4.0.0-alpha-9
 ARG BASE_URL=https://apache.osuosl.org/maven/maven-4/${MAVEN_VERSION}/binaries
 
 RUN apk --update --no-cache add curl
