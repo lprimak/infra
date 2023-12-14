@@ -4,6 +4,8 @@ FROM azul/zulu-openjdk-alpine:21-latest
 INCLUDE payara.build
 INCLUDE user.build
 
-RUN asadmin create-domain --nopassword default-domain
+EXPOSE 4848 9009 8080 8181
 
-CMD ["sh", "-l", "-c", "asadmin", "start-domain", "-v"]
+RUN /usr/share/payara/bin/asadmin create-domain --nopassword default-domain
+
+CMD ["sh", "-l", "-c", "asadmin start-domain -v"]
