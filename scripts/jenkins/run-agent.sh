@@ -1,6 +1,10 @@
 #!/bin/bash -l
 
-source ~/.bashrc
+if [ -f ~/.bashrc ]; then
+  echo "Sourceing Bash"
+    source ~/.bashrc
+fi
+
 unset AS_ADMIN_USER
 unset AS_ADMIN_PASSWORDFILE
 
@@ -23,6 +27,12 @@ while true; do
     if [ ! -e "$agent_path" ] || (( agent_time <= week_ago )); then
         echo "Downloading Agent ..."
         curl -s https://jenkins.hope.nyc.ny.us/jnlpJars/agent.jar -o "$agent_path"
+        if [ $(wc -c <"$agent_path") -lt 100000 ]; then
+            echo "Agent download failed"
+            rm -f $agent_path
+            sleep 1
+            continue
+        fi
     fi
 
     java -jar "$agent_path" \
