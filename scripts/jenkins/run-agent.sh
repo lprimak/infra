@@ -6,7 +6,7 @@ if [ $# -eq 0 ]; then
 fi
 
 if [ -f ~/.bashrc ]; then
-  echo "Sourceing Bash"
+  echo "Sourcing Bash"
     source ~/.bashrc
 fi
 
@@ -39,8 +39,13 @@ while true; do
         fi
     fi
 
+    if [ ! -e $HOME/var/secrets/jenkins-agent ]; then
+        sleep 1
+        continue
+    fi
+
     java -jar "$agent_path" \
-        -url https://jenkins.hope.nyc.ny.us -name $1 -webSocket \
+        -url https://jenkins.hope.nyc.ny.us -name $1 -webSocket -noReconnect \
         -secret @$HOME/var/secrets/jenkins-agent -workDir "$HOME/var/jenkins/$1-node"
     sleep 1
 done
