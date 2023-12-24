@@ -1,8 +1,12 @@
 FROM maven-builder
-ARG PAYARA_VERSION=6.2023.11
+ARG PAYARA_6_VERSION=6.2023.12
+ARG PAYARA_5_VERSION=5.2022.5
 
 COPY download-payara.sh .
 RUN apk --update --no-cache add zsh \
-    && ./download-payara.sh $PAYARA_VERSION && mv payara-$PAYARA_VERSION /usr/share/payara \
+    && ./download-payara.sh $PAYARA_6_VERSION && mv payara-$PAYARA_6_VERSION /usr/share/payara \
+    && ./download-payara.sh $PAYARA_5_VERSION && mv payara-$PAYARA_5_VERSION /usr/share/payara5 \
     && /usr/share/payara/bin/asadmin delete-domain --domaindir /usr/share/payara/glassfish/domains domain1 \
-    && tar czf /var/build/payara.tar.gz -C /usr/share payara
+    && /usr/share/payara5/bin/asadmin delete-domain --domaindir /usr/share/payara5/glassfish/domains domain1 \
+    && tar czf /var/build/payara-6.tar.gz -C /usr/share payara \
+    && tar czf /var/build/payara-5.tar.gz -C /usr/share payara5

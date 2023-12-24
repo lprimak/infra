@@ -1,5 +1,10 @@
 #!/bin/bash -l
 
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <container_name>"
+    exit 1
+fi
+
 if [ -f ~/.bashrc ]; then
   echo "Sourceing Bash"
     source ~/.bashrc
@@ -12,10 +17,9 @@ mkdir -p $HOME/apps/jenkins/current $HOME/var/jenkins
 agent_path=$HOME/apps/jenkins/current/agent.jar
 cd $HOME/var/jenkins
 
-platform=$(uname)
 date_cmd=date
-if [ "$platform" == "Darwin" ]; then
-  date_cmd=gdate
+if hash gdate 2>/dev/null; then
+    date_cmd=gdate
 fi
 
 while true; do
@@ -36,7 +40,7 @@ while true; do
     fi
 
     java -jar "$agent_path" \
-        -jnlpUrl https://jenkins.hope.nyc.ny.us/computer/$1/jenkins-agent.jnlp \
-        -secret @$HOME/var/secrets/jenkins-agent -workDir "$HOME/var/jenkins/hope-node"
+        -url https://jenkins.hope.nyc.ny.us -name $1 -webSocket \
+        -secret @$HOME/var/secrets/jenkins-agent -workDir "$HOME/var/jenkins/$1-node"
     sleep 1
 done

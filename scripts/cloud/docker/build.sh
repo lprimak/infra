@@ -14,20 +14,25 @@ do
   cp -p $dscr $SCRIPT_DIR/context/
 done
 
-docker build -t maven-builder context -f $SCRIPT_DIR/builders/Dockerfile.maven
-docker build -t payara-builder context -f $SCRIPT_DIR/builders/Dockerfile.payara
+docker login
+docker build -t maven-builder $SCRIPT_DIR/context -f $SCRIPT_DIR/builders/Dockerfile.maven
+docker build -t payara-builder $SCRIPT_DIR/context -f $SCRIPT_DIR/builders/Dockerfile.payara
 
 $SCRIPT_DIR/cache.sh maven-builder
 
 container=$(docker create payara-builder)
-docker cp -q $container:/var/build/payara.tar.gz $exports_dir
-docker cp -q $container:/var/build/maven.tar.gz $exports_dir
+docker cp -q $container:/var/build/payara-6.tar.gz $exports_dir
+docker cp -q $container:/var/build/payara-5.tar.gz $exports_dir
+docker cp -q $container:/var/build/maven-3.tar.gz $exports_dir
+docker cp -q $container:/var/build/maven-4.tar.gz $exports_dir
 docker rm $container > /dev/null
 docker rmi maven-builder > /dev/null
 docker rmi payara-builder > /dev/null
 
 cp $SCRIPT_DIR/common/*.build $SCRIPT_DIR/context/
-docker buildx build --platform linux/arm64,linux/amd64 context \
--t lprimak/jenkins-agent-maven4 -f agent/Dockerfile --push
-docker buildx build --platform linux/arm64,linux/amd64 context \
--t lprimak/payara-full -f payara/Dockerfile --push
+docker buildx build --platform linux/arm64,linux/amd64 $SCRIPT_DIR/context \
+-t lprimak/jenkins-agent-maven4 -f $SCRIPT_DIR/agent/Dockerfile --push
+docker buildx build --platform linux/arm64,linux/amd64 $SCRIPT_DIR/context \
+-t lprimak/jenkins-master -f $SCRIPT_DIR/agent-master/Dockerfile --push
+docker buildx build --platform linux/arm64,linux/amd64 $SCRIPT_DIR/context \
+-t lprimak/payara-full -f $SCRIPT_DIR/payara/Dockerfile --push

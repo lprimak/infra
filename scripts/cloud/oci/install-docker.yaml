@@ -29,27 +29,16 @@
       notify:
         - Reload Docker
 
-    - name: Add docker group
+    - name: Create docker group
+      group:
+        name: docker
+        gid: 900
+
+    - name: Add user to docker group
       user:
         name: "{{ ansible_env.SUDO_USER }}"
         groups: docker
         append: true
-
-    - name: SSH config
-      copy:
-        dest: ~/.ssh/config
-        content: |
-          Host github.com
-              IdentityFile ~/.ssh/github-key.pem
-              StrictHostKeyChecking = accept-new
-      become: false
-
-    - name: Copy GH SSH key
-      copy:
-        dest: ~/.ssh/github-key.pem
-        src: ~/.ssh/github-key.pem
-        mode: 0600
-      become: false
 
     - name: Create docker systemd configuration directory
       file:
@@ -70,6 +59,7 @@
           [Service]
           ExecStart=
           ExecStart=/usr/bin/dockerd -H fd://
+          ExecStartPost=/usr/bin/docker run --privileged --rm tonistiigi/binfmt --install all
       notify:
         - Reload systemd
         - Reload Docker
@@ -98,6 +88,12 @@
         name: 'docker'
         enabled: true
         state: started
+
+    - name: Create Jenkins directories
+      file:
+        dest: var/jenkins
+        state: directory
+      become: false
 
   handlers:
     - name: Reload systemd

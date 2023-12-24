@@ -1,3 +1,5 @@
-RUN addgroup -g 1000 flowlogix && adduser -u 1000 -G flowlogix -D -g "" flowlogix
+RUN addgroup -g 1000 flowlogix && addgroup -g 900 docker \
+  && adduser -u 1000 -G flowlogix -D -g "" flowlogix \
+  && addgroup flowlogix docker
 USER flowlogix
 WORKDIR /home/flowlogix
