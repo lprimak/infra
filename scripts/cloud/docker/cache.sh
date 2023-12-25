@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SCRIPT_DIR=`dirname "$0"`
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 exports_dir=$SCRIPT_DIR/context/exports
 
 container=$(docker create -it $1 \

@@ -4,6 +4,9 @@ if [ $# -eq 0 ]; then
     echo "Usage: $0 <version>"
     exit 1
 fi
+
+SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
+
 payara_version=$1
 payara_basedir=${HOME}/apps/payara
 if [ ! -d ${HOME}/apps/payara ]; then
@@ -17,27 +20,12 @@ if [ -d $target_dir ]; then
     exit 1
 fi
 
-maven_flags="-B -C -ntp"
+mkdir -p $temp_dir/pgjdbc $temp_dir/updates
+cd $temp_dir
 
-mvn $(echo $maven_flags) dependency:unpack -Dartifact=fish.payara.distributions:payara:${payara_version}:zip \
-    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir -DoverWrite=false
+maven_flags="-B -C -ntp -q"
 
-mvn $(echo $maven_flags) dependency:copy -Dartifact=org.postgresql:postgresql:LATEST:jar \
-    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/pgjdbc -DoverWrite=false
-
-mvn $(echo $maven_flags) dependency:copy -Dartifact=org.ow2.asm:asm:LATEST:jar \
-    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/updates -DoverWrite=false -Dmdep.stripVersion=true
-mvn $(echo $maven_flags) dependency:copy -Dartifact=org.ow2.asm:asm-analysis:LATEST:jar \
-    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/updates -DoverWrite=false -Dmdep.stripVersion=true
-mvn $(echo $maven_flags) dependency:copy -Dartifact=org.ow2.asm:asm-commons:LATEST:jar \
-    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/updates -DoverWrite=false -Dmdep.stripVersion=true
-mvn $(echo $maven_flags) dependency:copy -Dartifact=org.ow2.asm:asm-tree:LATEST:jar \
-    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/updates -DoverWrite=false -Dmdep.stripVersion=true
-mvn $(echo $maven_flags) dependency:copy -Dartifact=org.ow2.asm:asm-util:LATEST:jar \
-    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/updates -DoverWrite=false -Dmdep.stripVersion=true
-
-mvn $(echo $maven_flags) dependency:copy -Dartifact=org.eclipse.persistence:org.eclipse.persistence.asm:LATEST:jar \
-    -Dproject.basedir=$temp_dir -DoutputDirectory=$temp_dir/updates -DoverWrite=false -Dmdep.stripVersion=true
+mvn $(echo $maven_flags) -f $SCRIPT_DIR/payara-download -Dpayara-version=${payara_version} -Dtemp-dir=$temp_dir
 
 if [ -d $temp_dir/payara5 ]; then
     versioned_dir=payara5
@@ -45,6 +33,10 @@ fi
 if [ -d $temp_dir/payara6 ]; then
     versioned_dir=payara6
 fi
+
+mv $temp_dir/post* $temp_dir/pgjdbc
+mv $temp_dir/asm* $temp_dir/updates
+mv $temp_dir/org.eclipse* $temp_dir/updates
 
 mv $temp_dir/pgjdbc/* $temp_dir/${versioned_dir}/glassfish/lib
 modules_dir=$temp_dir/${versioned_dir}/glassfish/modules
