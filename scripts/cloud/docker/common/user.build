@@ -3,5 +3,5 @@ RUN addgroup -g 1000 $USER && addgroup -g 900 docker \
   && adduser -u 1000 -G $USER -D -g "" $USER \
   && addgroup $USER docker
 USER $USER
-ENV HOME=/home/flowlogix
+ENV HOME=/home/$USER
 WORKDIR $HOME
