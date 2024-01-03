@@ -16,4 +16,4 @@ docker cp -qa $SCRIPT_DIR/run-agent.sh $container:$home_dir/run-agent.sh
 docker start $container
 docker exec $container sh -c "mkdir -p .ssh var/secrets; chmod 700 var/secrets;
 echo $2 > var/secrets/jenkins-agent; chmod 600 var/secrets/jenkins-agent"
-$SCRIPT_DIR/enable-docker-github.sh $container $home_dir
+$SCRIPT_DIR/../cloud/docker/install-container-infra.sh $container $home_dir
