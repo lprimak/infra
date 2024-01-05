@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -p
 
 if [ "$2" = "arm64" ]; then
   TARGET_ARCH="-aarch64"

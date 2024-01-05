@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash -p
 
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 exports_dir=$SCRIPT_DIR/../context/exports

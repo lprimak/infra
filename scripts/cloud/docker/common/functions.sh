@@ -6,7 +6,8 @@ function setup() {
     for raw_dscr in \
     infra/scripts/payara/download-payara.sh \
     infra/scripts/payara/payara-download/pom.xml \
-    infra/scripts/cloud/docker/_builders/geckodriver.sh
+    infra/scripts/cloud/docker/_builders/geckodriver.sh \
+    infra/scripts/cloud/docker/_builders/install-docker.sh
     do
       [ -f ~/$raw_dscr ] && dscr=~/$raw_dscr
       [ -f ~/dev/$raw_dscr  ] && dscr=~/dev/$raw_dscr
