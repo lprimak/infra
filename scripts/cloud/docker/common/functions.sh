@@ -1,3 +1,4 @@
+[ -z "${FL_IS_BUILD_IMAGE}" ] && echo "Must be running in a docker container" && exit 1
 . $SCRIPT_DIR/versions
 
 function setup() {
@@ -57,7 +58,9 @@ function export_payara_from_builders() {
 }
 
 function docker_build() {
-docker buildx build --platform linux/arm64,linux/amd64 $SCRIPT_DIR/context \
-    -t $1 -f $SCRIPT_DIR/$2 --build-arg MAVEN_MAJOR_VERSION=$3 --build-arg PAYARA_VERSION=$4 \
-    --build-arg GECKODRIVER_VERSION=$GECKODRIVER_VERSION --push
+    local tag=$1
+    local ctx=$2
+    shift;shift
+    docker buildx build --platform linux/arm64,linux/amd64 $SCRIPT_DIR/context \
+        -t $tag -f $SCRIPT_DIR/$ctx --build-arg GECKODRIVER_VERSION=$GECKODRIVER_VERSION --push $@
 }
