@@ -2,10 +2,7 @@
 
 SCRIPT_DIR=`dirname "$0"`
 
-[ -z "${FL_IS_BUILD_IMAGE}" ] && echo "Must be running in a docker container" && exit 1
-
 . $SCRIPT_DIR/common/functions.sh
-
 setup
 
 docker login
