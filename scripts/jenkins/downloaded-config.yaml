@@ -96,10 +96,6 @@ jenkins:
       launcher:
         inbound:
           webSocket: true
-          workDirSettings:
-            disabled: false
-            failIfWorkDirIsMissing: false
-            internalDir: "remoting"
       mode: EXCLUSIVE
       name: "containers"
       nodeDescription: "Docker Containers agent"
@@ -110,7 +106,6 @@ jenkins:
             value: "-Dwebdriver.gecko.driver=/usr/bin/geckodriver"
       numExecutors: 4
       remoteFS: "containers-node"
-      retentionStrategy: "always"
   - permanent:
       launcher:
         inbound:
