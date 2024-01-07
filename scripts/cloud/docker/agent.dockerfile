@@ -11,7 +11,8 @@ INCLUDE user-build.dockerfile
 
 RUN mkdir -p .m2/repository
 RUN mkdir -p var/jenkins
-COPY --chown=flowlogix:flowlogix exports/repositor[y] .m2/repository/
+COPY --chown=$USER:$USER exports/repositor[y] .m2/repository/
+COPY --chown=$USER:$USER agent-maven-settings.xml .m2/settings.xml
 
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["sh", "-l"]
