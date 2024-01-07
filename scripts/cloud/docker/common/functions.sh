@@ -3,7 +3,6 @@
 
 function setup() {
     exports_dir=$SCRIPT_DIR/context/exports
-    rm -rf $SCRIPT_DIR/context
     mkdir -p $exports_dir
 
     for raw_dscr in \
@@ -20,7 +19,12 @@ function setup() {
 }
 
 function create_maven_builders() {
-    echo "Creating Maven Builders"
+    if [ -f $exports_dir/maven-3.tar.gz ]; then
+        echo "Maven Artifacts already created"
+        return 0
+    else
+        echo "Creating Maven Builders"
+    fi
     docker build -t maven-3-builder $SCRIPT_DIR/context --build-arg MAVEN_MAJOR_VERSION=3 \
         --build-arg MAVEN_VERSION=$MAVEN_3_VERSION -f $SCRIPT_DIR/_builders/maven.dockerfile
     docker build -t maven-4-builder $SCRIPT_DIR/context --build-arg MAVEN_MAJOR_VERSION=4 \
@@ -28,7 +32,12 @@ function create_maven_builders() {
 }
 
 function create_payara_builders() {
-    echo "Creating Payara Builders"
+    if [ -f $exports_dir/payara-5.tar.gz ]; then
+        echo "Maven Artifacts already created"
+        return 0
+    else
+        echo "Creating Payara Builders"
+    fi
     docker build -t payara-5-builder --build-arg PAYARA_VERSION=$PAYARA_5_VERSION \
         $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara.dockerfile
     docker build -t payara-6-builder --build-arg PAYARA_VERSION=$PAYARA_6_VERSION \
@@ -37,6 +46,9 @@ function create_payara_builders() {
 }
 
 function copy_export() {
+    if [ -f $exports_dir/$3.tar.gz ]; then
+        return 0
+    fi
     local container=$(docker create $1)
     docker cp -q $container:/var/build/$2.tar.gz $exports_dir/$3.tar.gz
     docker rm $container
@@ -62,5 +74,11 @@ function docker_build() {
     local ctx=$2
     shift;shift
     docker buildx build --platform linux/arm64,linux/amd64 $SCRIPT_DIR/context \
-        -t $tag -f $SCRIPT_DIR/$ctx --build-arg GECKODRIVER_VERSION=$GECKODRIVER_VERSION --push $@
+        -t $tag -f $SCRIPT_DIR/$ctx --build-arg GECKODRIVER_VERSION=$GECKODRIVER_VERSION \
+        --build-arg JAVA_VERSION=$JAVA_VERSION --push $@
+}
+
+function docker_push_latest() {
+    docker tag $1:$2 $1:latest
+    docker push $1:latest
 }
