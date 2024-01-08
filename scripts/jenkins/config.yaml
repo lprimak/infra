@@ -40,7 +40,6 @@ jenkins:
               - key: "MAVEN_OPTS"
                 value: "\
                 \ -Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
-                \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver\
                 \ -Dwebdriver.firefox.binary=^${HOME}/apps/firefox/120.0.1/Firefox.app/Contents/MacOS/firefox\
                 \ "
     - permanent:
