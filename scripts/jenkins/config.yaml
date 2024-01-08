@@ -53,11 +53,6 @@ jenkins:
         numExecutors: 4
         remoteFS: "containers-node"
         mode: EXCLUSIVE
-        nodeProperties:
-          - envVars:
-              env:
-                - key: "MAVEN_OPTS"
-                  value: "-Dwebdriver.gecko.driver=/usr/bin/geckodriver"
   slaveAgentPort: -1
 security:
   globalJobDslSecurityConfiguration:
