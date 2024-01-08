@@ -1,17 +1,16 @@
 # syntax = devthefuture/dockerfile-x
 ARG JAVA_VERSION
-FROM azul/zulu-openjdk-alpine:${JAVA_VERSION}-latest
+FROM azul/zulu-openjdk:${JAVA_VERSION}-latest
 
-RUN apk --update --no-cache add bash docker-cli git openssh-client firefox curl coreutils sudo tini
+RUN apt-get update && apt-get install -y git openssh-client curl coreutils tini
 
 INCLUDE maven-build.dockerfile
 INCLUDE payara-build.dockerfile
-INCLUDE firefox-build.dockerfile
-INCLUDE user-build.dockerfile
+INCLUDE user-build-ubuntu.dockerfile
 
 RUN mkdir -p .m2/repository var/jenkins
 COPY --chown=$USER:$USER exports/repositor[y] .m2/repository/
 COPY --chown=$USER:$USER agent-maven-settings.xml .m2/settings.xml
 
-ENTRYPOINT ["/sbin/tini", "--"]
-CMD ["sh", "-l"]
+ENTRYPOINT ["/usr/bin/tini", "--"]
+CMD ["bash", "-l"]
