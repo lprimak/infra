@@ -99,11 +99,6 @@ jenkins:
       mode: EXCLUSIVE
       name: "containers"
       nodeDescription: "Docker Containers agent"
-      nodeProperties:
-      - envVars:
-          env:
-          - key: "MAVEN_OPTS"
-            value: "-Dwebdriver.gecko.driver=/usr/bin/geckodriver"
       numExecutors: 4
       remoteFS: "containers-node"
   - permanent:
@@ -120,7 +115,7 @@ jenkins:
               \ Chrome"
           - key: "MAVEN_OPTS"
             value: " -Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
-              \ -Dwebdriver.gecko.driver=^${HOMEBREW_PREFIX}/bin/geckodriver -Dwebdriver.firefox.binary=^${HOME}/apps/firefox/120.0.1/Firefox.app/Contents/MacOS/firefox "
+              \ -Dwebdriver.firefox.binary=^${HOME}/apps/firefox/120.0.1/Firefox.app/Contents/MacOS/firefox "
       numExecutors: 4
       remoteFS: "hope-node"
   numExecutors: 0
