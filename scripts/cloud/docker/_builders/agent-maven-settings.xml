@@ -5,6 +5,7 @@
     <activeProfiles>
         <activeProfile>jakarta-ee-version-override</activeProfile>
         <activeProfile>graphene-version-override</activeProfile>
+        <activeProfile>shiro-version-override</activeProfile>
         <activeProfile>hope-repository</activeProfile>
     </activeProfiles>
 
@@ -22,6 +23,13 @@
             <properties>
                 <arquillian.drone.version>3.0.0-alpha.8-lp-jan7</arquillian.drone.version>
                 <arquillian.graphene.version>3.0.0-alpha.4-lp-jan7</arquillian.graphene.version>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>shiro-version-override</id>
+            <properties>
+                <shiro2.version>2.0.0-lp-jan11</shiro2.version>
             </properties>
         </profile>
 
