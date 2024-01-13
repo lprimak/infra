@@ -107,6 +107,7 @@
       compartment_id: "{{ web_network.vcn.compartment_id }}"
       availability_domain: "{{ web_subnet.subnet.availability_domain }}"
       shape: VM.Standard.A1.Flex
+      key_by: [compartment_id, availability_domain, display_name]
       shape_config:
         ocpus: 2
         memory_in_gbs: 2
