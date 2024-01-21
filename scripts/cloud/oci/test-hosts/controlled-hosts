@@ -3,3 +3,6 @@ webtest1.flowlogix.com
 
 [docker]
 containers-test1.flowlogix.com
+
+[k8s]
+containers-test1.flowlogix.com

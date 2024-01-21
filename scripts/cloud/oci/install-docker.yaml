@@ -2,12 +2,8 @@
 - hosts: docker
   become: true
   vars:
-    ansible_user: flowlogix
     docker_base: https://download.docker.com/linux/centos
     os_version: 9
-    k8s_baseurl: https://pkgs.k8s.io/core:/stable:/v{{ k8s_version }}/rpm
-    cri_dockerd_baseurl: https://github.com/Mirantis/cri-dockerd/releases/download
-    cri_dockerd_arch: "{{ (ansible_architecture == 'aarch64') | ternary('arm64', 'amd64') }}"
 
   tasks:
     - name: include vars
@@ -24,16 +20,6 @@
       rpm_key:
         key: "{{ docker_base }}/gpg"
 
-    - name: Add k8s repository
-      yum_repository:
-        name: k8s_repo
-        description: Kubernetes Repository
-        baseurl: "{{ k8s_baseurl }}"
-
-    - name: Verify k8s GPG keys
-      rpm_key:
-        key: "{{ k8s_baseurl }}/repodata/repomd.xml.key"
-
     - name: Install docker engine
       package:
         name:
@@ -46,19 +32,6 @@
         update_cache: yes
       notify:
         - Reload Docker
-
-    - name: Install k8s
-      package:
-        name:
-          - kubeadm
-          - kubelet
-          - kubectl
-          - python3-pip
-        state: latest
-        update_cache: yes
-      notify:
-        - Reload k8s
-      tags: k8s
 
     - name: Create docker group
       group:
@@ -79,11 +52,8 @@
 
     - name: Create docker configuration directory
       file:
-        dest: "{{ item }}"
+        dest: /etc/docker
         state: directory
-      loop:
-        - /etc/docker
-        - /etc/kubernetes
       tags: docker_config
 
     - name: Configure Docker (systemd)
@@ -117,87 +87,11 @@
         - Reload Docker
       tags: docker_config
 
-    - name: Create kubelet config
-      copy:
-        dest: /etc/kubernetes/node-config.yaml
-        src: "{{ playbook_dir }}/k8s/node-config.yaml"
-      tags: k8s
-
-    - name: Create CNI default network
-      copy:
-        dest: /etc/cni/net.d/10-containerd-net.conf
-        src: "{{ playbook_dir }}/k8s/cni-net.json"
-      tags: k8s
-      notify:
-        - Reload cri-dockerd
-
-    - name: Install github3 library
-      pip:
-        name: github3.py
-
-    - name: Obtain latest cri-dockerd release
-      github_release:
-        user: Mirantis
-        repo: cri-dockerd
-        action: latest_release
-      register: cri_dockerd_latest
-      tags: k8s
-
-    - name: Download cri-dockerd binary
-      unarchive:
-        src: >-
-          {{ cri_dockerd_baseurl }}/{{ cri_dockerd_latest['tag'] }}/cri-dockerd-{{ cri_dockerd_latest['tag']
-          | regex_replace('^v','') }}.{{ cri_dockerd_arch }}.tgz
-        dest: /usr/local/libexec
-        remote_src: true
-        extra_opts:
-          - --strip=1
-      tags: k8s
-
-    - name: Install cri-dockerd service
-      copy:
-        dest: /etc/systemd/system/cri-dockerd.service
-        content: |
-          [Service]
-          ExecStart=/usr/local/libexec/cri-dockerd --pod-infra-container-image registry.k8s.io/pause:{{ pause_container_version }}
-
-          [Install]
-          WantedBy=multi-user.target
-      notify:
-        - Reload systemd
-        - Reload cri-dockerd
-      tags: k8s
-
     - name: Enable and Start Docker engine
       service:
         name: 'docker'
         enabled: true
         state: started
-
-    - name: Enable and Start CRI Docker
-      service:
-        name: 'cri-dockerd'
-        enabled: true
-        state: started
-      tags: k8s
-
-    - name: Enable and Start k8s
-      service:
-        name: 'kubelet'
-        enabled: true
-        state: started
-      tags: k8s
-
-    - name: Open k8s ports (firewall)
-      firewalld:
-        port: "{{ item }}/tcp"
-        state: enabled
-        immediate: true
-        permanent: true
-      loop:
-        - 6443
-        - 10250
-      tags: k8s
 
     - name: Create Jenkins directories
       file:
@@ -213,14 +107,4 @@
     - name: Reload Docker
       service:
         name: 'docker'
-        state: restarted
-
-    - name: Reload k8s
-      service:
-        name: 'kubelet'
-        state: restarted
-
-    - name: Reload cri-dockerd
-      service:
-        name: 'cri-dockerd'
         state: restarted
