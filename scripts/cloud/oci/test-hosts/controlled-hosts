@@ -1,3 +1,6 @@
+[all:vars]
+ansible_user = flowlogix
+
 [webservers]
 webtest1.flowlogix.com
 
@@ -5,4 +8,4 @@ webtest1.flowlogix.com
 containers-test1.flowlogix.com
 
 [k8s]
-containers-test1.flowlogix.com
+k8s-controller-test1.flowlogix.com

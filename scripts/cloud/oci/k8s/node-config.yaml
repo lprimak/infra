@@ -8,6 +8,17 @@ kind: InitConfiguration
 nodeRegistration:
   criSocket: unix:///var/run/cri-dockerd.sock
 ---
+apiVersion: kubeadm.k8s.io/v1beta3
+kind: JoinConfiguration
+nodeRegistration:
+  criSocket: unix:///var/run/cri-dockerd.sock
+discovery:
+  bootstrapToken:
+    apiServerEndpoint: <ip_address>:6443
+    token: XXX
+    caCertHashes:
+      - sha256:XXX
+---
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 failSwapOn: false

@@ -87,7 +87,7 @@
       vcn_id: "{{ lookup('vars', item + '_network').vcn.id }}"
       availability_domain: "{{ lookup('vars', item + '_availability_domain') }}"
       dns_label: fl
-      cidr_block: "10.0.0.0/24"
+      cidr_block: "{{ net_cidr_block }}"
       route_table_id: "{{ lookup('vars', item + '_inetroute').route_table.id }}"
       security_list_ids:
         - "{{ lookup('vars', item + '_network').vcn.default_security_list_id }}"

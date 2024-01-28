@@ -43,6 +43,7 @@
       copy:
         dest: /etc/kubernetes/node-config.yaml
         src: "{{ playbook_dir }}/k8s/node-config.yaml"
+        mode: '600'
 
     - name: Install github3 library
       pip:
@@ -78,6 +79,15 @@
         - Reload systemd
         - Reload cri-dockerd
 
+    - name: Configure NetworkManager for Calico
+      copy:
+        dest: /etc/NetworkManager/conf.d/calico.conf
+        content: >
+          [keyfile]
+
+          unmanaged-devices=interface-name:cali*;interface-name:tunl*;interface-name:vxlan.calico;
+          interface-name:vxlan-v6.calico;interface-name:wireguard.cali;interface-name:wg-v6.cali
+
     - name: Obtain latest calicoctl release
       github_release:
         user: projectcalico
@@ -111,6 +121,9 @@
         immediate: true
         permanent: true
       loop:
+        - 179
+        - 2379
+        - 5473
         - 6443
         - 10250
 
