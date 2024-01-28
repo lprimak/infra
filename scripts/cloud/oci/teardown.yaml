@@ -4,7 +4,7 @@
     - oracle.oci
   tasks:
   - name: include vars
-    include_vars: "{{ playbook_dir }}/config-vars.yaml"
+    include_vars: "{{ playbook_dir }}/common/config-vars.yaml"
 
   - name: Look up Test Server(s)
     oci_compute_instance:

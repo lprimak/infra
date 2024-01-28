@@ -1,0 +1,7 @@
+[all:vars]
+ansible_user = flowlogix
+
+[k8s]
+k8s-controller1.flowlogix.com
+k8s-node1.flowlogix.com
+k8s-node2.flowlogix.com

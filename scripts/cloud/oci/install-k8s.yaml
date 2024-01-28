@@ -1,4 +1,4 @@
-- import_playbook: "{{ playbook_dir }}/configure-common.yaml"
+- import_playbook: "{{ playbook_dir }}/common/configure-common.yaml"
 - hosts: k8s
   become: true
   vars:
@@ -9,7 +9,7 @@
 
   tasks:
     - name: include vars
-      include_vars: "{{ playbook_dir }}/config-vars.yaml"
+      include_vars: "{{ playbook_dir }}/common/config-vars.yaml"
       tags: always
 
     - name: Add k8s repository

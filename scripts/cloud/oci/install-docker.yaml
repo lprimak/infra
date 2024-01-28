@@ -1,5 +1,5 @@
-- import_playbook: "{{ playbook_dir }}/configure-common.yaml"
-- hosts: docker
+- import_playbook: "{{ playbook_dir }}/common/configure-common.yaml"
+- hosts: docker:k8s
   become: true
   vars:
     docker_base: https://download.docker.com/linux/centos
@@ -7,7 +7,7 @@
 
   tasks:
     - name: include vars
-      include_vars: "{{ playbook_dir }}/config-vars.yaml"
+      include_vars: "{{ playbook_dir }}/common/config-vars.yaml"
       tags: always
 
     - name: Add docker repository
