@@ -116,16 +116,17 @@
 
     - name: Open k8s ports (firewall)
       firewalld:
-        port: "{{ item }}/tcp"
+        port: "{{ item[0] }}/{{ item[1] }}"
         state: enabled
         immediate: true
         permanent: true
       loop:
-        - 179
-        - 2379
-        - 5473
-        - 6443
-        - 10250
+        - [179, tcp]
+        - [2379, tcp]
+        - [5473, tcp]
+        - [6443, tcp]
+        - [10250, tcp]
+        - [4789, udp]
 
   handlers:
     - name: Reload systemd
