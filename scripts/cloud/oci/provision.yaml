@@ -24,6 +24,20 @@
       - web
       - sec
 
+  - name: Update VCN DHCP Subnet Options
+    oci_network_dhcp_options:
+      compartment_id: "{{ item.vcn.compartment_id }}"
+      vcn_id: "{{ item.vcn.id }}"
+      dhcp_id: "{{ item.vcn.default_dhcp_options_id}}"
+      domain_name_type: SUBNET_DOMAIN
+      options:
+        -
+          server_type: VcnLocalPlusInternet
+          type: DomainNameServer
+    no_log: true
+    loop:
+      "{{ network.results }}"
+
   - name: Create a new Internet Gateway
     oci_network_internet_gateway:
       compartment_id: "{{ item.vcn.compartment_id }}"
@@ -40,6 +54,7 @@
       compartment_id: "{{ item.internet_gateway.compartment_id }}"
       vcn_id: "{{ item.internet_gateway.vcn_id }}"
       name: "inet-route-table"
+      key_by: [compartment_id, vcn_id, display_name]
       route_rules:
         - cidr_block: "{{ zero_cidr }}"
           network_entity_id: "{{ item.internet_gateway.id }}"
