@@ -6,6 +6,7 @@
     cri_dockerd_baseurl: https://github.com/Mirantis/cri-dockerd/releases/download
     calico_baseurl: https://github.com/projectcalico/calico/releases/download
     download_arch: "{{ (ansible_architecture == 'aarch64') | ternary('arm64', 'amd64') }}"
+    k8s_sysctl_file: /etc/sysctl.d/k8s.conf
 
   tasks:
     - name: include vars
@@ -44,6 +45,34 @@
         dest: /etc/kubernetes/node-config.yaml
         src: "{{ playbook_dir }}/k8s/node-config.yaml"
         mode: '600'
+
+    - name: Check for existing k8s configuration
+      stat:
+        path: "{{ k8s_sysctl_file }}"
+      register: k8s_sysctl_conf
+
+    - name: Get temporary file name
+      tempfile:
+        state: file
+      register: host_config_script
+      when: k8s_sysctl_conf.stat.exists == false
+
+    - name: Create host config script
+      copy:
+        dest: "{{ host_config_script.path }}"
+        src: "{{ playbook_dir }}/k8s/host-config.sh"
+        mode: '755'
+      when: k8s_sysctl_conf.stat.exists == false
+
+    - name: Run host config script
+      command: "{{ host_config_script.path }}"
+      when: k8s_sysctl_conf.stat.exists == false
+
+    - name: Remove host config script
+      file:
+        path: "{{ host_config_script.path }}"
+        state: absent
+      when: k8s_sysctl_conf.stat.exists == false
 
     - name: Install github3 library
       pip:
@@ -113,20 +142,6 @@
         name: 'kubelet'
         enabled: true
         state: started
-
-    - name: Open k8s ports (firewall)
-      firewalld:
-        port: "{{ item[0] }}/{{ item[1] }}"
-        state: enabled
-        immediate: true
-        permanent: true
-      loop:
-        - [179, tcp]
-        - [2379, tcp]
-        - [5473, tcp]
-        - [6443, tcp]
-        - [10250, tcp]
-        - [4789, udp]
 
   handlers:
     - name: Reload systemd

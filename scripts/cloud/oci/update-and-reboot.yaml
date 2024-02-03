@@ -1,8 +1,6 @@
 - import_playbook: "{{ playbook_dir }}/common/configure-common.yaml"
 - hosts: all:!localhost
   become: true
-  vars:
-    ansible_user: flowlogix
   tasks:
     - name: Upgrade OS
       package:
