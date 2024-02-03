@@ -84,17 +84,62 @@
       security_rules:
         -
           direction: INGRESS
-          is_stateless: false
+          is_stateless: true
           protocol: 6
           source: "{{ zero_cidr }}"
           tcp_options:
             destination_port_range:
               min: "{{ item }}"
               max: "{{ item }}"
-          description: "Open Port {{ item }}"
+          description: "Open Port {{ item }}/tcp"
     loop:
       - 80
       - 443
+
+  - name: Create k8s security group
+    oci_network_security_group:
+      compartment_id: "{{ sec_network.vcn.compartment_id }}"
+      vcn_id: "{{ sec_network.vcn.id }}"
+      display_name: 'k8s security group'
+    register: k8s_security_group
+
+  - name: Configure k8s security group (tcp)
+    oci_network_security_group_security_rule_actions:
+      network_security_group_id: "{{ k8s_security_group.network_security_group.id }}"
+      action: add
+      security_rules:
+        - direction: INGRESS
+          is_stateless: true
+          protocol: 6
+          source: "{{ net_cidr_block }}"
+          tcp_options:
+            destination_port_range:
+              min: "{{ item }}"
+              max: "{{ item }}"
+          description: "Open Port {{ item }}/tcp"
+    loop:
+      - 179
+      - 2379
+      - 5473
+      - 6443
+      - 10250
+
+  - name: Configure k8s security group (udp)
+    oci_network_security_group_security_rule_actions:
+      network_security_group_id: "{{ k8s_security_group.network_security_group.id }}"
+      action: add
+      security_rules:
+        - direction: INGRESS
+          is_stateless: true
+          protocol: 17
+          source: "{{ net_cidr_block }}"
+          udp_options:
+            destination_port_range:
+              min: "{{ item }}"
+              max: "{{ item }}"
+          description: "Open Port {{ item }}/udp"
+    loop:
+      - 4789
 
   - name: Create Subnets
     oci_network_subnet:
