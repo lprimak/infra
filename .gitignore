@@ -2,3 +2,6 @@
 /.idea/
 target/
 scripts/cloud/docker/context/
+scripts/cloud/oci/**/vault
+scripts/cloud/oci/**/volatile
+**/.vagrant/

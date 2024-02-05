@@ -1,0 +1,12 @@
+[all:vars]
+ansible_user = vagrant
+github_token = "{{ vault_github_token }}"
+
+# vxlan = true
+
+[k8s_controllers]
+controller
+
+[k8s_nodes]
+node1
+node2

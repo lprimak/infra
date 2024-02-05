@@ -1,5 +1,5 @@
 - import_playbook: "{{ playbook_dir }}/common/configure-common.yaml"
-- hosts: k8s
+- hosts: k8s_controllers:k8s_nodes
   become: true
   vars:
     k8s_baseurl: https://pkgs.k8s.io/core:/stable:/v{{ k8s_version }}/rpm
@@ -40,11 +40,28 @@
         dest: /etc/kubernetes
         state: directory
 
-    - name: Create kubelet config
+    - name: Copy docker secrets
       copy:
+        src: "{{ lookup('env', 'HOME') }}/var/secrets/docker-config.json"
+        dest: /var/lib/kubelet/config.json
+        mode: '600'
+      failed_when: false
+
+    - name: Create controller configs
+      copy:
+        dest: "/etc/kubernetes/{{ item }}"
+        src: "{{ playbook_dir }}/k8s/{{ item }}"
+      when: inventory_hostname in groups['k8s_controllers']
+      loop:
+        - controller-config.yaml
+        - metallb-config.yaml
+
+    - name: Create node config
+      template:
         dest: /etc/kubernetes/node-config.yaml
         src: "{{ playbook_dir }}/k8s/node-config.yaml"
         mode: '600'
+      when: inventory_hostname in groups['k8s_nodes'] and controller_address is defined and controller_address != ""
 
     - name: Check for existing k8s configuration
       stat:
@@ -83,7 +100,16 @@
         user: Mirantis
         repo: cri-dockerd
         action: latest_release
+        token: "{{ github_token | default('') }}"
       register: cri_dockerd_latest
+
+    - name: Obtain latest MetalLB release
+      github_release:
+        user: metallb
+        repo: metallb
+        action: latest_release
+        token: "{{ github_token | default('') }}"
+      register: metallb_latest
 
     - name: Download cri-dockerd binary
       unarchive:
@@ -122,7 +148,9 @@
         user: projectcalico
         repo: calico
         action: latest_release
+        token: "{{ github_token | default('') }}"
       register: calico_latest
+      tags: calico
 
     - name: Download calicoctl binary
       get_url:
@@ -142,6 +170,111 @@
         name: 'kubelet'
         enabled: true
         state: started
+
+    - name: Create k8s controller (kubeadm)
+      command:
+        cmd: kubeadm init --config /etc/kubernetes/controller-config.yaml
+        creates: /etc/kubernetes/admin.conf
+      when: inventory_hostname in groups['k8s_controllers']
+
+    - name: Get cluster join command
+      command:
+        cmd: kubeadm token create --print-join-command
+      when: inventory_hostname in groups['k8s_controllers']
+      changed_when: false
+      register: join_token
+      tags: join
+
+    - name: Join k8s nodes (kubeadm)
+      command:
+        cmd: kubeadm join --config /etc/kubernetes/node-config.yaml
+        creates: /etc/kubernetes/kubelet.conf
+      when: inventory_hostname in groups['k8s_nodes'] and controller_address is defined and controller_address != ""
+      tags: join
+
+    - name: create .kube directory
+      file:
+        path: .kube
+        state: directory
+      become: false
+      when: inventory_hostname in groups['k8s_controllers']
+      tags: controller
+
+    - name: Set up credentials on controller
+      copy:
+        src: /etc/kubernetes/admin.conf
+        dest: .kube/config
+        remote_src: true
+        owner: "{{ ansible_user }}"
+        group: "{{ ansible_user }}"
+      when: inventory_hostname in groups['k8s_controllers']
+      tags: controller
+
+    - name: See if Calico is set up
+      command: kubectl get namespace tigera-operator calico-system
+      become: false
+      failed_when: false
+      changed_when: false
+      register: calico_namespace
+      when: inventory_hostname in groups['k8s_controllers']
+      tags: calico
+
+    - name: Get temporary file name (calico)
+      tempfile:
+        state: file
+      become: false
+      register: calico_resource
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      tags: calico
+
+    - name: Create calico resource file
+      get_url:
+        dest: "{{ calico_resource.path }}"
+        url: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_latest['tag'] }}/manifests/custom-resources.yaml"
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      tags: calico
+
+    - name: Calico - set VXLan resource
+      replace:
+        path: "{{ calico_resource.path }}"
+        regexp: "encapsulation:\\s+VXLANCrossSubnet"
+        replace: "encapsulation: VXLAN"
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and vxlan | default(false) | bool == true  and calico_namespace.rc != 0
+      tags: calico
+
+    - name: Create MetalLB wait script
+      copy:
+        src: "{{ playbook_dir }}/k8s/metallb-wait.sh"
+        dest: /usr/local/bin/
+        mode: '755'
+
+    - name: Set up Calico, un-taint, MetalLB, metrics
+      command: "{{ item }}"
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      loop:
+        - "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/{{ calico_latest['tag'] }}/manifests/tigera-operator.yaml"
+        - "kubectl create -f {{ calico_resource.path }}"
+        - "kubectl taint nodes --all node-role.kubernetes.io/control-plane-"
+        - "kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml"
+        - "kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/{{ metallb_latest['tag'] }}/config/manifests/metallb-native.yaml"
+        - "/usr/local/bin/metallb-wait.sh"
+      tags: calico
+
+    - name: Remove calico resource file
+      file:
+        path: "{{ calico_resource.path }}"
+        state: absent
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      tags: calico
+
+    - name: Display cluster join command
+      debug: msg="{{ join_token.stdout | trim }}"
+      when: inventory_hostname in groups['k8s_controllers']
+      tags: join
 
   handlers:
     - name: Reload systemd

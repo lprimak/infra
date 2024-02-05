@@ -1,5 +1,5 @@
 - import_playbook: "{{ playbook_dir }}/common/configure-common.yaml"
-- hosts: docker:k8s
+- hosts: docker:k8s_controllers:k8s_nodes
   become: true
   vars:
     docker_base: https://download.docker.com/linux/centos
@@ -63,7 +63,7 @@
           [Service]
           ExecStart=
           ExecStart=/usr/bin/dockerd -H fd://
-          ExecStartPost=/usr/bin/docker run --privileged --rm tonistiigi/binfmt --install all
+          ExecStartPost=sh -c "/usr/bin/docker run --privileged --rm tonistiigi/binfmt --install all; exit 0"
       notify:
         - Reload systemd
         - Reload Docker

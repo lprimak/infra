@@ -1,7 +1,16 @@
 [all:vars]
 ansible_user = flowlogix
+# github_token = "{{ vault_github_token }}"
 
-[k8s]
+# controller_address = "{{ vault_controller_address }}"
+# join_token = "{{ vault_join_token }}"
+# cert_hash = "{{ vault_cert_hash }}"
+
+# vxlan = true
+
+[k8s_controllers]
 k8s-controller1.flowlogix.com
+
+[k8s_nodes]
 k8s-node1.flowlogix.com
 k8s-node2.flowlogix.com
