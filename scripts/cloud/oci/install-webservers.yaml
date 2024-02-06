@@ -21,16 +21,6 @@
         update_cache: yes
       notify: Reload Apache
 
-    - name: Open http(s) ports (firewall)
-      firewalld:
-        port: "{{ item }}/tcp"
-        state: enabled
-        immediate: true
-        permanent: true
-      loop:
-        - 80
-        - 443
-
     - name: Enable SeLinux content directory
       command: semanage fcontext -a -t httpd_sys_content_t "{{ content_dir }}(/.*)?"
       changed_when: false
