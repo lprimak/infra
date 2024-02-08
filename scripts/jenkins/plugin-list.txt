@@ -28,3 +28,4 @@ postgresql-api
 jacoco
 pipeline-utility-steps
 docker-workflow
+kubernetes
