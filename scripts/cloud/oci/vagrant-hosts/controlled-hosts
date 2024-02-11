@@ -5,8 +5,8 @@ github_token = "{{ vault_github_token }}"
 # vxlan = true
 
 [k8s_controllers]
-controller
+controller.hope.nyc.ny.us
 
 [k8s_nodes]
-node1
-node2
+node1.hope.nyc.ny.us
+node2.hope.nyc.ny.us
