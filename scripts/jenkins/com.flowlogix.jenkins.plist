@@ -8,6 +8,8 @@
     <string>com.flowlogix.jenkins</string>
     <key>KeepAlive</key>
     <true/>
+    <key>AbandonProcessGroup</key>
+    <true/>
     <key>ProgramArguments</key>
     <array>
       <string>/Users/software/infra/scripts/jenkins/run-jenkins.sh</string>
