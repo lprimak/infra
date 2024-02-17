@@ -120,6 +120,8 @@
         remote_src: true
         extra_opts:
           - --strip=1
+      notify:
+        - Reload cri-dockerd
 
     - name: Install cri-dockerd service
       copy:
