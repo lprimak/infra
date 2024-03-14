@@ -15,7 +15,7 @@ spec:
         app: payara
     spec:
       containers:
-      - image: payara/server-full
+      - image: lprimak/payara-full
         name: server-full
 ---
 apiVersion: v1
