@@ -12,8 +12,7 @@
         <profile>
             <id>jakarta-ee-version-override</id>
             <properties>
-                <jakartaee.version>10.0.0-lp-nov6</jakartaee.version>
-                <jakarta.ee.version>${jakartaee.version}</jakarta.ee.version>
+                <jakarta.ee.version>10.0.0-lp-nov6</jakarta.ee.version>
             </properties>
         </profile>
 
