@@ -27,8 +27,12 @@ maven_flags="-B -C -ntp -q"
 
 mvn $(echo $maven_flags) -f $SCRIPT_DIR/payara-download -Dpayara-version=${payara_version} -Dtemp-dir=$temp_dir
 
+sdk_use_jdk=""
 if [ -d $temp_dir/payara5 ]; then
     versioned_dir=payara5
+    sdk_use_jdk="[[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] \
+        && source "${HOME}/.sdkman/bin/sdkman-init.sh" \
+        && sdk use java 21.0.2-zulu"
 fi
 if [ -d $temp_dir/payara6 ]; then
     versioned_dir=payara6
@@ -53,15 +57,12 @@ if [ -d ${HOME}/apps/payara ]; then
 
     # Override Defaults
     SDKMAN_DIR="${HOME}/.sdkman"
-    [[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] && source "${HOME}/.sdkman/bin/sdkman-init.sh"
-    # sdk use java 11.0.14-zulu
-    AS_DEF_DOMAINS_PATH="\${HOME}/var/payara-domains"
-    AS_DEF_NODES_PATH="\${HOME}/var/payara-nodes"
     AS_ADMIN_PORT=1148
 EOF
-else
-    cat << EOF >> $target_dir/glassfish/config/asenv.conf
+fi
+
+cat << EOF >> $target_dir/glassfish/config/asenv.conf
     AS_DEF_DOMAINS_PATH="\${HOME}/var/payara-domains"
     AS_DEF_NODES_PATH="\${HOME}/var/payara-nodes"
+    $sdk_use_jdk
 EOF
-fi
