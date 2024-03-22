@@ -14,3 +14,5 @@ export_payara_from_builders
 
 docker_build lprimak/jenkins-agent:m3-p5-jdk$JAVA_VERSION agent.dockerfile \
     --build-arg MAVEN_MAJOR_VERSION=3 --build-arg PAYARA_VERSION=5
+docker_build lprimak/jenkins-agent:m4-p5-jdk$JAVA_VERSION agent.dockerfile \
+    --build-arg MAVEN_MAJOR_VERSION=4 --build-arg PAYARA_VERSION=5
