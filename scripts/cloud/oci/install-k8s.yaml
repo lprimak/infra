@@ -154,6 +154,10 @@
       register: calico_latest
       tags: calico
 
+    - name: Set Calico version
+      set_fact:
+        calico_version: "{{ calico_release | default(calico_latest['tag']) }}"
+
     - name: Download calicoctl binary
       get_url:
         url: >-
@@ -232,7 +236,7 @@
     - name: Create calico resource file
       get_url:
         dest: "{{ calico_resource.path }}"
-        url: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_latest['tag'] }}/manifests/custom-resources.yaml"
+        url: "https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/custom-resources.yaml"
       become: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
       tags: calico
@@ -257,7 +261,7 @@
       become: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
       loop:
-        - "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/{{ calico_latest['tag'] }}/manifests/tigera-operator.yaml"
+        - "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/tigera-operator.yaml"
         - "kubectl create -f {{ calico_resource.path }}"
         - "kubectl taint nodes --all node-role.kubernetes.io/control-plane-"
         - "kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml"
