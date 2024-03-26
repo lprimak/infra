@@ -1,12 +1,16 @@
 - import_playbook: "{{ playbook_dir }}/common/configure-common.yaml"
 - hosts: k8s_controllers:k8s_nodes
   become: true
+  collections:
+    - community.general
   vars:
     k8s_baseurl: https://pkgs.k8s.io/core:/stable:/v{{ k8s_version }}/rpm
     cri_dockerd_baseurl: https://github.com/Mirantis/cri-dockerd/releases/download
     calico_baseurl: https://github.com/projectcalico/calico/releases/download
     download_arch: "{{ (ansible_architecture == 'aarch64') | ternary('arm64', 'amd64') }}"
     k8s_sysctl_file: /etc/sysctl.d/k8s.conf
+    ceph_storage_size_override: "{{ ceph_storage_size | default('2G') }}"
+    ceph_storage_id_override: "{{ ceph_storage_id | default('naa.5001405d524c201a') }}"
 
   tasks:
     - name: include vars
@@ -30,6 +34,8 @@
           - kubelet
           - kubectl
           - python3-pip
+          - lvm2
+          - targetcli
         state: latest
         update_cache: yes
       notify:
@@ -165,17 +171,28 @@
         dest: /usr/local/bin/calicoctl
         mode: '755'
 
-    - name: Enable and Start CRI Docker
-      service:
-        name: 'cri-dockerd'
-        enabled: true
-        state: started
+    - name: Create Ceph storage script
+      template:
+        dest: /usr/local/bin/create-ceph-storage.sh
+        src: "{{ playbook_dir }}/k8s/create-ceph-storage.sh"
+        mode: '755'
+      tags: storage
 
-    - name: Enable and Start k8s
+    - name: Create Ceph storage
+      command: /usr/local/bin/create-ceph-storage.sh
+      args:
+        creates: /var/ceph_storage.img
+      tags: storage
+
+    - name: Enable and start K8s components
       service:
-        name: 'kubelet'
+        name: "{{ item }}"
         enabled: true
         state: started
+      loop:
+        - cri-dockerd
+        - kubelet
+        - target
 
     - name: Create k8s controller (kubeadm)
       command:
