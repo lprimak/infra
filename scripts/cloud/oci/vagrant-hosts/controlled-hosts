@@ -1,7 +1,7 @@
 [all:vars]
 ansible_user = vagrant
 github_token = "{{ vault_github_token }}"
-ceph_storage_size = 6G
+block_storage_size = 6G
 
 # vxlan = true
 

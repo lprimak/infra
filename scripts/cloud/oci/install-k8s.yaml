@@ -9,8 +9,8 @@
     calico_baseurl: https://github.com/projectcalico/calico/releases/download
     download_arch: "{{ (ansible_architecture == 'aarch64') | ternary('arm64', 'amd64') }}"
     k8s_sysctl_file: /etc/sysctl.d/k8s.conf
-    ceph_storage_size_override: "{{ ceph_storage_size | default('10G') }}"
-    ceph_storage_id_override: "{{ ceph_storage_id | default('naa.5001405d524c201a') }}"
+    block_storage_size_override: "{{ block_storage_size | default('10G') }}"
+    block_storage_id_override: "{{ block_storage_id | default('naa.5001405d524c201a') }}"
 
   tasks:
     - name: include vars
@@ -36,10 +36,18 @@
           - python3-pip
           - lvm2
           - targetcli
+          - iscsi-initiator-utils
+          - nfs-utils
+          - jq
         state: latest
         update_cache: yes
       notify:
         - Reload k8s
+
+    - name: Configure SCSI initiator
+      command:
+        cmd: echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi
+        creates: /etc/iscsi/initiatorname.iscsi
 
     - name: Create K8s configuration directory
       file:
@@ -117,6 +125,14 @@
         token: "{{ github_token | default('') }}"
       register: metallb_latest
 
+    - name: Obtain latest Longhorn release
+      github_release:
+        user: longhorn
+        repo: longhorn
+        action: latest_release
+        token: "{{ github_token | default('') }}"
+      register: longhorn_latest
+
     - name: Download cri-dockerd binary
       unarchive:
         src: >-
@@ -171,17 +187,18 @@
         dest: /usr/local/bin/calicoctl
         mode: '755'
 
-    - name: Create Ceph storage script
+    - name: Create Block storage script
       template:
-        dest: /usr/local/bin/create-ceph-storage.sh
-        src: "{{ playbook_dir }}/k8s/create-ceph-storage.sh"
+        dest: /usr/local/bin/create-block-storage.sh
+        src: "{{ playbook_dir }}/k8s/create-block-storage.sh"
         mode: '755'
       tags: storage
 
-    - name: Create Ceph storage
-      command: /usr/local/bin/create-ceph-storage.sh
+    - name: Create Block storage
+      command: /usr/local/bin/create-block-storage.sh
       args:
-        creates: /var/ceph_storage.img
+        creates: /var/block_storage.img
+      when: false
       tags: storage
 
     - name: Enable and start K8s components
@@ -193,8 +210,9 @@
         - cri-dockerd
         - kubelet
         - target
+        - iscsid
 
-    - name: Create k8s controller (kubeadm)
+    - name: Create k8s controller - kubeadm
       command:
         cmd: kubeadm init --config /etc/kubernetes/controller-config.yaml
         creates: /etc/kubernetes/admin.conf
@@ -208,7 +226,7 @@
       register: join_token
       tags: join
 
-    - name: Join k8s nodes (kubeadm)
+    - name: Join k8s nodes - kubeadm
       command:
         cmd: kubeadm join --config /etc/kubernetes/node-config.yaml
         creates: /etc/kubernetes/kubelet.conf
@@ -273,6 +291,11 @@
         dest: /usr/local/bin/
         mode: '755'
 
+    - name: Display cluster join command
+      debug: msg="{{ join_token.stdout | trim }}"
+      when: inventory_hostname in groups['k8s_controllers']
+      tags: join
+
     - name: Set up Calico, un-taint, MetalLB, metrics
       command: "{{ item }}"
       become: false
@@ -282,6 +305,7 @@
         - "kubectl create -f {{ calico_resource.path }}"
         - "kubectl taint nodes --all node-role.kubernetes.io/control-plane-"
         - "kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml"
+        - "kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/{{ longhorn_latest['tag'] }}/deploy/longhorn.yaml"
         - "kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/{{ metallb_latest['tag'] }}/config/manifests/metallb-native.yaml"
         - "/usr/local/bin/metallb-wait.sh"
       tags: calico
@@ -293,11 +317,6 @@
       become: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
       tags: calico
-
-    - name: Display cluster join command
-      debug: msg="{{ join_token.stdout | trim }}"
-      when: inventory_hostname in groups['k8s_controllers']
-      tags: join
 
   handlers:
     - name: Reload systemd
