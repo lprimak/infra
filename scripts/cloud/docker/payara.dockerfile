@@ -1,5 +1,6 @@
 # syntax = devthefuture/dockerfile-x
-FROM azul/zulu-openjdk-alpine:21-latest
+ARG JAVA_VERSION
+FROM azul/zulu-openjdk-alpine:${JAVA_VERSION}-latest
 
 INCLUDE payara-build.dockerfile
 RUN apk add --no-cache tini

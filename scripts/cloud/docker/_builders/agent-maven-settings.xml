@@ -19,8 +19,8 @@
         <profile>
             <id>graphene-version-override</id>
             <properties>
-                <arquillian.drone.version>3.0.0-alpha.8-lp-jan7</arquillian.drone.version>
-                <arquillian.graphene.version>3.0.0-alpha.4-lp-jan7</arquillian.graphene.version>
+                <arquillian.drone.version>3.0.0-alpha.8-lp-mar20</arquillian.drone.version>
+                <arquillian.graphene.version>3.0.0-alpha.4-lp-mar20</arquillian.graphene.version>
             </properties>
         </profile>
 

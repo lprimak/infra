@@ -26,22 +26,26 @@ function create_maven_builders() {
     else
         echo "Creating Maven Builders"
     fi
-    docker build -t maven-3-builder $SCRIPT_DIR/context --build-arg MAVEN_MAJOR_VERSION=3 \
-        --build-arg MAVEN_VERSION=$MAVEN_3_VERSION -f $SCRIPT_DIR/_builders/maven.dockerfile
-    docker build -t maven-4-builder $SCRIPT_DIR/context --build-arg MAVEN_MAJOR_VERSION=4 \
-        --build-arg MAVEN_VERSION=$MAVEN_4_VERSION -f $SCRIPT_DIR/_builders/maven.dockerfile
+    docker build -t maven-3-builder $SCRIPT_DIR/context --build-arg JAVA_VERSION=$JAVA_VERSION \
+        --build-arg MAVEN_MAJOR_VERSION=3 --build-arg MAVEN_VERSION=$MAVEN_3_VERSION \
+        -f $SCRIPT_DIR/_builders/maven.dockerfile
+    docker build -t maven-4-builder $SCRIPT_DIR/context --build-arg JAVA_VERSION=$JAVA_VERSION \
+        --build-arg MAVEN_MAJOR_VERSION=4 --build-arg MAVEN_VERSION=$MAVEN_4_VERSION \
+        -f $SCRIPT_DIR/_builders/maven.dockerfile
 }
 
 function create_payara_builders() {
     if [ -f $exports_dir/payara-5.tar.gz ]; then
-        echo "Maven Artifacts already created"
+        echo "Payara Artifacts already created"
         return 0
     else
         echo "Creating Payara Builders"
     fi
-    docker build -t payara-5-builder --build-arg PAYARA_VERSION=$PAYARA_5_VERSION \
+    docker build -t payara-5-builder --build-arg JAVA_VERSION=$JAVA_VERSION \
+        --build-arg PAYARA_VERSION=$PAYARA_5_VERSION \
         $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara.dockerfile
-    docker build -t payara-6-builder --build-arg PAYARA_VERSION=$PAYARA_6_VERSION \
+    docker build -t payara-6-builder --build-arg JAVA_VERSION=$JAVA_VERSION \
+        --build-arg PAYARA_VERSION=$PAYARA_6_VERSION \
         $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara.dockerfile
     docker build -t payara-default-domain $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara-domain.dockerfile
 }
