@@ -41,3 +41,7 @@ spec:
       name: admin
       port: 4848
       targetPort: 4848
+    - protocol: TCP
+      name: debug
+      port: 9009
+      targetPort: 9009

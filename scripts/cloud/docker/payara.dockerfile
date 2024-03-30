@@ -14,4 +14,4 @@ EXPOSE 4848 9009 8080 8181
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
-CMD ["sh", "-l", "-c", "asadmin start-domain -v"]
+CMD ["sh", "-l", "-c", "asadmin start-domain --debug -v"]
