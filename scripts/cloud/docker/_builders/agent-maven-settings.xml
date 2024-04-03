@@ -5,6 +5,7 @@
     <activeProfiles>
         <activeProfile>jakarta-ee-version-override</activeProfile>
         <activeProfile>graphene-version-override</activeProfile>
+        <activeProfile>payara-arquillian-version-override</activeProfile>
         <activeProfile>hope-repository</activeProfile>
     </activeProfiles>
 
@@ -21,6 +22,13 @@
             <properties>
                 <arquillian.drone.version>3.0.0-alpha.8-lp-mar31-2</arquillian.drone.version>
                 <arquillian.graphene.version>3.0.0-alpha.4-lp-mar31-2</arquillian.graphene.version>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>payara-arquillian-version-override</id>
+            <properties>
+                <arquillian.payara.version>3.0.alpha9-lp-feb9-2</arquillian.payara.version>
             </properties>
         </profile>
 
