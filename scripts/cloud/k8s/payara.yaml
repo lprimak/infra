@@ -17,6 +17,11 @@ spec:
       containers:
       - image: lprimak/payara-full
         name: server-full
+        resources:
+          requests:
+            memory: "1Gi"
+          limits:
+            memory: "1.5Gi"
 ---
 apiVersion: v1
 kind: Service
