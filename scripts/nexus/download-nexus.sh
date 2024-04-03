@@ -12,7 +12,7 @@ if [ -d $target_dir -o -f ${target_dir}.gz ]; then
     exit 1
 fi
 
-wget https://download.sonatype.com/nexus/3/nexus-${nexus_version}-unix.tar.gz -q -O ${target_dir}.gz
+wget https://download.sonatype.com/nexus/3/nexus-${nexus_version}-java11-unix.tar.gz -q -O ${target_dir}.gz
 if [ $? -ne 0 ]; then
     rm -f ${target_dir}.gz
     echo "Unable to download nexus"
