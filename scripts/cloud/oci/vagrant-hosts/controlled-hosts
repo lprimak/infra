@@ -2,6 +2,7 @@
 ansible_user = vagrant
 github_token = "{{ vault_github_token }}"
 block_storage_size = 6G
+dockerd_override_args = "-H tcp://0.0.0.0:2375"
 
 # vxlan = true
 
