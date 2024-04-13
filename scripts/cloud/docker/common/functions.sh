@@ -41,13 +41,20 @@ function create_payara_builders() {
     else
         echo "Creating Payara Builders"
     fi
+    if [ -z "$1" ]; then
+        payara_major_version=6
+    else
+        payara_major_version=$1
+    fi
     docker build -t payara-5-builder --build-arg JAVA_VERSION=$JAVA_VERSION \
         --build-arg PAYARA_VERSION=$PAYARA_5_VERSION \
         $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara.dockerfile
     docker build -t payara-6-builder --build-arg JAVA_VERSION=$JAVA_VERSION \
         --build-arg PAYARA_VERSION=$PAYARA_6_VERSION \
         $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara.dockerfile
-    docker build -t payara-default-domain $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara-domain.dockerfile
+    docker build -t payara-default-domain $SCRIPT_DIR/context \
+        --build-arg PAYARA_VERSION=$payara_major_version \
+        -f $SCRIPT_DIR/_builders/payara-domain.dockerfile
 }
 
 function copy_export() {

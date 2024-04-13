@@ -1,4 +1,5 @@
-FROM payara-6-builder
+ARG PAYARA_VERSION
+FROM payara-${PAYARA_VERSION}-builder
 
 ENV HOME=/
 ENV AS_ADMIN_USER=admin
