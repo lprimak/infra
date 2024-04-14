@@ -90,7 +90,11 @@ function docker_build() {
         --build-arg JAVA_VERSION=$JAVA_VERSION --push $@
 }
 
+function docker_push_tag() {
+    docker tag $1:$2 $1:$3
+    docker push $1:$3
+}
+
 function docker_push_latest() {
-    docker tag $1:$2 $1:latest
-    docker push $1:latest
+    docker_push_tag $1 $2 latest
 }

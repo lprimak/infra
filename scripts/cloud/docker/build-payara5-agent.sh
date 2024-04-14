@@ -20,3 +20,4 @@ docker_build lprimak/jenkins-agent:m3-p5-jdk$JAVA_VERSION agent.dockerfile \
 docker_build lprimak/jenkins-agent:m4-p5-jdk$JAVA_VERSION agent.dockerfile \
     --build-arg MAVEN_MAJOR_VERSION=4 --build-arg PAYARA_VERSION=5
 docker_build lprimak/payara-full:$PAYARA_5_VERSION-jdk$JAVA_VERSION payara.dockerfile --build-arg PAYARA_VERSION=5
+docker_push_tag lprimak/payara-full $PAYARA_5_VERSION-jdk$JAVA_VERSION 5-latest
