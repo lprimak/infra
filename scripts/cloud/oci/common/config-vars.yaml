@@ -12,5 +12,5 @@ sec_availability_domain: "wjxn:US-CHICAGO-1-AD-3"
 image_id: "ocid1.image.oc1.us-chicago-1.aaaaaaaaf5uzrnua5anuk3bxele3gqhi7szyt3hvkvvda4r5ytjbzzj7y7xq"
 
 # Versions
-k8s_version: 1.30
-pause_container_version: 3.9
+k8s_version: "1.30"
+pause_container_version: "3.9"
