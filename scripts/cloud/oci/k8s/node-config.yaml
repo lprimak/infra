@@ -12,6 +12,10 @@ discovery:
 apiVersion: kubelet.config.k8s.io/v1beta1
 kind: KubeletConfiguration
 failSwapOn: false
+systemReserved:
+  memory: 300Mi
+kubeReserved:
+  memory: 400Mi
 featureGates:
   NodeSwap: true
 memorySwap:
