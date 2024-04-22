@@ -16,7 +16,7 @@ RUN echo "AS_ADMIN_PASSWORD=admin" > /var/build/payara-passwordfile \
        do \
          asadmin delete-jvm-options $MEMORY_JVM_OPTION; \
        done \
-    && asadmin create-jvm-options '-XX\:+UseContainerSupport:-XX\:MaxRAMPercentage=80' \
+    && asadmin create-jvm-options '-XX\:+UseParallelGC:-XX\:MaxRAMPercentage=80' \
     && asadmin stop-domain \
     && rm -rf /var/payara-domains/default-domain/osgi-cache \
        /var/payara-domains/default-domain/logs && true \
