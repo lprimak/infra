@@ -6,7 +6,6 @@ RUN apk --update --no-cache add bash docker-cli git openssh-client firefox curl 
 
 INCLUDE maven-build.dockerfile
 INCLUDE payara-build.dockerfile
-INCLUDE firefox-build.dockerfile
 INCLUDE user-build.dockerfile
 
 RUN mkdir -p .m2/repository var/jenkins
