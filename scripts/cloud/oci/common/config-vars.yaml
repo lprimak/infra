@@ -9,7 +9,7 @@ web_test_host_name: "web test server"
 docker_test_host_name: "containers test server"
 web_availability_domain: "wjxn:US-CHICAGO-1-AD-2"
 sec_availability_domain: "wjxn:US-CHICAGO-1-AD-3"
-image_id: "ocid1.image.oc1.us-chicago-1.aaaaaaaaf5uzrnua5anuk3bxele3gqhi7szyt3hvkvvda4r5ytjbzzj7y7xq"
+image_id: "ocid1.image.oc1.us-chicago-1.aaaaaaaauhmq4sbvwyzkp6j7oznlovogcckt6tzxvdo24d2fpn7iv6jinzja"
 
 # Versions
 k8s_version: "1.30"
