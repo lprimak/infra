@@ -19,7 +19,6 @@
         <profile>
             <id>payara-arquillian-version-override</id>
             <properties>
-                <arquillian.payara.version>3.0.alpha9-lp-feb9-2</arquillian.payara.version>
                 <arquillian.payara5.version>2.5-lp-apr13</arquillian.payara5.version>
             </properties>
         </profile>
