@@ -17,6 +17,9 @@ spec:
       containers:
       - image: lprimak/payara-full
         name: server-full
+        env:
+          - name: RMI_SERVER_HOSTNAME
+            value: payara.local.hope.nyc.ny.us
         resources:
           requests:
             memory: "1Gi"
@@ -50,3 +53,11 @@ spec:
       name: debug
       port: 9009
       targetPort: 9009
+    - protocol: TCP
+      name: jmx-rmi
+      port: 9010
+      targetPort: 9010
+    - protocol: TCP
+      name: jmx-payara
+      port: 8686
+      targetPort: 8686

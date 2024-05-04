@@ -10,7 +10,8 @@ COPY --chown=$USER exports/default-domain.tar.gz /tmp
 RUN mkdir -p $HOME/var/payara-domains && tar zxf /tmp/default-domain.tar.gz -C $HOME/var/payara-domains/ \
     && rm -f /tmp/default-domain.tar.gz
 
-EXPOSE 4848 9009 8080 8181
+EXPOSE 4848 9009 8080 8181 8686 9010
+ENV RMI_SERVER_HOSTNAME=localhost
 
 ENTRYPOINT ["/sbin/tini", "--"]
 
