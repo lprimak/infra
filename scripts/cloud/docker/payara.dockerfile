@@ -12,6 +12,7 @@ RUN mkdir -p $HOME/var/payara-domains && tar zxf /tmp/default-domain.tar.gz -C $
 
 EXPOSE 4848 9009 8080 8181 8686 9010
 ENV RMI_SERVER_HOSTNAME=localhost
+ENV MAX_HEAP_SIZE=1g
 
 ENTRYPOINT ["/sbin/tini", "--"]
 

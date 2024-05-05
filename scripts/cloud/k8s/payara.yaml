@@ -18,6 +18,8 @@ spec:
       - image: lprimak/payara-full
         name: server-full
         env:
+          - name: MAX_HEAP_SIZE
+            value: 725m
           - name: RMI_SERVER_HOSTNAME
             value: payara.local.hope.nyc.ny.us
         resources:
