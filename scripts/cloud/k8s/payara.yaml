@@ -24,7 +24,7 @@ spec:
           requests:
             memory: "1Gi"
           limits:
-            memory: "1.5Gi"
+            memory: "4.5Gi"
 ---
 apiVersion: v1
 kind: Service
