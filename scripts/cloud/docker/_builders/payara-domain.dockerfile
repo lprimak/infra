@@ -16,7 +16,7 @@ RUN echo "AS_ADMIN_PASSWORD=admin" > /var/build/payara-passwordfile \
        do \
          asadmin delete-jvm-options $MEMORY_JVM_OPTION; \
        done \
-    && asadmin create-jvm-options '-XX\:+UseZGC:-XX\:+ZGenerational:-Xmx${ENV=MAX_HEAP_SIZE}' \
+    && asadmin create-jvm-options '${ENV=PAYARA_JVM_OPTIONS}:-Xmx${ENV=MAX_HEAP_SIZE}' \
     && asadmin create-jvm-options '-Dcom.sun.management.jmxremote.port=9010' \
     && asadmin create-jvm-options '-Dcom.sun.management.jmxremote.rmi.port=9010' \
     && asadmin create-jvm-options '-Dcom.sun.management.jmxremote.authenticate=false' \

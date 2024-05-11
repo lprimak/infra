@@ -20,6 +20,8 @@ spec:
         env:
           - name: MAX_HEAP_SIZE
             value: 725m
+          - name: PAYARA_JVM_OPTIONS
+            value: "-XX:+UseZGC -XX:+ZGenerational"
           - name: RMI_SERVER_HOSTNAME
             value: payara.local.hope.nyc.ny.us
           - name: PAYARA_ARGS
