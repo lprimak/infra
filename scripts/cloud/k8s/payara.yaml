@@ -74,16 +74,3 @@ spec:
       name: jmx-payara
       port: 8686
       targetPort: 8686
----
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: payara-applications
-  namespace: default
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: longhorn
-  resources:
-    requests:
-      storage: 100Mi
