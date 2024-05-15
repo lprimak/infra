@@ -1,4 +1,5 @@
 #!/bin/zsh -l
+source $HOME/.zshrc
 
 asadmin start-domain hope-website
 
