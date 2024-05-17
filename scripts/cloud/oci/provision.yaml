@@ -12,6 +12,8 @@
   tasks:
   - name: include vars
     include_vars: "{{ playbook_dir }}/common/config-vars.yaml"
+    tags:
+    - always
 
   - name: Create VCNs
     oci_network_vcn:
@@ -205,6 +207,16 @@
     register: docker_server
     tags:
       - docker
+
+  - name: Create Longhorn backup bucket
+    oci_object_storage_bucket:
+      namespace_name: "{{ bucket_namespace }}"
+      compartment_id: "{{ compartment_id }}"
+      name: 'LonghornBackup'
+      public_access_type: 'NoPublicAccess'
+      state: 'present'
+    tags:
+      - storage
 
   - name: Display IPs
     debug:

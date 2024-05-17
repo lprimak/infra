@@ -1,5 +1,6 @@
 # Provisioning
 compartment_id: "ocid1.tenancy.oc1..aaaaaaaajzdeabpe55pastcezhhjrqxopgyhvnjeqhi6hvjhvbeip7rl5e2a"
+bucket_namespace: "axodylgyhmsi"
 net_cidr_block: "10.0.0.0/24"
 web_network_name: "web server network"
 sec_network_name: "secure network"

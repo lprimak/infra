@@ -4,4 +4,5 @@ target/
 scripts/cloud/docker/context/
 scripts/cloud/oci/**/vault
 scripts/cloud/oci/**/volatile
+scripts/cloud/oci/**/*-secret.yaml
 **/.vagrant/

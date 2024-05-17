@@ -5,6 +5,8 @@
   tasks:
   - name: include vars
     include_vars: "{{ playbook_dir }}/common/config-vars.yaml"
+    tags:
+    - always
 
   - name: Look up Test Server(s)
     oci_compute_instance:
@@ -26,3 +28,13 @@
     no_log: true
     loop:
       "{{ servers.results }}"
+
+  - name: Remove Longhorn backup bucket
+    oci_object_storage_bucket:
+      namespace_name: "{{ bucket_namespace }}"
+      compartment_id: "{{ compartment_id }}"
+      name: 'LonghornBackup'
+      state: 'absent'
+    tags:
+      - storage
+      - never

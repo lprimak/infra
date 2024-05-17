@@ -1,0 +1,13 @@
+apiVersion: longhorn.io/v1beta2
+kind: Setting
+metadata:
+  namespace: longhorn-system
+  name: backup-target
+value: s3://LonghornBackup@us-chicago-1/
+---
+apiVersion: longhorn.io/v1beta2
+kind: Setting
+metadata:
+  namespace: longhorn-system
+  name: backup-target-credential-secret
+value: oci-secret
