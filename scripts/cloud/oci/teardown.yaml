@@ -33,7 +33,8 @@
     oci_object_storage_bucket:
       namespace_name: "{{ bucket_namespace }}"
       compartment_id: "{{ compartment_id }}"
-      name: 'LonghornBackup'
+      name: 'longhorn-backups'
+      force: yes
       state: 'absent'
     tags:
       - storage
