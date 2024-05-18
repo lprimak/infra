@@ -1,0 +1,11 @@
+## encrypt with ansible-vault before using
+## make sure it's not readable by group / other
+
+# GH token to prevent rate limiting
+vault_github_token: "github_pat_XXXX"
+
+vault_controller_address: "10.0.13.1"
+
+# These are returned from install-k8s playbook
+vault_join_token: "xxxxx.yyyyyy"
+vault_cert_hash: "sha256:XXXXX"

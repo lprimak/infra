@@ -1,0 +1,6 @@
+## Remove comment when controller node is installed and address is known,
+## so worker nodes can join
+# controller_address: "{{ vault_controller_address }}"
+
+join_token: "{{ vault_join_token }}"
+cert_hash: "{{ vault_cert_hash }}"
