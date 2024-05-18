@@ -1,0 +1,2 @@
+create-system-properties fish.payara.classloading.delegate=false
+deploy /home/flowlogix/var/payara-applications/ClassloaderDataAPI.war
