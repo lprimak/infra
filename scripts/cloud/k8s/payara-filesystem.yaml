@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: payara-filesystem
+spec:
+  containers:
+    - name: user-shell
+      image: lprimak/user-shell
+      command: [ "sleep" ]
+      args: [ "infinity" ]
+      volumeMounts:
+        - name: payara-applications
+          mountPath: /home/flowlogix/var/payara-applications
+  volumes:
+    - name: payara-applications
+      persistentVolumeClaim:
+        claimName: payara-applications
+  securityContext:
+    fsGroup: 1000
