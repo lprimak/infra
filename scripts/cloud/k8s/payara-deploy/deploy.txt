@@ -1,2 +1,3 @@
 create-system-properties fish.payara.classloading.delegate=false
+create-system-properties hope-db-username=lprimak
 deploy /home/flowlogix/var/payara-applications/ClassloaderDataAPI.war
