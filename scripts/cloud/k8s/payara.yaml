@@ -40,6 +40,14 @@ spec:
           claimName: payara-applications
       securityContext:
         fsGroup: 1000
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: "memory-sensitive"
+                operator: DoesNotExist
 ---
 apiVersion: v1
 kind: Service

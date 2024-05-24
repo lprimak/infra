@@ -307,6 +307,7 @@
         - "kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml"
         - "kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/{{ longhorn_latest['tag'] }}/deploy/longhorn.yaml"
         - "kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/{{ metallb_latest['tag'] }}/config/manifests/metallb-native.yaml"
+        - "kubectl label nodes {{ inventory_hostname_short }} memory-sensitive=true "
         - "/usr/local/bin/metallb-wait.sh"
       tags: calico
 
