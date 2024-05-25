@@ -34,10 +34,13 @@ spec:
         volumeMounts:
         - name: payara-applications
           mountPath: /home/flowlogix/var/payara-applications
+          readOnly: true
+          recursiveReadOnly: Enabled
       volumes:
       - name: payara-applications
         persistentVolumeClaim:
           claimName: payara-applications
+          readOnly: true
       securityContext:
         fsGroup: 1000
       affinity:
