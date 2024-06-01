@@ -1,13 +1,14 @@
 #!/bin/zsh
 
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 <version>"
+    echo "Usage: $0 <version> [distribution-package]"
     exit 1
 fi
 
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 
 payara_version=$1
+distribution_package=$2
 payara_basedir=${HOME}/apps/payara
 if [ ! -d ${HOME}/apps/payara ]; then
     payara_basedir=$PWD
@@ -25,7 +26,13 @@ cd $temp_dir
 
 maven_flags="-B -C -ntp -q"
 
-mvn $(echo $maven_flags) -f $SCRIPT_DIR/payara-download -Dpayara-version=${payara_version} -Dtemp-dir=$temp_dir
+if [ ! -z "$distribution_package" ]; then
+    distribution_package="-Dpayara.distributions.groupId=$distribution_package"
+fi
+
+mvn $(echo $maven_flags) -f $SCRIPT_DIR/payara-download \
+-Dpayara-version=${payara_version} $distribution_package \
+-Dtemp-dir=$temp_dir
 
 sdk_use_jdk=""
 if [ -d $temp_dir/payara5 ]; then

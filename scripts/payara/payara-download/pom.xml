@@ -8,8 +8,9 @@
     <name>payara-dependencies</name>
 
     <properties>
-        <temp-dir/>
+        <payara.distributions.groupId>fish.payara.distributions</payara.distributions.groupId>
         <payara-version>none</payara-version>
+        <temp-dir/>
     </properties>
 
     <dependencies>
@@ -74,7 +75,7 @@
                             <overWriteReleases>true</overWriteReleases>
                             <artifactItems>
                                 <artifactItem>
-                                    <groupId>fish.payara.distributions</groupId>
+                                    <groupId>${payara.distributions.groupId}</groupId>
                                     <artifactId>payara</artifactId>
                                     <version>${payara-version}</version>
                                     <type>zip</type>
