@@ -49,12 +49,15 @@ function create_payara_builders() {
     fi
     docker build -t payara-5-builder --build-arg JAVA_VERSION=$JAVA_VERSION \
         --build-arg PAYARA_VERSION=$PAYARA_5_VERSION \
+        --build-arg DISTRIBUTION_PACKAGE=$DISTRIBUTION_PACKAGE \
         $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara.dockerfile
     docker build -t payara-6-builder --build-arg JAVA_VERSION=$JAVA_VERSION \
         --build-arg PAYARA_VERSION=$PAYARA_6_VERSION \
+        --build-arg DISTRIBUTION_PACKAGE=$DISTRIBUTION_PACKAGE \
         $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara.dockerfile
     docker build -t payara-default-domain $SCRIPT_DIR/context \
         --build-arg PAYARA_VERSION=$payara_major_version \
+        --build-arg DISTRIBUTION_PACKAGE=$DISTRIBUTION_PACKAGE \
         -f $SCRIPT_DIR/_builders/payara-domain.dockerfile
 }
 
