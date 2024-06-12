@@ -7,8 +7,8 @@ Vagrant.configure("2") do |config|
         netmask: "255.255.0.0",
         ip: "10.0.13.1"
     controller.vm.provider "vmware_desktop" do |v|
-      v.vmx["memsize"] = "5120"
-      v.vmx["numvcpus"] = "4"
+      v.vmx["memsize"] = "3072"
+      v.vmx["numvcpus"] = "2"
     end
   end
 
@@ -18,6 +18,7 @@ Vagrant.configure("2") do |config|
         ip: "10.0.13.2"
     node1.vm.provider "vmware_desktop" do |v|
       v.vmx["memsize"] = "4096"
+      v.vmx["numvcpus"] = "2"
     end
     node1.vm.hostname = "node1"
   end
@@ -28,6 +29,7 @@ Vagrant.configure("2") do |config|
         ip: "10.0.13.3"
     node2.vm.provider "vmware_desktop" do |v|
       v.vmx["memsize"] = "4096"
+      v.vmx["numvcpus"] = "2"
     end
     node2.vm.hostname = "node2"
   end
