@@ -29,3 +29,6 @@
         name: firewalld
         state: stopped
         enabled: false
+
+    - name: Set timezone to Chicago
+      timezone: name=America/Chicago
