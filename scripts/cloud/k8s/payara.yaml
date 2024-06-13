@@ -23,7 +23,7 @@ spec:
           - name: PAYARA_JVM_OPTIONS
             value: "-XX:+UseZGC -XX:+ZGenerational"
           - name: RMI_SERVER_HOSTNAME
-            value: payara.local.hope.nyc.ny.us
+            value: payara.svc
           - name: PAYARA_ARGS
             value: "--postbootcommandfile /home/flowlogix/var/payara-applications/deploy.txt"
         resources:
