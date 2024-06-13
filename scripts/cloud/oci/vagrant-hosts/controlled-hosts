@@ -7,8 +7,8 @@ dockerd_override_args = "-H tcp://0.0.0.0:2375"
 # vxlan = true
 
 [k8s_controllers]
-controller.hope.nyc.ny.us
+controller
 
 [k8s_nodes]
-node1.hope.nyc.ny.us
-node2.hope.nyc.ny.us
+node1
+node2
