@@ -236,6 +236,7 @@
     - name: create .kube directory
       file:
         path: .kube
+        mode: '700'
         state: directory
       become: false
       when: inventory_hostname in groups['k8s_controllers']
@@ -245,6 +246,7 @@
       copy:
         src: /etc/kubernetes/admin.conf
         dest: .kube/config
+        mode: '600'
         remote_src: true
         owner: "{{ ansible_user }}"
         group: "{{ ansible_user }}"
