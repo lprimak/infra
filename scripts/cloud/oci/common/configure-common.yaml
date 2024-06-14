@@ -3,6 +3,10 @@
   vars:
     oci_hostname_conf_name: "/etc/oci-hostname.conf"
   tasks:
+    - name: include vars
+      include_vars: "{{ playbook_dir }}/config-vars.yaml"
+      tags: always
+
     - name: Check for OCI hostname file
       stat:
         path: "{{ oci_hostname_conf_name }}"
@@ -30,5 +34,5 @@
         state: stopped
         enabled: false
 
-    - name: Set timezone to Chicago
-      timezone: name=America/Chicago
+    - name: Set timezone
+      timezone: "name={{ timezone }}"

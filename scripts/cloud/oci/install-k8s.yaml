@@ -296,7 +296,32 @@
       when: inventory_hostname in groups['k8s_controllers']
       tags: join
 
-    - name: Set up Calico, un-taint, MetalLB, metrics
+    - name: Create local .kube directory
+      local_action:
+        module: file
+        path: ~/.kube
+        mode: '700'
+        state: directory
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+
+    - name: Copy cluster k8s configuration to local
+      fetch:
+        src: ~/.kube/config
+        dest: ~/.kube/config
+        flat: yes
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+
+    - name: Restrict local k8s configuration file
+      local_action:
+        module: file
+        path: ~/.kube/config
+        mode: '600'
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+
+    - name: Set up Calico and MetalLB
       command: "{{ item }}"
       become: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
@@ -304,11 +329,36 @@
         - "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/tigera-operator.yaml"
         - "kubectl create -f {{ calico_resource.path }}"
         - "kubectl taint nodes --all node-role.kubernetes.io/control-plane-"
+        - "kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/{{ metallb_latest['tag'] }}/config/manifests/metallb-native.yaml"
+        - "/usr/local/bin/metallb-wait.sh"
+      tags: calico
+
+    - name: Install TZ Helm repo
+      local_action:
+        module: command
+        cmd: "helm repo add k8tz https://k8tz.github.io/k8tz/"
+      become: false
+      changed_when: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      tags: tz
+
+    - name: Install TZ Helm chart
+      local_action:
+        module: command
+        cmd: "helm upgrade --install k8tz k8tz/k8tz --set timezone={{ timezone }}"
+      become: false
+      changed_when: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      tags: tz
+
+    - name: Un-taint, metrics, longhorn, labels
+      command: "{{ item }}"
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      loop:
         - "kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml"
         - "kubectl apply -f https://raw.githubusercontent.com/longhorn/longhorn/{{ longhorn_latest['tag'] }}/deploy/longhorn.yaml"
-        - "kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/{{ metallb_latest['tag'] }}/config/manifests/metallb-native.yaml"
         - "kubectl label nodes {{ inventory_hostname_short }} memory-sensitive=true "
-        - "/usr/local/bin/metallb-wait.sh"
       tags: calico
 
     - name: Remove calico resource file
