@@ -15,7 +15,7 @@ failSwapOn: false
 systemReserved:
   memory: 300Mi
 kubeReserved:
-  memory: 800Mi
+  memory: 500Mi
 featureGates:
   NodeSwap: true
 memorySwap:
