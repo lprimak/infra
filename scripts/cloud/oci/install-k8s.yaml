@@ -268,6 +268,14 @@
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
       tags: calico
 
+    - name: Get temporary file name (helm)
+      tempfile:
+        state: file
+      become: false
+      register: helm_resource
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      tags: helm
+
     - name: Create calico resource file
       get_url:
         dest: "{{ calico_resource.path }}"
@@ -333,23 +341,46 @@
         - "/usr/local/bin/metallb-wait.sh"
       tags: calico
 
+    - name: Download Helm creation script
+      get_url:
+        dest: "{{ helm_resource.path }}"
+        url: "https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3"
+        mode: '755'
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      tags: helm
+
+    - name: Install Helm
+      command:
+        cmd: "{{ helm_resource.path }}"
+        creates: /usr/local/bin/helm
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      tags: helm
+
     - name: Install TZ Helm repo
-      local_action:
-        module: command
-        cmd: "helm repo add k8tz https://k8tz.github.io/k8tz/"
+      command:
+        cmd: "helm repo add {{ item }}"
       become: false
       changed_when: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
-      tags: tz
+      loop:
+        - "k8tz https://k8tz.github.io/k8tz/"
+        - "kubernetes-dashboard https://kubernetes.github.io/dashboard/"
+      tags: helm
 
     - name: Install TZ Helm chart
-      local_action:
-        module: command
-        cmd: "helm upgrade --install k8tz k8tz/k8tz --set timezone={{ timezone }}"
+      command:
+        cmd: "helm upgrade --install {{ item }}"
       become: false
       changed_when: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
-      tags: tz
+      loop:
+        - "k8tz k8tz/k8tz --set timezone={{ timezone }}"
+        - |
+          kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace
+          --namespace kubernetes-dashboard --set=metricsScraper.enabled=true
+      tags: helm
 
     - name: Un-taint, metrics, longhorn, labels
       command: "{{ item }}"
@@ -361,13 +392,18 @@
         - "kubectl label nodes {{ inventory_hostname_short }} memory-sensitive=true "
       tags: calico
 
-    - name: Remove calico resource file
+    - name: Remove temporary resource files
       file:
-        path: "{{ calico_resource.path }}"
+        path: "{{ lookup('vars', item).path }}"
         state: absent
       become: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
-      tags: calico
+      loop:
+        - calico_resource
+        - helm_resource
+      tags:
+        - calico
+        - helm
 
   handlers:
     - name: Reload systemd
