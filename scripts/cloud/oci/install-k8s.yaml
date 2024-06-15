@@ -343,7 +343,7 @@
         - "/usr/local/bin/metallb-wait.sh"
       tags: calico
 
-    - name: Download Helm creation script
+    - name: Download Helm installation script
       get_url:
         dest: "{{ helm_resource.path }}"
         url: "https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3"
@@ -360,7 +360,7 @@
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
       tags: helm
 
-    - name: Install TZ Helm repo
+    - name: Add Helm repos
       command:
         cmd: "helm repo add {{ item }}"
       become: false
@@ -371,17 +371,19 @@
         - "kubernetes-dashboard https://kubernetes.github.io/dashboard/"
       tags: helm
 
-    - name: Install TZ Helm chart
+    - name: Install Helm charts
       command:
         cmd: "helm upgrade --install {{ item }}"
       become: false
       changed_when: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
       loop:
-        - "k8tz k8tz/k8tz --set timezone={{ timezone }}"
+        - |
+          k8tz k8tz/k8tz --create-namespace --namespace k8tz --set namespace=kubernetes-tz
+          --set timezone={{ timezone }}
         - |
           kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace
-          --namespace kubernetes-dashboard --set=metricsScraper.enabled=true
+          --namespace kubernetes-dashboard
       tags: helm
 
     - name: Un-taint, metrics, longhorn, labels
