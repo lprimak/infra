@@ -17,5 +17,4 @@ exec java -Xmx1g -XX:+UseZGC -XX:+ZGenerational \
 -DJENKINS_HOME=$HOME/var/jenkins \
 -Dhudson.security.ArtifactsPermission=true -DBLUEOCEAN_FEATURE_AUTOFAVORITE_ENABLED=false \
 -jar $jenkins_bin/jenkins.war --enable-future-java \
---httpPort=8088 --httpsPort=-1 --http2Port=-1 \
---extraLibFolder=$jenkins_bin "$@"
+--httpPort=8088 --httpsPort=-1 --http2Port=-1 "$@"
