@@ -47,8 +47,11 @@
 
     - name: Create docker systemd configuration directory
       file:
-        dest: /etc/systemd/system/docker.service.d/
+        dest: "{{ item }}"
         state: directory
+      loop:
+        - "/etc/systemd/system/docker.service.d/"
+        - "/etc/systemd/system/run-docker-.mount.d"
       tags: docker_config
 
     - name: Create docker configuration directory
@@ -65,6 +68,17 @@
           ExecStart=
           ExecStart=/usr/bin/dockerd -H fd:// {{ dockerd_args }}
           ExecStartPost=sh -c "/usr/bin/docker run --privileged --rm tonistiigi/binfmt --install all; exit 0"
+      notify:
+        - Reload systemd
+        - Reload Docker
+      tags: docker_config
+
+    - name: Silence mount logs (systemd)
+      copy:
+        dest: "/etc/systemd/system/run-docker-.mount.d/10-silence.conf"
+        content: |
+          [Mount]
+          LogLevelMax=0
       notify:
         - Reload systemd
         - Reload Docker
