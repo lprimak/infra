@@ -11,3 +11,11 @@ metadata:
   namespace: longhorn-system
   name: backup-target-credential-secret
 value: oci-secret
+---
+# Set backup poll interval to 12 hours
+apiVersion: longhorn.io/v1beta2
+kind: Setting
+metadata:
+  namespace: longhorn-system
+  name: backupstore-poll-interval
+value: "43200"
