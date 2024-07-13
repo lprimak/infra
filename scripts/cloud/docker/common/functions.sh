@@ -36,26 +36,24 @@ function create_maven_builders() {
 }
 
 function create_payara_builders() {
-    if [ -f $exports_dir/payara-5.tar.gz ]; then
-        echo "Payara Artifacts already created"
-        return 0
-    else
-        echo "Creating Payara Builders"
-    fi
     if [ -z "$1" ]; then
         payara_major_version=6
     else
         payara_major_version=$1
     fi
-    docker build -t payara-5-builder --build-arg JAVA_VERSION=$JAVA_VERSION \
-        --build-arg PAYARA_VERSION=$PAYARA_5_VERSION \
+    if [ -f $exports_dir/payara-${payara_major_version}.tar.gz ]; then
+        echo "Payara Artifacts already created"
+        return 0
+    else
+        echo "Creating Payara Builders"
+    fi
+    payara_version_variable=PAYARA_${payara_major_version}_VERSION
+    docker build -t payara-${payara_major_version}-builder --build-arg JAVA_VERSION=$JAVA_VERSION \
+        --build-arg PAYARA_VERSION=$(eval echo \$$payara_version_variable) \
+        --build-arg PAYARA_MAJOR_VERSION=$payara_major_version \
         --build-arg DISTRIBUTION_PACKAGE=$DISTRIBUTION_PACKAGE \
         $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara.dockerfile
-    docker build -t payara-6-builder --build-arg JAVA_VERSION=$JAVA_VERSION \
-        --build-arg PAYARA_VERSION=$PAYARA_6_VERSION \
-        --build-arg DISTRIBUTION_PACKAGE=$DISTRIBUTION_PACKAGE \
-        $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara.dockerfile
-    docker build -t payara-default-domain $SCRIPT_DIR/context \
+    docker build -t payara-${payara_major_version}-default-domain $SCRIPT_DIR/context \
         --build-arg PAYARA_VERSION=$payara_major_version \
         --build-arg DISTRIBUTION_PACKAGE=$DISTRIBUTION_PACKAGE \
         -f $SCRIPT_DIR/_builders/payara-domain.dockerfile
@@ -79,9 +77,8 @@ function export_maven_from_builders() {
 
 function export_payara_from_builders() {
     echo "Copying payara built products to $exports_dir"
-    copy_export payara-6-builder payara payara-6
-    copy_export payara-5-builder payara payara-5
-    copy_export payara-default-domain default-domain default-domain
+    copy_export payara-$1-builder payara payara-$1
+    copy_export payara-$1-default-domain default-domain default-domain-payara-$1
     echo "Finished copying built products"
 }
 
