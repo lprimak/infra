@@ -39,7 +39,7 @@ if [ -d $temp_dir/payara5 ]; then
     versioned_dir=payara5
     sdk_use_jdk="[[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] \
         && source "${HOME}/.sdkman/bin/sdkman-init.sh" \
-        && sdk use java 21.0.3-zulu"
+        && sdk use java 21.0.4-zulu"
 fi
 if [ -d $temp_dir/payara6 ]; then
     versioned_dir=payara6
