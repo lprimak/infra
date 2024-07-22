@@ -45,6 +45,11 @@ function create_payara_builders() {
         echo "Payara Artifacts already created"
         return 0
     else
+        docker images|grep -F maven-4-builder
+        if [ $? -ne 0 ]; then
+            rm -f $exports_dir/maven-3.tar.gz
+            create_maven_builders
+        fi
         echo "Creating Payara Builders"
     fi
     payara_version_variable=PAYARA_${payara_major_version}_VERSION
