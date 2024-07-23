@@ -8,4 +8,4 @@ container=$(docker create -it --rm \
 docker start $container
 $SCRIPT_DIR/install-container-infra.sh $container /root
 docker attach $container
-docker rmi docker-builder
+docker rmi --force docker-builder
