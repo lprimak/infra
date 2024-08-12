@@ -30,6 +30,6 @@ sed -e 's+-Xms.*+-Xms500m+g' \
 -e 's+-Xmx.*+-Xmx2703m+g' \
 -e '/-Xms.*/i\
 -XX:-MaxFDLimit' \
--e 's+../sonatype-work+${HOME}/var/sonatype-work+g' \
+-e $(eval echo 's+../sonatype-work+${HOME}/var/sonatype-work+g') \
 ${target_dir}/bin/nexus.vmoptions > ${target_dir}/bin/nexus.vmoptions.2
 mv ${target_dir}/bin/nexus.vmoptions.2 ${target_dir}/bin/nexus.vmoptions
