@@ -53,3 +53,13 @@ credentials:
           scope: GLOBAL
           username: "j+ydrgB6"
           usernameSecret: true
+      - string:
+          description: "FlowLogix GPG Signing Passphrase"
+          id: "8faf3947-efe5-4733-86d9-b3e08faa91d1"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAgWS3eib+gxjNXYdu2J8Rza1jfs9/gsFUh+wNKIfuHYkvNSTE/WD+xl+5gl/dzb5fI}"
+      - string:
+          description: "Apache GPG Signing Passphrase (lprimak@apache.org)"
+          id: "ddb50232-4f82-4f93-90cc-3e1a6b2a28da"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAgncaRlHKAVR5mlPNTkOZJlroKAZk3zJpN8OJhYdWs81jvxD9X1gnxK5Ex4h6rEX0l}"
