@@ -35,7 +35,7 @@ spec:
         - name: payara-applications
           mountPath: /home/flowlogix/var/payara-applications
           readOnly: true
-          recursiveReadOnly: Enabled
+          recursiveReadOnly: IfPossible
       volumes:
       - name: payara-applications
         persistentVolumeClaim:
