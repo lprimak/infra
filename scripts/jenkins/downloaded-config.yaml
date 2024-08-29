@@ -80,7 +80,7 @@ jenkins:
   - envVars:
       env:
       - key: "MAVEN_ADD_OPTIONS"
-        value: "-Dwebdriver.browser=firefox -Djava.preview.release=22"
+        value: "-Ddrone.browser=firefox -Djava.preview.release=22"
   labelAtoms:
   - name: "built-in"
   - name: "containers"
@@ -126,7 +126,7 @@ jenkins:
           - key: "GIT_CLONE_PROTECTION_ACTIVE"
             value: "false"
           - key: "MAVEN_OPTS"
-            value: " -Dwebdriver.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver "
+            value: " -Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver "
       numExecutors: 4
       remoteFS: "hope-node"
   numExecutors: 0
