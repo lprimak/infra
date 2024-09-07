@@ -115,7 +115,8 @@ jenkins:
           - key: "GIT_CLONE_PROTECTION_ACTIVE"
             value: "false"
           - key: "MAVEN_OPTS"
-            value: " -Dorg.slf4j.simpleLogger.log.org.apache.maven.internal.impl.resolver.DefaultArtifactDescriptorReader=error "
+            value: " -Dorg.slf4j.simpleLogger.log.org.apache.maven.internal.impl.resolver.DefaultArtifactDescriptorReader=error\
+              \ -Dmaven.build.cache.enabled=false "
       numExecutors: 4
       remoteFS: "containers-node"
   - permanent:
@@ -134,7 +135,8 @@ jenkins:
             value: "false"
           - key: "MAVEN_OPTS"
             value: " -Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
-              \ -Dorg.slf4j.simpleLogger.log.org.apache.maven.internal.impl.resolver.DefaultArtifactDescriptorReader=error "
+              \ -Dorg.slf4j.simpleLogger.log.org.apache.maven.internal.impl.resolver.DefaultArtifactDescriptorReader=error\
+              \ -Dmaven.build.cache.enabled=false "
       numExecutors: 4
       remoteFS: "hope-node"
   numExecutors: 0

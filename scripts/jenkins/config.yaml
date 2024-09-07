@@ -41,6 +41,7 @@ jenkins:
                 value: "\
                 \ -Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
                 \ -Dorg.slf4j.simpleLogger.log.org.apache.maven.internal.impl.resolver.DefaultArtifactDescriptorReader=error\
+                \ -Dmaven.build.cache.enabled=false\
                 \ "
               - key: "GIT_CLONE_PROTECTION_ACTIVE"
                 value: "false"
@@ -59,6 +60,7 @@ jenkins:
               - key: "MAVEN_OPTS"
                 value: "\
                 \ -Dorg.slf4j.simpleLogger.log.org.apache.maven.internal.impl.resolver.DefaultArtifactDescriptorReader=error\
+                \ -Dmaven.build.cache.enabled=false\
                 \ "
               - key: "GIT_CLONE_PROTECTION_ACTIVE"
                 value: "false"
