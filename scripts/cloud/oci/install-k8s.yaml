@@ -384,6 +384,7 @@
         - |
           kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace
           --namespace kubernetes-dashboard
+          --values https://raw.githubusercontent.com/kubernetes/dashboard/master/charts/kubernetes-dashboard/values.yaml
       tags: helm
 
     - name: Un-taint, metrics, longhorn, labels
