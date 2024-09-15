@@ -26,7 +26,7 @@
         <profile>
             <id>shrinkwrap-resolver-version-override</id>
             <properties>
-                <shrinkwrap.resolver.version>3.3.2-lp-sep14</shrinkwrap.resolver.version>
+                <shrinkwrap.resolver.version>3.3.2-lp-sep15</shrinkwrap.resolver.version>
             </properties>
         </profile>
 
