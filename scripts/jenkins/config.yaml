@@ -14,7 +14,7 @@ jenkins:
   - envVars:
       env:
       - key: "MAVEN_ADD_OPTIONS"
-        value: "-Ddrone.browser=firefox -Djava.preview.release=22"
+        value: "-Ddrone.browser=firefox -Djava.preview.release=23"
   views:
   - all:
       name: "all"
@@ -64,8 +64,6 @@ jenkins:
                 \ "
               - key: "GIT_CLONE_PROTECTION_ACTIVE"
                 value: "false"
-              - key: "MAVEN_ADD_OPTIONS"
-                value: "-Ddrone.browser=firefox -Djava.preview.release=23"
         mode: EXCLUSIVE
   slaveAgentPort: -1
 security:
