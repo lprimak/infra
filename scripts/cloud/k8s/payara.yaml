@@ -21,7 +21,7 @@ spec:
           - name: MAX_HEAP_SIZE
             value: 725m
           - name: PAYARA_JVM_OPTIONS
-            value: "-XX:+UseZGC -XX:+ZGenerational"
+            value: "-XX:+UseZGC"
           - name: RMI_SERVER_HOSTNAME
             value: payara.svc
           - name: PAYARA_ARGS

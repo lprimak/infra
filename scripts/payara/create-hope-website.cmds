@@ -1,7 +1,7 @@
 enable-secure-admin
 set configs.config.server-config.admin-service.das-config.dynamic-reload-enabled=false
 set configs.config.server-config.admin-service.das-config.autodeploy-enabled=false
-create-jvm-options -XX\\:+UseZGC:-XX\\:+ZGenerational
+create-jvm-options -XX\\:+UseZGC
 create-jvm-options -Dcom.sun.management.jmxremote.port=1190
 create-jvm-options -Dcom.sun.management.jmxremote.rmi.port=1190
 create-jvm-options -Dcom.sun.management.jmxremote.authenticate=false
