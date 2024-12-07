@@ -56,9 +56,6 @@ credentials:
           scope: GLOBAL
           secret: "{AQAAABAAAAAgncaRlHKAVR5mlPNTkOZJlroKAZk3zJpN8OJhYdWs81jvxD9X1gnxK5Ex4h6rEX0l}"
 jenkins:
-  agentProtocols:
-  - "JNLP4-connect"
-  - "Ping"
   authorizationStrategy:
     github:
       adminUserNames: "lprimak"
@@ -80,7 +77,7 @@ jenkins:
   - envVars:
       env:
       - key: "MAVEN_ADD_OPTIONS"
-        value: "-Ddrone.browser=firefox -Djava.preview.release=22"
+        value: "-Ddrone.browser=firefox -Djava.preview.release=23"
   labelAtoms:
   - name: "built-in"
   - name: "containers"
@@ -170,6 +167,7 @@ jenkins:
       - "lastFailure"
       - "lastDuration"
       - "buildButton"
+      - "coverageTotalsColumn"
       - "favoriteColumn"
       - "issueTotalsColumn"
       includeRegex: ".*"
@@ -218,6 +216,7 @@ security:
       \ java.lang.String java.lang.String java.lang.String java.lang.String"
     - "staticMethod io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration\
       \ getInstance"
+    forceSandbox: false
 unclassified:
   bitbucketEndpointConfiguration:
     endpoints:
