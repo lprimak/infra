@@ -55,6 +55,11 @@ credentials:
           id: "ddb50232-4f82-4f93-90cc-3e1a6b2a28da"
           scope: GLOBAL
           secret: "{AQAAABAAAAAgncaRlHKAVR5mlPNTkOZJlroKAZk3zJpN8OJhYdWs81jvxD9X1gnxK5Ex4h6rEX0l}"
+      - string:
+          description: "Maven Settings Master Password (nova / software)"
+          id: "a2decb6f-0847-4fa4-8cd1-57acee932efc"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAgQhrLyAaxkHbXqNP+GTNV8NLRH9ZEQUKkz28gRgT+UWnr7v5inVo4S4dJo+MuATel}"
 jenkins:
   authorizationStrategy:
     github:
