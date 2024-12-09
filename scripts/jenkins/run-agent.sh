@@ -44,7 +44,7 @@ while true; do
         continue
     fi
 
-    java -jar "$agent_path" \
+    MAVEN_SETTINGS_MASTER_PASSWORD=$(cat ~/var/secrets/maven-master-password) java -jar "$agent_path" \
         -url https://jenkins.hope.nyc.ny.us -name $1 -webSocket -noReconnect \
         -secret @$HOME/var/secrets/jenkins-agent -workDir "$HOME/var/jenkins/$1-node"
     sleep 1
