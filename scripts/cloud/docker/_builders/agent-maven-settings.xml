@@ -5,7 +5,6 @@
     <activeProfiles>
         <activeProfile>jakarta-ee-version-override</activeProfile>
         <activeProfile>payara-arquillian-version-override</activeProfile>
-        <activeProfile>shrinkwrap-resolver-version-override</activeProfile>
 
         <activeProfile>hope-repository</activeProfile>
     </activeProfiles>
@@ -15,13 +14,6 @@
             <id>jakarta-ee-version-override</id>
             <properties>
                 <jakarta.ee.version>10.0.0-lp-nov6</jakarta.ee.version>
-            </properties>
-        </profile>
-
-        <profile>
-            <id>shrinkwrap-resolver-version-override</id>
-            <properties>
-                <shrinkwrap.resolver.version>3.3.2-1</shrinkwrap.resolver.version>
             </properties>
         </profile>
 
