@@ -67,7 +67,7 @@
           [Service]
           ExecStart=
           ExecStart=/usr/bin/dockerd -H fd:// {{ dockerd_args }}
-          ExecStartPost=sh -c "/usr/bin/docker run --privileged --rm tonistiigi/binfmt --install all; exit 0"
+          ExecStartPost=sh -c "cat /proc/sys/fs/binfmt_misc/status; /usr/bin/docker run --privileged --rm tonistiigi/binfmt --install all; exit 0"
       notify:
         - Reload systemd
         - Reload Docker
