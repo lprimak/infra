@@ -1,3 +1,4 @@
+# syntax = devthefuture/dockerfile-x
 ENV USER=flowlogix
 RUN apt-get update && apt-get install -y sudo vim \
   && addgroup --gid 1000 $USER && addgroup --gid 900 docker \
@@ -6,4 +7,5 @@ RUN apt-get update && apt-get install -y sudo vim \
 
 USER $USER
 ENV HOME=/home/$USER
+INCLUDE java-options.dockerfile
 WORKDIR $HOME

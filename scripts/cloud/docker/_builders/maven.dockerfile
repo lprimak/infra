@@ -14,3 +14,4 @@ RUN mkdir -p /usr/share/maven /var/build && chmod a+rwx /var/build \
  && rm /tmp/apache-maven.tar.gz && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
 ENV MAVEN_HOME /usr/share/maven
+INCLUDE java-options.dockerfile

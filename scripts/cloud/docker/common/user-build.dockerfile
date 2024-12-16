@@ -1,3 +1,4 @@
+# syntax = devthefuture/dockerfile-x
 ENV USER=flowlogix
 RUN addgroup -g 1000 $USER && addgroup -g 900 docker \
   && adduser -u 1000 -G $USER -D -g "" $USER \
@@ -7,4 +8,5 @@ RUN addgroup -g 1000 $USER && addgroup -g 900 docker \
   && chmod 0440 /etc/sudoers.d/$USER
 USER $USER
 ENV HOME=/home/$USER
+INCLUDE java-options.dockerfile
 WORKDIR $HOME
