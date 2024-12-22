@@ -38,11 +38,7 @@ jenkins:
               - key: "CHROME_BINARY"
                 value: "^${HOME}/apps/google-chrome/97/Google Chrome.app/Contents/MacOS/Google Chrome"
               - key: "MAVEN_OPTS"
-                value: "\
-                \ -Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
-                \ -Dorg.slf4j.simpleLogger.log.org.apache.maven.internal.impl.resolver.DefaultArtifactDescriptorReader=error\
-                \ -Dmaven.build.cache.enabled=false\
-                \ "
+                value: "-Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver"
               - key: "GIT_CLONE_PROTECTION_ACTIVE"
                 value: "false"
     - permanent:
@@ -57,11 +53,6 @@ jenkins:
         nodeProperties:
         - envVars:
             env:
-              - key: "MAVEN_OPTS"
-                value: "\
-                \ -Dorg.slf4j.simpleLogger.log.org.apache.maven.internal.impl.resolver.DefaultArtifactDescriptorReader=error\
-                \ -Dmaven.build.cache.enabled=false\
-                \ "
               - key: "GIT_CLONE_PROTECTION_ACTIVE"
                 value: "false"
         mode: EXCLUSIVE
