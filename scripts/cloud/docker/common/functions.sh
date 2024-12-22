@@ -11,6 +11,7 @@ function setup() {
     infra/scripts/cloud/docker/_builders/geckodriver.sh \
     infra/scripts/cloud/docker/_builders/install-docker.sh \
     infra/scripts/cloud/docker/_builders/agent-maven-settings.xml \
+    infra/scripts/cloud/docker/_builders/agent-maven.properties \
     infra/scripts/cloud/docker/_builders/run-payara.sh
     do
       [ -f ~/$raw_dscr ] && dscr=~/$raw_dscr

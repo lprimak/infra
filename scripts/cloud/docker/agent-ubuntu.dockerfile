@@ -11,6 +11,7 @@ INCLUDE user-build-ubuntu.dockerfile
 RUN mkdir -p .m2/repository var/jenkins
 COPY --chown=$USER:$USER exports/repositor[y] .m2/repository/
 COPY --chown=$USER:$USER agent-maven-settings.xml .m2/settings.xml
+COPY --chown=$USER:$USER agent-maven.properties .m2/maven.properties
 
 ENTRYPOINT ["/usr/bin/tini", "--"]
 CMD ["bash", "-l"]
