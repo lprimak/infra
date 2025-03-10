@@ -26,7 +26,7 @@ asadmin create-password-alias com.flowlogix.cipher-key --passwordfile $HOME/var/
 
 asadmin create-system-properties cubus.config=$HOME/infra/etc/${cubusprops_file}.properties
 
-asadmin deploy --force --contextroot mail $HOME/apps/cubusmail/bin/cubusmail.war
+# asadmin deploy --force --contextroot mail $HOME/apps/cubusmail/bin/cubusmail.war
 asadmin deploy --force --contextroot jee-examples --availabilityenabled $HOME/apps/hope-apps/jee-examples.war
 asadmin deploy --force --name apps --availabilityenabled $HOME/apps/hope-apps/hope-apps.ear
 
