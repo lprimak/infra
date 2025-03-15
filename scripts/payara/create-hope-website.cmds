@@ -44,7 +44,7 @@ set resources.jdbc-resource.jdbc/__TimerPool.pool-name=PayaraTimerPool
 
 create-system-properties fish.payara.classloading.delegate=false
 
-create-system-properties hope-db-pool=java:app/jdbc/Hope
+create-system-properties hope-db-pool=java\\:app/jdbc/Hope
 create-system-properties hope-imap-host=mail.hope.nyc.ny.us
 create-system-properties hope-smtp-host=smtp.aceinnovative.com
 create-system-properties com.flowlogix.pam-service-name=sshd
