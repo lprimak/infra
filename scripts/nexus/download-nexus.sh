@@ -34,7 +34,6 @@ if [ $? -ne 0 ]; then
 fi
 
 gunzip -c ${nexus_tmp_dir}.gz | tar xf - -C $tmp_dir
-# ln -s ${HOME}/var/sonatype-work $target_dir/../sonatype-work
 
 sed -e 's+-Xms.*+-Xms500m+g' \
 -e 's+-Xmx.*+-Xmx2703m+g' \
