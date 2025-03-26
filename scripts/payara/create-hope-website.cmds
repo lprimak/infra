@@ -43,6 +43,7 @@ set resources.jdbc-connection-pool.PayaraTimerPool.property.password=none
 set resources.jdbc-resource.jdbc/__TimerPool.pool-name=PayaraTimerPool
 
 create-system-properties fish.payara.classloading.delegate=false
+create-system-properties fish.payara.war-beans-visible-in-ear-libs=true
 
 create-system-properties hope-db-pool=java\\:app/jdbc/Hope
 create-system-properties hope-imap-host=mail.hope.nyc.ny.us
