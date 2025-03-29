@@ -38,7 +38,7 @@ jenkins:
               - key: "CHROME_BINARY"
                 value: "^${HOME}/apps/google-chrome/97/Google Chrome.app/Contents/MacOS/Google Chrome"
               - key: "MAVEN_OPTS"
-                value: "-Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver"
+                value: "-Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver --sun-misc-unsafe-memory-access=allow"
               - key: "GIT_CLONE_PROTECTION_ACTIVE"
                 value: "false"
     - permanent:
