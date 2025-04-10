@@ -23,8 +23,14 @@ if [ -d $target_dir ]; then
 fi
 
 mkdir -p ${nexus_tmp_dir}
+
 wget https://download.sonatype.com/nexus/3/nexus-mac-aarch64-${nexus_version}.tar.gz -q \
 -O ${nexus_tmp_dir}.gz
+
+if [ $? -ne 0 ]; then
+    wget https://download.sonatype.com/nexus/3/nexus-${nexus_version}-mac-aarch_64.tar.gz -q \
+    -O ${nexus_tmp_dir}.gz
+fi
 
 if [ $? -ne 0 ]; then
     rm -rf ${tmp_dir}
