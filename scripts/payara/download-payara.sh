@@ -71,5 +71,6 @@ fi
 cat << EOF >> $target_dir/glassfish/config/asenv.conf
     AS_DEF_DOMAINS_PATH="\${HOME}/var/payara-domains"
     AS_DEF_NODES_PATH="\${HOME}/var/payara-nodes"
+    AS_EXTRA_JAVA_OPTS="--enable-native-access=ALL-UNNAMED"
     $sdk_use_jdk
 EOF
