@@ -77,12 +77,13 @@ jenkins:
       excludeClientIPFromCrumb: false
   disableRememberMe: false
   disabledAdministrativeMonitors:
+  - "OldData"
   - "hudson.util.DoubleLaunchChecker"
   globalNodeProperties:
   - envVars:
       env:
       - key: "MAVEN_ADD_OPTIONS"
-        value: "-Ddrone.browser=firefox -Djava.preview.release=23"
+        value: "-Ddrone.browser=firefox -Djava.preview.release=24"
   labelAtoms:
   - name: "built-in"
   - name: "containers"
@@ -116,9 +117,6 @@ jenkins:
           env:
           - key: "GIT_CLONE_PROTECTION_ACTIVE"
             value: "false"
-          - key: "MAVEN_OPTS"
-            value: " -Dorg.slf4j.simpleLogger.log.org.apache.maven.internal.impl.resolver.DefaultArtifactDescriptorReader=error\
-              \ -Dmaven.build.cache.enabled=false "
       numExecutors: 4
       remoteFS: "containers-node"
   - permanent:
@@ -136,9 +134,8 @@ jenkins:
           - key: "GIT_CLONE_PROTECTION_ACTIVE"
             value: "false"
           - key: "MAVEN_OPTS"
-            value: " -Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
-              \ -Dorg.slf4j.simpleLogger.log.org.apache.maven.internal.impl.resolver.DefaultArtifactDescriptorReader=error\
-              \ -Dmaven.build.cache.enabled=false "
+            value: "-Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
+              \ --sun-misc-unsafe-memory-access=allow"
       numExecutors: 4
       remoteFS: "hope-node"
   numExecutors: 0
