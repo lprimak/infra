@@ -4,7 +4,7 @@ FROM azul/zulu-openjdk-alpine:${JAVA_VERSION}-latest
 
 ARG MAVEN_MAJOR_VERSION
 ARG MAVEN_VERSION
-ARG BASE_URL=https://apache.osuosl.org/maven/maven-${MAVEN_MAJOR_VERSION}/${MAVEN_VERSION}/binaries
+ARG BASE_URL=https://dlcdn.apache.org/maven/maven-${MAVEN_MAJOR_VERSION}/${MAVEN_VERSION}/binaries
 
 RUN apk --update --no-cache add curl
 RUN mkdir -p /usr/share/maven /var/build && chmod a+rwx /var/build \
