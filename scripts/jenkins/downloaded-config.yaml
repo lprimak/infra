@@ -135,7 +135,7 @@ jenkins:
             value: "false"
           - key: "MAVEN_OPTS"
             value: "-Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
-              \ --sun-misc-unsafe-memory-access=allow"
+              \ -XX:+IgnoreUnrecognizedVMOptions --sun-misc-unsafe-memory-access=allow"
       numExecutors: 4
       remoteFS: "hope-node"
   numExecutors: 0
