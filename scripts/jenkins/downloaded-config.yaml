@@ -60,6 +60,12 @@ credentials:
           id: "a2decb6f-0847-4fa4-8cd1-57acee932efc"
           scope: GLOBAL
           secret: "{AQAAABAAAAAgQhrLyAaxkHbXqNP+GTNV8NLRH9ZEQUKkz28gRgT+UWnr7v5inVo4S4dJo+MuATel}"
+      - usernamePassword:
+          description: "GitHub - Private Repository Access"
+          id: "574af081-7c70-4e3f-8446-5f04a837a53f"
+          password: "{AQAAABAAAAAwT5/slHTCh1nlfbAU3VxQDWy79YvRDbNdoJehu9U1KYCJSSmgmMgaJLAK/7OEjsKpdok0abDtCrFWbxVVgPLdNQ==}"
+          scope: GLOBAL
+          username: "lprimak"
 jenkins:
   authorizationStrategy:
     github:
