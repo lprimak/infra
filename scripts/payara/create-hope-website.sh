@@ -29,5 +29,6 @@ asadmin create-system-properties cubus.config=$HOME/infra/etc/${cubusprops_file}
 # asadmin deploy --force --contextroot mail $HOME/apps/cubusmail/bin/cubusmail.war
 asadmin deploy --force --contextroot jee-examples --availabilityenabled $HOME/apps/hope-apps/jee-examples.war
 asadmin deploy --force --name apps --availabilityenabled $HOME/apps/hope-apps/hope-apps.ear
+asadmin deploy --force --name logbook --availabilityenabled $HOME/apps/hope-apps/logbook.war
 
 asadmin restart-domain ${domain_name}
