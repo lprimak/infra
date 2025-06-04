@@ -28,7 +28,7 @@ create-jdbc-connection-pool --resType=javax.sql.DataSource --datasourceClassname
 set resources.jdbc-connection-pool.PayaraPool.connection-validation-method=auto-commit
 set resources.jdbc-connection-pool.PayaraPool.is-connection-validation-required=true
 set resources.jdbc-connection-pool.PayaraPool.fail-all-connections=true
-set resources.jdbc-connection-pool.PayaraPool.property.url=jdbc:postgresql://nova.hope.nyc.ny.us/hope?sslmode=disable
+set resources.jdbc-connection-pool.PayaraPool.property.url=jdbc:postgresql://db.hope.nyc.ny.us/hope?sslmode=disable
 set resources.jdbc-connection-pool.PayaraPool.property.user=payara
 set resources.jdbc-connection-pool.PayaraPool.property.password=none
 set resources.jdbc-resource.jdbc/__default.pool-name=PayaraPool
@@ -37,7 +37,7 @@ create-jdbc-connection-pool --resType=javax.sql.XADataSource --datasourceClassna
 set resources.jdbc-connection-pool.PayaraTimerPool.connection-validation-method=auto-commit
 set resources.jdbc-connection-pool.PayaraTimerPool.is-connection-validation-required=true
 set resources.jdbc-connection-pool.PayaraTimerPool.fail-all-connections=true
-set resources.jdbc-connection-pool.PayaraTimerPool.property.url=jdbc:postgresql://nova.hope.nyc.ny.us/hope?sslmode=disable
+set resources.jdbc-connection-pool.PayaraTimerPool.property.url=jdbc:postgresql://db.hope.nyc.ny.us/hope?sslmode=disable
 set resources.jdbc-connection-pool.PayaraTimerPool.property.user=payara
 set resources.jdbc-connection-pool.PayaraTimerPool.property.password=none
 set resources.jdbc-resource.jdbc/__TimerPool.pool-name=PayaraTimerPool
@@ -45,8 +45,8 @@ set resources.jdbc-resource.jdbc/__TimerPool.pool-name=PayaraTimerPool
 create-system-properties fish.payara.classloading.delegate=false
 
 create-system-properties hope-db-pool=java\\:app/jdbc/Hope
-create-system-properties hope-imap-host=mail.hope.nyc.ny.us
-create-system-properties hope-smtp-host=smtp.aceinnovative.com
+create-system-properties hope-imap-host=mail.flowlogix.com
+create-system-properties hope-smtp-host=smtp.flowlogix.com
 create-system-properties com.flowlogix.pam-service-name=sshd
 
 enable-asadmin-recorder
