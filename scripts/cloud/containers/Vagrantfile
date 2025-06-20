@@ -1,0 +1,16 @@
+Vagrant.configure("2") do |config|
+  config.vm.box = "almalinux/10"
+  config.vm.network "public_network"
+  config.vm.synced_folder "#{ENV['HOME']}/apps/immich", "/vagrant/immich"
+
+  config.vm.define "local-containers", primary: true do |containers|
+    containers.vm.hostname = "local-containers"
+    containers.vm.provider "vmware_desktop" do |v|
+      v.vmx["memsize"] = "4096"
+      v.vmx["numvcpus"] = "2"
+    end
+  end
+
+  config.vm.provision "shell", run: "once", path: "https://raw.githubusercontent.com/lprimak/infra/main/scripts/cloud/local/install-provisioner.sh"
+  config.vm.provision "shell", run: "once", path: "https://raw.githubusercontent.com/lprimak/infra/main/scripts/cloud/local/vagrant-provision.sh"
+end
