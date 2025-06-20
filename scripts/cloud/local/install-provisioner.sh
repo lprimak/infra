@@ -13,6 +13,7 @@ cat <<EOF > /etc/systemd/system/vagrant-provision.service
   WantedBy=multi-user.target
 EOF
 
-cp /vagrant/vagrant-provision.sh /usr/local/bin/vagrant-provision.sh
+curl https://raw.githubusercontent.com/lprimak/infra/main/scripts/cloud/local/vagrant-provision.sh \
+--silent -o /usr/local/bin/vagrant-provision.sh
 chmod +x /usr/local/bin/vagrant-provision.sh
 systemctl enable -q vagrant-provision.service
