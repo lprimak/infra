@@ -4,9 +4,10 @@ hostname=$(hostname)
 current_ip_addr=$(ip -4 addr show eth1 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
 
 case "$hostname" in
-  controller) ip_suffix="1" ;;
-  node1)      ip_suffix="2" ;;
-  node2)      ip_suffix="3" ;;
+  controller)           ip_suffix="1" ;;
+  node1)                ip_suffix="2" ;;
+  node2)                ip_suffix="3" ;;
+  local-containers)     ip_suffix="4" ;;
   *)          echo "Unknown hostname"; exit 1 ;;
 esac
 
