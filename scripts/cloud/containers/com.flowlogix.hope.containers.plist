@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.flowlogix.hope.website</string>
+    <string>com.flowlogix.hope.containers</string>
     <key>UserName</key>
     <string>software</string>
     <key>ProgramArguments</key>
