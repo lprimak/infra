@@ -14,5 +14,5 @@ image_id: "ocid1.image.oc1.us-chicago-1.aaaaaaaauhmq4sbvwyzkp6j7oznlovogcckt6tzx
 timezone: "America/Chicago"
 
 # Versions
-k8s_version: "1.31"
-pause_container_version: "3.9"
+k8s_version: "1.33"
+pause_container_version: "3.10"

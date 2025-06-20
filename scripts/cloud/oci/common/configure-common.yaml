@@ -28,6 +28,14 @@
       changed_when: false
       when: oci_hostname_conf.stat.exists
 
+    - name: Ensure yum-utils and firewalld is installed
+      package:
+        name:
+          - yum-utils
+          - firewalld
+        state: present
+      when: ansible_facts['os_family'] == 'RedHat'
+
     - name: Disable Host Firewall
       service:
         name: firewalld

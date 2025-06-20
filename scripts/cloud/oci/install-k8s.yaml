@@ -34,6 +34,7 @@
           - kubelet
           - kubectl
           - python3-pip
+          - python3-packaging
           - lvm2
           - targetcli
           - iscsi-initiator-utils
@@ -48,6 +49,7 @@
       command:
         cmd: echo "InitiatorName=$(/sbin/iscsi-iname)" > /etc/iscsi/initiatorname.iscsi
         creates: /etc/iscsi/initiatorname.iscsi
+      changed_when: false
 
     - name: Create K8s configuration directory
       file:
@@ -331,12 +333,27 @@
       become: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
 
+    - name: Set up Calico Operator
+      command: "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/tigera-operator.yaml"
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      tags: calico
+
+    - name: Wait for Calico CRDs to exist
+      command: kubectl get crd installations.operator.tigera.io
+      register: calico_crd_check
+      retries: 10
+      delay: 3
+      until: calico_crd_check.rc == 0
+      become: false
+      when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
+      tags: calico
+
     - name: Set up Calico and MetalLB
       command: "{{ item }}"
       become: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
       loop:
-        - "kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/{{ calico_version }}/manifests/tigera-operator.yaml"
         - "kubectl create -f {{ calico_resource.path }}"
         - "kubectl taint nodes --all node-role.kubernetes.io/control-plane-"
         - "kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/{{ metallb_latest['tag'] }}/config/manifests/metallb-native.yaml"

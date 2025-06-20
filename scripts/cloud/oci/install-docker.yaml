@@ -3,7 +3,7 @@
   become: true
   vars:
     docker_base: https://download.docker.com/linux/centos
-    os_version: 9
+    os_version: 10
     dockerd_args: "{{ dockerd_override_args | default('') }}"
 
   tasks:

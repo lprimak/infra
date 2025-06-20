@@ -3,7 +3,7 @@
 kubectl wait --for jsonpath='{.status.phase}=Active' --timeout=10s namespace/metallb-system
 for i in $(seq 1 10);
 do
-    kubectl get svc -n metallb-system webhook-service >/dev/null
+    kubectl get svc -n metallb-system metallb-webhook-service >/dev/null
     test $? -eq 0 && break
     sleep 1
 done
