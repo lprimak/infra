@@ -13,6 +13,3 @@ controller
 [k8s_nodes]
 node1
 node2
-
-[docker]
-local-containers
