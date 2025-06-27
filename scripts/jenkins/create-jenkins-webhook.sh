@@ -43,8 +43,8 @@ KEY_ID=$(echo "$public_key_response" | jq -r .key_id)
 PUBLIC_KEY=$(echo "$public_key_response" | jq -r .key)
 
 # Encrypt the secret using the public key (requires python and PyNaCl)
-# pip3 install pynacl
-ENCRYPTED_VALUE=$(python3 -c "
+python -c "import nacl" 2>/dev/null || pip install pynacl
+ENCRYPTED_VALUE=$(python -c "
 import sys, base64
 from nacl import encoding, public
 key = public.PublicKey(base64.b64decode('$PUBLIC_KEY'), encoding.RawEncoder())
