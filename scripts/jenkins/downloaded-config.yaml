@@ -67,16 +67,80 @@ credentials:
           username: "lprimak"
 jenkins:
   authorizationStrategy:
-    github:
-      adminUserNames: "lprimak"
-      allowAnonymousJobStatusPermission: false
-      allowAnonymousReadPermission: true
-      allowCcTrayPermission: false
-      allowGithubWebHookPermission: true
-      authenticatedUserCreateJobPermission: false
-      authenticatedUserReadPermission: true
-      organizationNames: "flowlogix"
-      useRepositoryPermissions: false
+    roleBased:
+      permissionTemplates:
+      - name: "user-template"
+        permissions:
+        - "Job/Cancel"
+        - "Run/Delete"
+        - "Job/Build"
+        - "Run/Update"
+        - "Run/Artifacts"
+        - "Job/Read"
+        - "Job/Workspace"
+        - "Run/Replay"
+        - "Job/ViewStatus"
+      roles:
+        agents:
+        - entries:
+          - user: "gh2fl"
+          - user: "markprimak"
+          name: "all-agents"
+          pattern: ".*"
+          permissions:
+          - "Agent/Build"
+          - "Metrics/View"
+        global:
+        - entries:
+          - user: "lprimak"
+          name: "admin"
+          pattern: ".*"
+          permissions:
+          - "Overall/Administer"
+        - entries:
+          - user: "anonymous"
+          name: "anon"
+          pattern: ".*"
+          permissions:
+          - "Overall/Read"
+          - "Job/ViewStatus"
+        items:
+        - entries:
+          - user: "anonymous"
+          name: "anon"
+          pattern: ".*ee-integration.*"
+          permissions:
+          - "Job/Read"
+        - entries:
+          - user: "gh2fl"
+          name: "gh2fl"
+          pattern: "(?i).*gh2fl.*"
+          permissions:
+          - "Job/Cancel"
+          - "Run/Delete"
+          - "Job/Build"
+          - "Run/Update"
+          - "Run/Artifacts"
+          - "Job/Read"
+          - "Job/Workspace"
+          - "Run/Replay"
+          - "Job/ViewStatus"
+          templateName: "user-template"
+        - entries:
+          - user: "markprimak"
+          name: "mark"
+          pattern: "(?i).*mark-prim.*"
+          permissions:
+          - "Job/Cancel"
+          - "Run/Delete"
+          - "Job/Build"
+          - "Run/Update"
+          - "Run/Artifacts"
+          - "Job/Read"
+          - "Job/Workspace"
+          - "Run/Replay"
+          - "Job/ViewStatus"
+          templateName: "user-template"
   crumbIssuer:
     standard:
       excludeClientIPFromCrumb: false
@@ -146,7 +210,9 @@ jenkins:
   primaryView:
     all:
       name: "all"
-  projectNamingStrategy: "standard"
+  projectNamingStrategy:
+    roleBased:
+      forceExistingJobs: false
   quietPeriod: 5
   remotingSecurity:
     enabled: true
@@ -154,7 +220,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAw0BqPGCgo6yuCauw4lIxqoG1DWk3FBJrDL5XbKwkb71yCD/1ZysozIBTMQFJqgXbZku5po0oZn2GyGiLpexU19A==}"
+      clientSecret: "{AQAAABAAAAAwEPztyCBcMPB/t2Dv4os2pps6pTTh2cUZnrW5D8x1WktqWLLg7k3mL8K/c8kwPZ3Q/T7iiElFIQIoW1XqR5m1fg==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
