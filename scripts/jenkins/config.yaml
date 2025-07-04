@@ -30,6 +30,7 @@ jenkins:
             pattern: ".*"
             permissions:
               - "Overall/Administer"
+              - "Run/Artifacts"
           - entries:
               - user: "anonymous"
             name: "anon"
