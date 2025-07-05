@@ -1,14 +1,16 @@
 #!/bin/bash -p
 
-if [[ $# -ne 3 ]]; then
-  echo "Usage: $0 <repository_relative_path> <gh_token> <secret>"
-  echo "Example: $0 gh_user/my_repo <gh_token> \$( < ~/var/secrets/jenkins-webhook-secret )"
+if [[ $# -ne 1 ]]; then
+  echo "Usage: $0 <repository_relative_path>"
+  echo "Example: $0 gh_user/my_repo"
   exit 1
 fi
 
 REPO="$1"
-GH_TOKEN="$2"
-SECRET="$3"
+read -rsp "Enter your GitHub token: " GH_TOKEN
+echo
+read -rsp "Enter your webhook secret: " SECRET
+echo
 
 curl -sS -X POST "https://api.github.com/repos/${REPO}/hooks" \
   -H "Authorization: Bearer $GH_TOKEN" \
