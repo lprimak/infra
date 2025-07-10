@@ -115,7 +115,7 @@ jenkins:
         - entries:
           - user: "anonymous"
           name: "anon"
-          pattern: ".*ee-integration|flowlogix-org-repo.*"
+          pattern: ".*ee-integration($|/.*)|flowlogix-org-repo.*"
           permissions:
           - "Job/Read"
         - entries:
