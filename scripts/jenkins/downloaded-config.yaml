@@ -209,7 +209,8 @@ jenkins:
           - key: "GIT_CLONE_PROTECTION_ACTIVE"
             value: "false"
           - key: "MAVEN_OPTS"
-            value: "-Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver"
+            value: "-Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver\
+              \ -XX:+IgnoreUnrecognizedVMOptions --sun-misc-unsafe-memory-access=allow"
       numExecutors: 4
       remoteFS: "hope-node"
   numExecutors: 0
