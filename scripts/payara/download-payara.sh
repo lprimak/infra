@@ -7,8 +7,6 @@ fi
 
 SCRIPT_DIR="$(dirname "$(readlink -f "$0")")"
 
-export MAVEN_OPTS="-XX:+IgnoreUnrecognizedVMOptions --sun-misc-unsafe-memory-access=allow"
-
 payara_version=$1
 distribution_package=$2
 payara_basedir=${HOME}/apps/payara
