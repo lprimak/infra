@@ -10,7 +10,7 @@ web_test_host_name: "web test server"
 docker_test_host_name: "containers test server"
 web_availability_domain: "wjxn:US-CHICAGO-1-AD-2"
 sec_availability_domain: "wjxn:US-CHICAGO-1-AD-3"
-image_id: "ocid1.image.oc1.us-chicago-1.aaaaaaaauhmq4sbvwyzkp6j7oznlovogcckt6tzxvdo24d2fpn7iv6jinzja"
+image_id: "ocid1.image.oc1.us-chicago-1.aaaaaaaarth4ajbp464qwkcwfmzqkzmgamnuiuot354oe437quz7dt47g2gq"
 timezone: "America/Chicago"
 
 # Versions
