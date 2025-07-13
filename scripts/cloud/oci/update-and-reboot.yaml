@@ -16,8 +16,21 @@
       failed_when: reboot_required.rc != 0 and reboot_required.rc != 1
       check_mode: false
       register: reboot_required
+      tags: reboot
+
+    - name: Check if /vagrant directory exists
+      stat:
+        path: /vagrant
+      register: vagrant_dir
+      tags: reboot
 
     - name: Reboot if required
       reboot:
-      when: reboot_required.rc == 1
+      when: reboot_required.rc == 1 and not vagrant_dir.stat.exists
+      tags: reboot
+
+    - name: "WARNING: Check if vagrant prevents reboot"
+      debug:
+        msg: "[WARNING] A reboot *MAY* be required but vagrant prevents this for {{ inventory_hostname }}: {{ reboot_required.stdout}} "
+      when: reboot_required.rc == 1 and vagrant_dir.stat.exists
       tags: reboot
