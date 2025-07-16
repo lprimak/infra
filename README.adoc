@@ -1,0 +1,55 @@
+= Project Documentation
+
+This project contains scripts and configuration files for managing infrastructure, including services like Docker, Kubernetes, Jenkins, and Nexus.
+
+== Overview
+
+The repository is organized into the following main directories:
+
+- `etc/`: Configuration files for services like `haproxy` and `httpd`.
+- `scripts/`: Contains various scripts for managing applications, cloud infrastructure, and services.
+
+== Scripts
+
+The `scripts/` directory includes the following subdirectories:
+
+- `apps/`: Scripts for deploying and managing applications.
+- `cloud/`: Scripts for managing cloud infrastructure, including Docker and Kubernetes.
+- `jenkins/`: Scripts and configuration for setting up and managing a Jenkins instance.
+- `nexus/`: Scripts for managing a Nexus repository.
+- `payara/`: Scripts for setting up and managing a Payara server.
+- `postgres/`: Scripts for managing a PostgreSQL database.
+- `ssl/`: Scripts for managing SSL certificates.
+
+=== Jenkins
+
+To set up a new Jenkins instance, follow these steps:
+
+1. Run `install-plugins.sh` to install the necessary plugins.
+2. Restore any existing files into `~/var/jenkins`.
+3. Set up Configuration-as-Code by running `config-security-once.yaml` followed by `config.yaml`.
+4. Create a Job DSL seed job to generate Jenkins jobs.
+
+For more details, refer to the `scripts/jenkins/README` file.
+
+=== Nexus
+
+To start Nexus using `launchd`, run the following commands:
+
+```
+$ launchctl load com.flowlogix.hope.nexus.plist
+$ launchctl start com.flowlogix.hope.nexus
+```
+
+To stop the service, use:
+
+```
+$ launchctl stop com.flowlogix.hope.nexus
+$ launchctl unload com.flowlogix.hope.nexus.plist
+```
+
+For more information, see the `scripts/nexus/README` file.
+
+== Contributing
+
+To contribute to this project, please follow the existing coding style and conventions. Ensure that any changes are well-documented and tested before submitting a pull request.
