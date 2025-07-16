@@ -26,27 +26,18 @@ The `scripts/` directory includes the following subdirectories:
 To set up a new Jenkins instance, follow these steps:
 
 1. Run `install-plugins.sh` to install the necessary plugins.
-2. Restore any existing files into `~/var/jenkins`.
-3. Set up Configuration-as-Code by running `config-security-once.yaml` followed by `config.yaml`.
-4. Create a Job DSL seed job to generate Jenkins jobs.
+2. Set up Configuration-as-Code by running `config-security-once.yaml` followed by `config.yaml`.
+3. Create a Job DSL seed job to generate Jenkins jobs.
 
 For more details, refer to the `scripts/jenkins/README` file.
 
 === Nexus
 
-To start Nexus using `launchd`, run the following commands:
+To start/stop Nexus using `launchd`, run the following commands (macOS):
 
-```
-$ launchctl load com.flowlogix.hope.nexus.plist
-$ launchctl start com.flowlogix.hope.nexus
-```
-
-To stop the service, use:
-
-```
-$ launchctl stop com.flowlogix.hope.nexus
-$ launchctl unload com.flowlogix.hope.nexus.plist
-```
+----
+$ launchctl (un)load -w /Library/LaunchDaemons/com.flowlogix.hope.nexus.plist
+----
 
 For more information, see the `scripts/nexus/README` file.
 
