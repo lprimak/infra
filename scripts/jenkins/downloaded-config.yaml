@@ -136,7 +136,7 @@ jenkins:
         - entries:
           - user: "markprimak"
           name: "mark"
-          pattern: "(?i).*mark-prim.*"
+          pattern: "(?i).*ee-docs($|/.*)|mark-prim.*"
           permissions:
           - "Job/Cancel"
           - "Run/Delete"
