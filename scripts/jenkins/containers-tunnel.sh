@@ -1,4 +1,4 @@
 #!/bin/zsh -p
 
-exec ssh -N containers exit
-exec ssh -N local-containers exit
+ssh -N containers exit
+sshpass -p 'vagrant' ssh -N local-containers exit
