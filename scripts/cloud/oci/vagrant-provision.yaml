@@ -1,7 +1,0 @@
-- import_playbook: "{{ playbook_dir }}/common/configure-common.yaml"
-- hosts: k8s_controllers:k8s_nodes
-  become: true
-  tasks:
-    - name: Run provisioner script
-      script: "{{ playbook_dir }}/../local/provision.sh"
-      changed_when: false
