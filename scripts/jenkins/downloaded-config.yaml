@@ -260,6 +260,10 @@ globalCredentialsConfiguration:
     providerFilter: "none"
     typeFilter: "none"
 appearance:
+  coverage:
+    defaultMetric: LINE
+    defaultName: "Coverage"
+    enableColumnByDefault: true
   pipelineGraphView:
     showGraphOnBuildPage: false
     showGraphOnJobPage: false
@@ -267,6 +271,10 @@ appearance:
     showStageNames: false
   prism:
     theme: PRISM
+  warnings:
+    defaultName: "# Issues"
+    defaultType: TOTAL
+    enableColumnByDefault: true
 security:
   apiToken:
     creationOfLegacyTokenEnabled: false
