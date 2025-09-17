@@ -1,5 +1,5 @@
 # syntax = devthefuture/dockerfile-x
-ARG JAVA_VERSION
+ARG JAVA_VERSION=21
 FROM azul/zulu-openjdk-alpine:${JAVA_VERSION}-latest
 
 ARG MAVEN_MAJOR_VERSION
@@ -13,5 +13,5 @@ RUN mkdir -p /usr/share/maven /var/build && chmod a+rwx /var/build \
  && tar zcf /var/build/maven.tar.gz -C /usr/share maven \
  && rm /tmp/apache-maven.tar.gz && ln -s /usr/share/maven/bin/mvn /usr/bin/mvn
 
-ENV MAVEN_HOME /usr/share/maven
+ENV MAVEN_HOME=/usr/share/maven
 INCLUDE java-options.dockerfile
