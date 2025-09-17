@@ -39,21 +39,21 @@ credentials:
       - usernamePassword:
           description: "website ftp credentials"
           id: "8695b924-52bd-4fc2-9752-42041489b734"
-          password: "{AQAAABAAAAAgxZOC/rwoxgT6K/QGs/qi+TFY+ZDKkmQ0ak3EpN3YALfGyWavTXB02whwFf3vKSkA}"
+          password: "{AQAAABAAAAAgrVjfUJ+fWo0v9qHNOzUFrfbkxtA0gZXBzfo8YWl1kLhiO4eUxPgpRDT0hZZetGQh}"
           scope: GLOBAL
           username: "lprimak"
           usernameSecret: true
       - usernamePassword:
           description: "Jenkins Database username (no password)"
           id: "9e238cbe-c0cc-4221-a4fb-1d2d8dc5fe1c"
-          password: "{AQAAABAAAAAQ67fLSDIPUS8nuqTUyfxeG3t1RV1sjZd1VTlKOBA/Kh4=}"
+          password: "{AQAAABAAAAAQVGacaJRI9ULmBWEzxMAXh+p/kll27irdmL8mD7T2/OI=}"
           scope: GLOBAL
           username: "jenkins"
           usernameSecret: true
       - usernamePassword:
           description: "FlowLogix Sonatype Nexus Maven Central Token"
           id: "0e35c931-3275-426a-95bf-a0c21279d013"
-          password: "{AQAAABAAAAAwzqK1BzNiFiHnKFbM1QgfXldShBprMtSlRl8Rr5RPKjmDa3IAYKhoNiRkPPsEijBcMo+mQWx7f1HCZI9OFrogfg==}"
+          password: "{AQAAABAAAAAw94TqM2PByy4rFKpz9+pcUvkfQCWHeTmIQjF40i/qJ5XH3yyxhA2Y4aoBUTwuVxb5/rjfPeNPwSK3eVnCwDy/cw==}"
           scope: GLOBAL
           username: "j+ydrgB6"
           usernameSecret: true
@@ -75,7 +75,7 @@ credentials:
       - usernamePassword:
           description: "GitHub - Private Repository Access"
           id: "574af081-7c70-4e3f-8446-5f04a837a53f"
-          password: "{AQAAABAAAAAwG1BtZfOVXvgI9HJZWucVKCSOhCZLjfL42cpolKKP0wnh5leEtbvIvf1/csjtRNp9OWLt1k5/VGzAzbCGGwB//w==}"
+          password: "{AQAAABAAAAAwd4N8lSK0mtrWNL2Rt35CG9ksC7vVqXdc2m4mOTi4wbeNlffPtLRzNhHOADwXXl5lPeYA5UVOV7ULciWCFepp1Q==}"
           scope: GLOBAL
           username: "lprimak"
 jenkins:
@@ -235,7 +235,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwwJA8DkX0dLwZdFszfWjQJIrjCqcIjj4d4IggZPWSHXMmoMKMAgEsvd4xE/hgiuE/5ZGtM4x/641Lz9XB1Hg5rg==}"
+      clientSecret: "{AQAAABAAAAAwXasny5ZYFFTAEJciYXkjM0etW8hotaOxuCtH5fxl5e4fheHGcJtlMn+5qJapKMbVJ7lhKdZP4+rwapB4UgGynA==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
@@ -319,10 +319,12 @@ unclassified:
     endpoints:
     - bitbucketCloudEndpoint:
         enableCache: false
-        enableHookSignature: false
-        manageHooks: false
         repositoriesCacheDuration: 0
         teamCacheDuration: 0
+        webhook:
+          cloudWebhook:
+            enableHookSignature: false
+            manageHooks: false
   buildDiscarders:
     configuredBuildDiscarders:
     - simpleBuildDiscarder:
@@ -348,6 +350,7 @@ unclassified:
       name: "FlowLogix WebHook Auth"
     hookSecretConfigs:
     - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
+      signatureAlgorithm: "SHA256"
     hookUrl: "https://jenkins.hope.nyc.ny.us/github-webhook/"
   globalDefaultFlowDurabilityLevel:
     durabilityHint: PERFORMANCE_OPTIMIZED
