@@ -39,21 +39,21 @@ credentials:
       - usernamePassword:
           description: "website ftp credentials"
           id: "8695b924-52bd-4fc2-9752-42041489b734"
-          password: "{AQAAABAAAAAgrVjfUJ+fWo0v9qHNOzUFrfbkxtA0gZXBzfo8YWl1kLhiO4eUxPgpRDT0hZZetGQh}"
+          password: "{AQAAABAAAAAgWNJL6SRWX5UYw1xUQBRTJmK+R5G+RlS5CX4fQK1+UxBaGDypiioj0YqxBW1dpHCf}"
           scope: GLOBAL
           username: "lprimak"
           usernameSecret: true
       - usernamePassword:
           description: "Jenkins Database username (no password)"
           id: "9e238cbe-c0cc-4221-a4fb-1d2d8dc5fe1c"
-          password: "{AQAAABAAAAAQVGacaJRI9ULmBWEzxMAXh+p/kll27irdmL8mD7T2/OI=}"
+          password: "{AQAAABAAAAAQp3UWQ/yxLmT43nUeZPjug46ZFsfRn2Q5jUyjOfYnuvw=}"
           scope: GLOBAL
           username: "jenkins"
           usernameSecret: true
       - usernamePassword:
           description: "FlowLogix Sonatype Nexus Maven Central Token"
           id: "0e35c931-3275-426a-95bf-a0c21279d013"
-          password: "{AQAAABAAAAAw94TqM2PByy4rFKpz9+pcUvkfQCWHeTmIQjF40i/qJ5XH3yyxhA2Y4aoBUTwuVxb5/rjfPeNPwSK3eVnCwDy/cw==}"
+          password: "{AQAAABAAAAAwd/hqgsnN/cSTHOK8fkgsCKt5EixhULHzhm+SbMQ7hTLgkIqCFU5L/7uvEEXlwxjMLEQLjhsTzHAAMMQCLzcg5A==}"
           scope: GLOBAL
           username: "j+ydrgB6"
           usernameSecret: true
@@ -75,7 +75,7 @@ credentials:
       - usernamePassword:
           description: "GitHub - Private Repository Access"
           id: "574af081-7c70-4e3f-8446-5f04a837a53f"
-          password: "{AQAAABAAAAAwd4N8lSK0mtrWNL2Rt35CG9ksC7vVqXdc2m4mOTi4wbeNlffPtLRzNhHOADwXXl5lPeYA5UVOV7ULciWCFepp1Q==}"
+          password: "{AQAAABAAAAAwERACESOmRGLoqdxfAZ7Y/0KPdaWfgA/rnbx9Tyfx7E+3FgOgpQJwdYOmKmUZk6ot2NzemEFrnbk0Be/cCBQGcg==}"
           scope: GLOBAL
           username: "lprimak"
 jenkins:
@@ -167,7 +167,7 @@ jenkins:
   - envVars:
       env:
       - key: "MAVEN_ADD_OPTIONS"
-        value: "-Ddrone.browser=firefox -Djava.preview.release=24"
+        value: "-Ddrone.browser=firefox -Djava.preview.release=25"
   labelAtoms:
   - name: "built-in"
   - name: "containers"
@@ -235,7 +235,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwXasny5ZYFFTAEJciYXkjM0etW8hotaOxuCtH5fxl5e4fheHGcJtlMn+5qJapKMbVJ7lhKdZP4+rwapB4UgGynA==}"
+      clientSecret: "{AQAAABAAAAAwmu2h7ta2ck/cYU+Wtsi116BpdxcUgbrgOjfpHK2vwwxReYJnIaGeog6o77Z8Uyz1KS6n7HvGWDUBVHF3rVWtEQ==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
