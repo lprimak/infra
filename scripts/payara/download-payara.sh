@@ -21,7 +21,7 @@ if [ -d $target_dir ]; then
     exit 1
 fi
 
-mkdir -p $temp_dir/pgjdbc $temp_dir/updates
+mkdir -p $temp_dir/jdbc $temp_dir/updates
 cd $temp_dir
 
 maven_flags="-B -C -ntp -q"
@@ -45,11 +45,11 @@ if [ -d $temp_dir/payara6 ]; then
     versioned_dir=payara6
 fi
 
-mv $temp_dir/post* $temp_dir/pgjdbc
+mv $temp_dir/post* $temp_dir/sqlite* $temp_dir/jdbc
 mv $temp_dir/asm* $temp_dir/updates
 mv $temp_dir/org.eclipse* $temp_dir/updates
 
-mv $temp_dir/pgjdbc/* $temp_dir/${versioned_dir}/glassfish/lib
+mv $temp_dir/jdbc/* $temp_dir/${versioned_dir}/glassfish/lib
 modules_dir=$temp_dir/${versioned_dir}/glassfish/modules
 mv $temp_dir/updates/* $modules_dir
 
