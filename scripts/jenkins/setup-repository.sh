@@ -28,7 +28,7 @@ curl -sS -X POST "https://api.github.com/repos/${REPO}/hooks" \
     "repository"
   ],
   "config": {
-    "url": "https://jenkins.hope.nyc.ny.us/github-webhook/",
+    "url": "https://jenkins.flowlogix.com/github-webhook/",
     "content_type": "json",
     "secret": "$SECRET"
   }

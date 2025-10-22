@@ -30,7 +30,7 @@ while true; do
 
     if [ ! -e "$agent_path" ] || (( agent_time <= week_ago )); then
         echo "Downloading Agent ..."
-        curl -s https://jenkins.hope.nyc.ny.us/jnlpJars/agent.jar -o "$agent_path"
+        curl -s https://jenkins.flowlogix.com/jnlpJars/agent.jar -o "$agent_path"
         if [ $(wc -c <"$agent_path") -lt 100000 ]; then
             echo "Agent download failed"
             rm -f $agent_path
@@ -45,7 +45,7 @@ while true; do
     fi
 
     MAVEN_SETTINGS_MASTER_PASSWORD=$(cat ~/var/secrets/maven-master-password) java -jar "$agent_path" \
-        -url https://jenkins.hope.nyc.ny.us -name $1 -webSocket -noReconnect \
+        -url https://jenkins.flowlogix.com -name $1 -webSocket -noReconnect \
         -secret @$HOME/var/secrets/jenkins-agent -workDir "$HOME/var/jenkins/$1-node"
     sleep 1
 done
