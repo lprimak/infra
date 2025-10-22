@@ -29,7 +29,7 @@
             <repositories>
                 <repository>
                     <id>hope-repository</id>
-                    <url>https://nexus.hope.nyc.ny.us/repository/maven-releases</url>
+                    <url>https://nexus.flowlogix.com/repository/maven-releases</url>
                     <releases>
                         <enabled>true</enabled>
                         <checksumPolicy>fail</checksumPolicy>
