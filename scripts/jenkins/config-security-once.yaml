@@ -58,13 +58,6 @@ credentials:
           scope: GLOBAL
           username: "jenkins"
           usernameSecret: true
-      - usernamePassword:
-          description: "FlowLogix Sonatype Nexus Maven Central Token"
-          id: "0e35c931-3275-426a-95bf-a0c21279d013"
-          password: "{AQAAABAAAAAw3h8IJW0peHdW9LvH8LbdAuw6UAtVemuRdyIJ/d5wRyDRas+WkZKm0qhOb2PUy6r0cAFXnWOunwYJtlHK/wJIjg==}"
-          scope: GLOBAL
-          username: "j+ydrgB6"
-          usernameSecret: true
       - string:
           description: "FlowLogix GPG Signing Passphrase"
           id: "8faf3947-efe5-4733-86d9-b3e08faa91d1"
