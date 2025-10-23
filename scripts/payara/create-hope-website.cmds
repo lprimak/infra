@@ -21,6 +21,7 @@ set configs.config.server-config.http-service.access-log.max-history-files=50
 set configs.config.server-config.http-service.access-log.write-interval-seconds=30
 
 set configs.config.server-config.http-service.virtual-server.server.docroot=\${user.home}/var/website-content
+set configs.config.server-config.http-service.virtual-server.server.access-log=\${user.home}/var/website-logs
 
 create-custom-resource --resType=java.lang.String --factoryClass=org.glassfish.resources.custom.factory.PrimitivesAndStringFactory faces/ProjectStage
 set resources.custom-resource.faces/ProjectStage.property.value=Production
