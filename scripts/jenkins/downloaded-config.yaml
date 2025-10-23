@@ -1,4 +1,12 @@
+configuration-as-code: {
+  }
 credentials:
+  blueOcean: {
+    }
+  folder: {
+    }
+  providerImpl: {
+    }
   system:
     domainCredentials:
     - credentials:
@@ -39,21 +47,21 @@ credentials:
       - usernamePassword:
           description: "website ftp credentials"
           id: "8695b924-52bd-4fc2-9752-42041489b734"
-          password: "{AQAAABAAAAAgWNJL6SRWX5UYw1xUQBRTJmK+R5G+RlS5CX4fQK1+UxBaGDypiioj0YqxBW1dpHCf}"
+          password: "{AQAAABAAAAAgAYFUGuyMwvHGsHT3L6a8AF3k7vMqTcVqOmox5aHG4zZRtWnFJyioi8u2uUcX+OYj}"
           scope: GLOBAL
           username: "lprimak"
           usernameSecret: true
       - usernamePassword:
           description: "Jenkins Database username (no password)"
           id: "9e238cbe-c0cc-4221-a4fb-1d2d8dc5fe1c"
-          password: "{AQAAABAAAAAQp3UWQ/yxLmT43nUeZPjug46ZFsfRn2Q5jUyjOfYnuvw=}"
+          password: "{AQAAABAAAAAQwyEoTV75APiw7tjDbs6SsHCIkVA75YKOWAilVke//gs=}"
           scope: GLOBAL
           username: "jenkins"
           usernameSecret: true
       - usernamePassword:
           description: "FlowLogix Sonatype Nexus Maven Central Token"
           id: "0e35c931-3275-426a-95bf-a0c21279d013"
-          password: "{AQAAABAAAAAwd/hqgsnN/cSTHOK8fkgsCKt5EixhULHzhm+SbMQ7hTLgkIqCFU5L/7uvEEXlwxjMLEQLjhsTzHAAMMQCLzcg5A==}"
+          password: "{AQAAABAAAAAwnoAQ3v4uihF1gRuT33PUNX8LWg5lhbwkFGGTaR8lk44YcLrkMExEt6XnWgV3DyJmbSISi8hbOqeSZ5yZAS/PAw==}"
           scope: GLOBAL
           username: "j+ydrgB6"
           usernameSecret: true
@@ -75,9 +83,13 @@ credentials:
       - usernamePassword:
           description: "GitHub - Private Repository Access"
           id: "574af081-7c70-4e3f-8446-5f04a837a53f"
-          password: "{AQAAABAAAAAwERACESOmRGLoqdxfAZ7Y/0KPdaWfgA/rnbx9Tyfx7E+3FgOgpQJwdYOmKmUZk6ot2NzemEFrnbk0Be/cCBQGcg==}"
+          password: "{AQAAABAAAAAwffbjWaQFM2x/pkg51TgKYPOyQ7c20uNmgw3ImaSph4pHrzIiF2YLwaqoVa/tC2EoYoP2gA8DnHTepnXcD68gbA==}"
           scope: GLOBAL
           username: "lprimak"
+      domain: {
+        }
+  user: {
+    }
 jenkins:
   authorizationStrategy:
     roleBased:
@@ -173,6 +185,8 @@ jenkins:
   - name: "containers"
   - name: "docker-agent"
   - name: "nova"
+  log: {
+    }
   markupFormatter: "plainText"
   mode: NORMAL
   nodeMonitors:
@@ -235,7 +249,7 @@ jenkins:
   securityRealm:
     github:
       clientID: "617b74bd0af85c99f9bb"
-      clientSecret: "{AQAAABAAAAAwmu2h7ta2ck/cYU+Wtsi116BpdxcUgbrgOjfpHK2vwwxReYJnIaGeog6o77Z8Uyz1KS6n7HvGWDUBVHF3rVWtEQ==}"
+      clientSecret: "{AQAAABAAAAAw12xzUfzwujygO72FSlL30J1eDkWTAJtnsxgwc0Uf7XNFOfgCTB2O6Ff1jMDjEwSjmwoKiAj1d0ITn+A1SYCaiA==}"
       githubApiUri: "https://api.github.com"
       githubWebUri: "https://github.com"
       oauthScopes: "read:org,user:email,repo"
@@ -268,6 +282,8 @@ globalCredentialsConfiguration:
     providerFilter: "none"
     typeFilter: "none"
 appearance:
+  consoleUrlProvider: {
+    }
   coverage:
     defaultMetric: LINE
     defaultName: "Coverage"
@@ -288,8 +304,12 @@ security:
     creationOfLegacyTokenEnabled: false
     tokenGenerationOnCreationEnabled: false
     usageStatisticsEnabled: true
+  apiTokenProperty: {
+    }
   cps:
     hideSandbox: false
+  crumb: {
+    }
   gitHooks:
     allowedOnAgents: false
     allowedOnController: false
@@ -297,6 +317,8 @@ security:
     sshHostKeyVerificationStrategy: "knownHostsFileVerificationStrategy"
   globalJobDslSecurityConfiguration:
     useScriptSecurity: false
+  prism: {
+    }
   queueItemAuthenticator:
     authenticators:
     - global:
@@ -314,7 +336,13 @@ security:
     - "staticMethod io.jenkins.plugins.analysis.warnings.groovy.ParserConfiguration\
       \ getInstance"
     forceSandbox: false
+  updateSiteWarningsConfiguration: {
+    }
 unclassified:
+  administrativeMonitorsConfiguration: {
+    }
+  artifactManager: {
+    }
   bitbucketEndpointConfiguration:
     endpoints:
     - bitbucketCloudEndpoint:
@@ -332,13 +360,25 @@ unclassified:
           logRotator:
             daysToKeepStr: "10"
             numToKeepStr: "10"
+  builtInNode: {
+    }
   casCGlobalConfig:
     configurationPath: "/Users/software/infra/scripts/jenkins/config.yaml"
+  computerRetentionCheckInterval: {
+    }
+  defaultDisplayUrlProvider: {
+    }
+  defaultFolderConfiguration: {
+    }
+  defaultView: {
+    }
   enrichedSummaryConfig:
     enrichedSummaryEnabled: false
     httpClientDelayBetweenRetriesInSeconds: 1
     httpClientMaxRetries: 3
     httpClientTimeoutInSeconds: 1
+  envVarsFilter: {
+    }
   fingerprints:
     fingerprintCleanupDisabled: false
     storage: "file"
@@ -351,9 +391,15 @@ unclassified:
     hookSecretConfigs:
     - credentialsId: "3cddf56f-7e59-4901-a779-b4326d2bb3c9"
       signatureAlgorithm: "SHA256"
-    hookUrl: "https://jenkins.hope.nyc.ny.us/github-webhook/"
+    hookUrl: "https://jenkins.flowlogix.com/github-webhook/"
+  globalConfigFiles: {
+    }
   globalDefaultFlowDurabilityLevel:
     durabilityHint: PERFORMANCE_OPTIMIZED
+  globalLibraries: {
+    }
+  globalUntrustedLibraries: {
+    }
   injectionConfig:
     allowUntrusted: false
     checkForBuildAgentErrors: false
@@ -375,7 +421,7 @@ unclassified:
     storage: "file"
   location:
     adminAddress: "admin@flowlogix.com"
-    url: "https://jenkins.hope.nyc.ny.us/"
+    url: "https://jenkins.flowlogix.com/"
   mailer:
     charset: "UTF-8"
     defaultSuffix: "@flowlogix.com"
@@ -384,8 +430,27 @@ unclassified:
     useTls: false
   mavenModuleSet:
     localRepository: "default"
+  metricsAccessKey: {
+    }
+  myView: {
+    }
+  nodeProperties: {
+    }
+  pipeline-model-docker:
+    registry: {
+      }
+  plugin: {
+    }
   pollSCM:
     pollingThreadCount: 10
+  projectNamingStrategy: {
+    }
+  proxyConfigurationManager: {
+    }
+  quietPeriod: {
+    }
+  resourceRoot: {
+    }
   scmGit:
     addGitTagAction: false
     allowSecondFetch: false
@@ -394,6 +459,10 @@ unclassified:
     hideCredentials: false
     showEntireCommitSummaryInChanges: false
     useExistingAccountWithSameEmail: false
+  scmRetryCount: {
+    }
+  shell: {
+    }
   thinBackup:
     backupAdditionalFiles: false
     backupBuildArchive: false
@@ -416,6 +485,10 @@ unclassified:
     allPipelines: false
     elapsedTimeFormat: "'<b>'HH:mm:ss.S'</b> '"
     systemTimeFormat: "'<b>'HH:mm:ss'</b> '"
+  usageStatistics: {
+    }
+  viewsTabBar: {
+    }
   warningsParsers:
     consoleLogScanningPermitted: false
     parsers:
@@ -426,7 +499,7 @@ unclassified:
         ]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\\
         []*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\[((?:\\[??[^\\[]*?))\\]\\s+\\\
         [\\[\\n\\s+([\\s\\S]*?)(\\]\\])"
-      script: "return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(matcher.group(3)).setMessage(matcher.group(9).take(256)).buildOptional()"
+      script: "return builder.setFileName(fileName).setLineStart(lineNumber).setCategory(matcher.group(3)).setMessage(matcher.group(9).take(512)).buildOptional()"
 tool:
   git:
     installations:
