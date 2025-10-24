@@ -1,3 +1,3 @@
 ansible_user: vagrant
 ansible_ssh_pass: vagrant
-required_vagrant_mount_paths: /vagrant/immich /vagrant/gitea
+required_vagrant_mount_paths: /vagrant/immich/library /vagrant/gitea/.placeholder

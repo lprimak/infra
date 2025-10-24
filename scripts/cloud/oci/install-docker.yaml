@@ -67,12 +67,19 @@
           [Service]
           ExecStart=
           ExecStart=/usr/bin/dockerd -H fd:// {{ dockerd_args }}
-          ExecStartPost=sh -c "cat /proc/sys/fs/binfmt_misc/status; /usr/bin/docker run --privileged --rm tonistiigi/binfmt --install all; exit 0"
+          {% if required_vagrant_mount_paths is defined %}
+          ExecStartPre=/bin/sh -c 'for dir in {{ required_vagrant_mount_paths }}; \
+          do timeout=120; while [ ! -d "$dir" ]; do sleep 1; timeout=$((timeout-1)); [ $timeout -le 0 ] && exit 1; done; done'
+          TimeoutStartSec=600
+          {% endif %}
+          ExecStartPost=/bin/sh -c "cat /proc/sys/fs/binfmt_misc/status"
+          ExecStartPost=/bin/sh -c "systemd-run --on-active=30 /usr/bin/docker run --privileged --rm tonistiigi/binfmt --install all"
           {% if required_vagrant_mount_paths is defined %}
           [Unit]
           RequiresMountsFor={{ required_vagrant_mount_paths }}
           After=vagrant.mount
-          Requires=vagrant.mount
+          [Install]
+          WantedBy=multi-user.target
           {% endif %}
       notify:
         - Reload systemd
@@ -108,11 +115,21 @@
         - Reload Docker
       tags: docker_config
 
-    - name: Enable and Start Docker engine
+    - name: Enable Docker engine
       service:
         name: 'docker'
         enabled: true
+
+    - name: Disable Docker Socket service
+      service:
+        name: 'docker.socket'
+        enabled: false
+
+    - name: Start Docker engine
+      service:
+        name: 'docker'
         state: started
+      failed_when: false
 
     - name: Create Jenkins directories
       file:
@@ -129,3 +146,4 @@
       service:
         name: 'docker'
         state: restarted
+      failed_when: false
