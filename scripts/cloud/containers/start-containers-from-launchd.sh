@@ -2,7 +2,7 @@
 source $HOME/.zshrc
 SCRIPT_DIR=`dirname "$0"`
 
-sleep 30; cd $SCRIPT_DIR; vagrant up
+sleep 60; cd $SCRIPT_DIR; vagrant up
 
 function shutdown() {
     cd $SCRIPT_DIR; vagrant halt
