@@ -14,5 +14,9 @@
     <true/>
     <key>AbandonProcessGroup</key>
     <true/>
+    <key>StandardOutPath</key>
+    <string>/Users/software/var/log/containers.log</string>
+    <key>StandardErrorPath</key>
+    <string>/Users/software/var/log/containers.log</string>
 </dict>
 </plist>
