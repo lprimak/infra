@@ -1,6 +1,7 @@
 #!/bin/zsh -l
 source $HOME/.zshrc
 
+sleep 30
 asadmin start-domain hope-website
 
 function shutdown() {
