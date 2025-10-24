@@ -68,6 +68,12 @@
           ExecStart=
           ExecStart=/usr/bin/dockerd -H fd:// {{ dockerd_args }}
           ExecStartPost=sh -c "cat /proc/sys/fs/binfmt_misc/status; /usr/bin/docker run --privileged --rm tonistiigi/binfmt --install all; exit 0"
+          {% if required_vagrant_mount_paths is defined %}
+          [Unit]
+          RequiresMountsFor={{ required_vagrant_mount_paths }}
+          After=vagrant.mount
+          Requires=vagrant.mount
+          {% endif %}
       notify:
         - Reload systemd
         - Reload Docker
