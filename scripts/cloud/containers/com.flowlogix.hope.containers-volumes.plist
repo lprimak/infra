@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
     <key>Label</key>
-    <string>com.flowlogix.hope.containers-volume</string>
+    <string>com.flowlogix.hope.containers-volumes</string>
     <key>ProgramArguments</key>
     <array>
         <string>/Users/software/infra/scripts/cloud/containers/mount-volumes-from-launchd.sh</string>
