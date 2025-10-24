@@ -2,10 +2,10 @@
 source $HOME/.zshrc
 SCRIPT_DIR=`dirname "$0"`
 
-sleep 60; cd $SCRIPT_DIR; vagrant up
+sleep 30; cd $SCRIPT_DIR; vagrant up
 
 function shutdown() {
-    cd $SCRIPT_DIR; vagrant halt
+    cd $SCRIPT_DIR; vagrant halt > /dev/null 2>&1
     exit 0
 }
 trap shutdown SIGTERM
