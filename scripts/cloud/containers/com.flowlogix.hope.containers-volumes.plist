@@ -6,15 +6,13 @@
     <string>com.flowlogix.hope.containers-volume</string>
     <key>ProgramArguments</key>
     <array>
-        <string>diskutil</string>
-        <string>mount</string>
-        <string>/dev/disk7s1</string>
+        <string>/Users/software/infra/scripts/cloud/containers/mount-volumes-from-launchd.sh</string>
     </array>
     <key>RunAtLoad</key>
     <true/>
     <key>StandardOutPath</key>
-    <string>/Users/software/var/log/containers-volume.log</string>
+    <string>/Users/software/var/log/mount-volumes.log</string>
     <key>StandardErrorPath</key>
-    <string>/Users/software/var/log/containers-volume.log</string>
+    <string>/Users/software/var/log/mount-volumes.log</string>
 </dict>
 </plist>
