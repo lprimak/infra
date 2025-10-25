@@ -7,16 +7,12 @@
     etc_conf_d: "{{ content_dir }}/etc/httpd/conf.d"
     os_etc_conf_d: "/etc/httpd/conf.d"
   tasks:
-    - name: Install Apache Web Server
+    - name: Install Apache Web Server, mod_ssl and rsync
       package:
-        name: 'httpd'
-        state: latest
-        update_cache: yes
-      notify: Reload Apache
-
-    - name: Install Apache Mod_SSL
-      package:
-        name: 'mod_ssl'
+        name:
+          - httpd
+          - mod_ssl
+          - rsync
         state: latest
         update_cache: yes
       notify: Reload Apache
