@@ -18,6 +18,7 @@ jenkins:
           - entries:
               - user: "gh2fl"
               - user: "markprimak"
+              - user: "fpapon"
             name: "all-agents"
             pattern: ".*"
             permissions:
@@ -64,6 +65,21 @@ jenkins:
               - user: "markprimak"
             name: "mark"
             pattern: "(?i).*ee-docs($|/.*)|mark-prim.*"
+            permissions:
+              - "Job/Cancel"
+              - "Run/Delete"
+              - "Job/Build"
+              - "Run/Update"
+              - "Run/Artifacts"
+              - "Job/Read"
+              - "Job/Workspace"
+              - "Run/Replay"
+              - "Job/ViewStatus"
+            templateName: "user-template"
+          - entries:
+              - user: "fpapon"
+            name: "francois"
+            pattern: "(?i)apache-shiro($|/.*)"
             permissions:
               - "Job/Cancel"
               - "Run/Delete"
