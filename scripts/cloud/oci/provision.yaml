@@ -162,6 +162,26 @@
       web_subnet: "{{ subnets.results[0] }}"
       sec_subnet: "{{ subnets.results[1] }}"
 
+  - name: Create Web Network Load Balancer
+    oci_network_load_balancer:
+      compartment_id: "{{ web_network.vcn.compartment_id }}"
+      display_name: "web-nlb"
+      subnet_id: "{{ web_subnet.subnet.id }}"
+      is_private: false
+    register: web_nlb
+    tags:
+      - web
+      - nlb
+
+  - name: "Web NLB: Update Security Groups"
+    oci_network_load_balancer_network_security_groups_update:
+      network_load_balancer_id: "{{ web_nlb.network_load_balancer.id }}"
+      network_security_group_ids:
+        - "{{ web_security_group.network_security_group.id }}"
+    tags:
+     - web
+     - nlb
+
   - name: Provision Web Server
     oci_compute_instance:
       name: "{{ web_host_name }}"
@@ -207,6 +227,40 @@
     tags:
       - docker
 
+  - name: "Web NLB: Create Backend Set"
+    oci_network_load_balancer_backend_set:
+      network_load_balancer_id: "{{ web_nlb.network_load_balancer.id }}"
+      name: "web-backend-set"
+      policy: "TWO_TUPLE"
+      key_by: [network_load_balancer_id, name]
+      health_checker:
+        protocol: "HTTP"
+        port: 80
+        interval_in_millis: 10000
+        timeout_in_millis: 3000
+        retries: 3
+        return_code: 302
+      backends:
+        - port: 0
+          target_id: "{{ webserver.instance.id }}"
+          is_backup: false
+    register: web_nlb_backend_set
+    tags:
+      - web
+      - nlb
+
+  - name: "Web NLB: Create Listener (All Ports)"
+    oci_network_load_balancer_listener:
+      network_load_balancer_id: "{{ web_nlb.network_load_balancer.id }}"
+      key_by: [network_load_balancer_id, name]
+      name: "all-ports-listener"
+      default_backend_set_name: "{{ web_nlb_backend_set.backend_set.name }}"
+      protocol: "TCP_AND_UDP"
+      port: 0
+    tags:
+      - web
+      - nlb
+
   - name: Create Longhorn backup bucket
     oci_object_storage_bucket:
       namespace_name: "{{ bucket_namespace }}"
@@ -227,3 +281,10 @@
     tags:
       - web
       - docker
+
+  - name: Display Web NLB IP
+    debug:
+      msg: "Web Network Load Balancer IP: {{ web_nlb.network_load_balancer.ip_addresses[0].ip_address }}"
+    tags:
+      - web
+      - nlb
