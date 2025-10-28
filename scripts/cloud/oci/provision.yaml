@@ -147,7 +147,6 @@
     oci_network_subnet:
       compartment_id: "{{ web_network.vcn.compartment_id }}"
       vcn_id: "{{ lookup('vars', item + '_network').vcn.id }}"
-      availability_domain: "{{ lookup('vars', item + '_availability_domain') }}"
       dns_label: fl
       cidr_block: "{{ net_cidr_block }}"
       route_table_id: "{{ lookup('vars', item + '_inetroute').route_table.id }}"
