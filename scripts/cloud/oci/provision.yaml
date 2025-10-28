@@ -198,7 +198,7 @@
         nsg_ids: "{{ web_security_group.network_security_group.id }}"
       metadata:
         ssh_authorized_keys:
-          "{{ lookup('file', '~/.ssh/oci-test1-key-2023-10-06.pem.pub' ) }}"
+          "{{ lookup('file', '~/.ssh/oci-key-20251028.pem.pub' ) }}"
         user_data: "{{ user_override|b64encode }}"
     register: webserver
     tags:
