@@ -309,11 +309,11 @@
       tags: join
 
     - name: Create local .kube directory
-      local_action:
-        module: file
+      file:
         path: ~/.kube
         mode: '700'
         state: directory
+      delegate_to: localhost
       become: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
 
@@ -326,10 +326,10 @@
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
 
     - name: Restrict local k8s configuration file
-      local_action:
-        module: file
+      file:
         path: ~/.kube/config
         mode: '600'
+      delegate_to: localhost
       become: false
       when: inventory_hostname in groups['k8s_controllers'] and calico_namespace.rc != 0
 
