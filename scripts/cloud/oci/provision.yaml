@@ -214,6 +214,8 @@
         image_id: "{{ image_id }}"
         boot_volume_size_in_gbs: 100
       subnet_id: "{{ web_subnet.subnet.id }}"
+      create_vnic_details:
+        nsg_ids: "{{ web_security_group.network_security_group.id }}"
       metadata:
         ssh_authorized_keys:
           "{{ lookup('file', '~/.ssh/oci-key-20251028-containers.pem.pub' ) }}"
