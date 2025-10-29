@@ -24,7 +24,6 @@
     register: network
     loop:
       - web
-      - sec
 
   - name: Update VCN DHCP Subnet Options
     oci_network_dhcp_options:
@@ -68,9 +67,7 @@
   - name: Set network variables
     set_fact:
       web_network: "{{ network.results[0] }}"
-      sec_network: "{{ network.results[1] }}"
       web_inetroute: "{{ inetroute.results[0] }}"
-      sec_inetroute: "{{ inetroute.results[1] }}"
 
   - name: Create web security group
     oci_network_security_group:
@@ -100,8 +97,8 @@
 
   - name: Create k8s security group
     oci_network_security_group:
-      compartment_id: "{{ sec_network.vcn.compartment_id }}"
-      vcn_id: "{{ sec_network.vcn.id }}"
+      compartment_id: "{{ web_network.vcn.compartment_id }}"
+      vcn_id: "{{ web_network.vcn.id }}"
       display_name: 'k8s security group'
     register: k8s_security_group
 
@@ -155,12 +152,10 @@
     register: subnets
     loop:
       - web
-      - sec
 
   - name: Set subnet variables
     set_fact:
       web_subnet: "{{ subnets.results[0] }}"
-      sec_subnet: "{{ subnets.results[1] }}"
 
   - name: Create Web Network Load Balancer
     oci_network_load_balancer:
@@ -186,7 +181,7 @@
     oci_compute_instance:
       name: "{{ web_host_name }}"
       compartment_id: "{{ web_network.vcn.compartment_id }}"
-      availability_domain: "{{ web_subnet.subnet.availability_domain }}"
+      availability_domain: "{{ web_availability_domain }}"
       shape: VM.Standard.A1.Flex
       key_by: [compartment_id, availability_domain, display_name]
       shape_config:
@@ -207,8 +202,8 @@
   - name: Provision Container Server
     oci_compute_instance:
       name: "{{ docker_host_name }}"
-      compartment_id: "{{ sec_network.vcn.compartment_id }}"
-      availability_domain: "{{ sec_subnet.subnet.availability_domain }}"
+      compartment_id: "{{ web_network.vcn.compartment_id }}"
+      availability_domain: "{{ sec_availability_domain }}"
       shape: VM.Standard.A1.Flex
       key_by: [compartment_id, availability_domain, display_name]
       shape_config:
@@ -218,7 +213,7 @@
         source_type: image
         image_id: "{{ image_id }}"
         boot_volume_size_in_gbs: 100
-      subnet_id: "{{ sec_subnet.subnet.id }}"
+      subnet_id: "{{ web_subnet.subnet.id }}"
       metadata:
         ssh_authorized_keys:
           "{{ lookup('file', '~/.ssh/oci-test1-key-2023-10-06.pem.pub' ) }}"
