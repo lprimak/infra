@@ -27,7 +27,7 @@
     - name: Make Content and Config directories
       file:
         path: "{{ item }}"
-        owner: "{{ ansible_env.SUDO_USER }}"
+        owner: "{{ ansible_user }}"
         state: directory
       loop:
         - "{{ etc_conf_d }}"
@@ -60,6 +60,10 @@
           <Directory "{{ content_dir }}/html">
               Options Indexes FollowSymLinks
               AllowOverride All
+              Require all granted
+          </Directory>
+          <Directory "{{ content_dir }}/downloads">
+              AllowOverride None
               Require all granted
           </Directory>
         create: true
