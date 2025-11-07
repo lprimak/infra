@@ -1,0 +1,92 @@
+- import_playbook: "{{ playbook_dir }}/common/configure-common.yaml"
+- hosts: haproxy
+  become: true
+  tasks:
+    - name: Install haproxy
+      package:
+        name:
+          - haproxy
+          - rsync
+          - zsh
+          - socat
+        state: latest
+        update_cache: yes
+
+    - name: Copy SSL certificates
+      become: true
+      failed_when: false
+      synchronize:
+        src: "~/var/ssl-links/"
+        dest: "/etc/ssl/certs/flowlogix/"
+        owner: false
+        group: false
+        copy_links: true
+        delete: true
+        rsync_opts:
+          - "--chown=root:haproxy"
+          - "--chmod=g+rX"
+      notify: Reload haproxy
+      tags: ssl
+
+    - name: Copy Haproxy Configurations
+      become: true
+      failed_when: false
+      synchronize:
+        src: "{{ item.0 }}{{ item.1.src }}"
+        dest: "{{ item.1.dest }}"
+        owner: false
+        group: false
+        delete: true
+      loop: "{{ base_paths | product(config_mappings) | list }}"
+      vars:
+        base_paths:
+          - "~/infra"
+          - "~/dev/infra"
+        config_mappings:
+          - { src: "/etc/haproxy-cloud.cfg", dest: "/etc/haproxy/" }
+          - { src: "/etc/haproxy/", dest: "/etc/haproxy/conf.d/" }
+          - { src: "/scripts/ssl/haproxy-update-certs.sh", dest: "/usr/local/bin/" }
+      notify: Reload haproxy
+      tags: config
+
+    - name: Set Haproxy Options (systemd)
+      copy:
+        dest: /etc/sysconfig/haproxy
+        content: |
+          CONFIG=/etc/haproxy/haproxy-cloud.cfg
+      notify: Reload haproxy
+      tags: config
+
+    - name: Create HAProxy systemd override directory
+      become: true
+      file:
+        path: /etc/systemd/system/haproxy.service.d
+        state: directory
+        mode: "0755"
+
+    - name: Allow haproxy to bind to low ports
+      become: true
+      copy:
+        dest: /etc/systemd/system/haproxy.service.d/override.conf
+        content: |
+          [Service]
+          AmbientCapabilities=CAP_NET_BIND_SERVICE
+      notify:
+        - Reload haproxy
+
+    - name: Allow binding on port 9999 in SELinux
+      become: true
+      command: semanage port -a -t http_port_t -p tcp 9999
+      changed_when: false
+
+    - name: Enable and Start Haproxy Service
+      service:
+        name: 'haproxy.service'
+        enabled: true
+        state: started
+
+  handlers:
+    - name: Reload haproxy
+      service:
+        name: "haproxy.service"
+        state: reloaded

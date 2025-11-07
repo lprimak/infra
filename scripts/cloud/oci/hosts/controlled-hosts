@@ -7,3 +7,6 @@ web1.flowlogix.com
 [docker]
 containers.flowlogix.com
 local-containers
+
+[haproxy]
+containers.flowlogix.com

@@ -14,17 +14,16 @@ set configs.config.server-config.network-config.network-listeners.network-listen
 EOF
 
 # haproxy
-# hope crt
-echo -e "set ssl cert $HOME/var/ssl-links/hope-fullchain.pem <<\n$(cat $HOME/var/ssl-links/hope-fullchain.pem*)\n" | \
-socat tcp-connect:localhost:9999 -
-echo "commit ssl cert $HOME/var/ssl-links/hope-fullchain.pem" | socat tcp-connect:localhost:9999 -
+$SCRIPT_DIR/haproxy-update-certs.sh $HOME/var/ssl-links hope
+$SCRIPT_DIR/haproxy-update-certs.sh $HOME/var/ssl-links fl
+$SCRIPT_DIR/haproxy-update-certs.sh $HOME/var/ssl-links lp
 
-# lp crt
-echo -e "set ssl cert $HOME/var/ssl-links/lp-fullchain.pem <<\n$(cat $HOME/var/ssl-links/lp-fullchain.pem*)\n" | \
-socat tcp-connect:localhost:9999 -
-echo "commit ssl cert $HOME/var/ssl-links/lp-fullchain.pem" | socat tcp-connect:localhost:9999 -
+ansible-playbook $HOME/infra/scripts/cloud/oci/install-webservers.yaml \
+$HOME/infra/scripts/cloud/oci/install-haproxy.yaml -t ssl
 
-ansible-playbook $HOME/infra/scripts/cloud/oci/install-webservers.yaml -t ssl
+ssh containers "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix hope"
+ssh containers "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix lp"
+ssh containers "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix fl"
 
 # Email Notification
 # Original script located at https://github.com/hstock/certbot-renew-email
