@@ -44,7 +44,8 @@ while true; do
         continue
     fi
 
-    MAVEN_SETTINGS_MASTER_PASSWORD=$(cat ~/var/secrets/maven-master-password) java -XX:+UseCompactObjectHeaders -jar "$agent_path" \
+    MAVEN_SETTINGS_MASTER_PASSWORD=$(cat ~/var/secrets/maven-master-password) \
+    java -XX:+UseCompactObjectHeaders -XX:+UseStringDeduplication -jar "$agent_path" \
         -url https://jenkins.flowlogix.com -name $1 -webSocket -noReconnect \
         -secret @$HOME/var/secrets/jenkins-agent -workDir "$HOME/var/jenkins/$1-node"
     sleep 1
