@@ -1,20 +1,94 @@
 - import_playbook: "{{ playbook_dir }}/common/configure-common.yaml"
-- hosts: webservers
+- hosts: haproxy
   become: true
   vars:
     content_dir: "/var/flowlogix"
     etc_conf_d: "{{ content_dir }}/etc/httpd/conf.d"
     os_etc_conf_d: "/etc/httpd/conf.d"
   tasks:
-    - name: Install Apache Web Server, mod_ssl and rsync
+    - name: Install HAProxy, Apache Web Server, rsync, zsh and socat
       package:
         name:
+          - haproxy
           - httpd
-          - mod_ssl
           - rsync
+          - zsh
+          - socat
         state: latest
         update_cache: yes
-      notify: Reload Apache
+      notify:
+        - Reload Apache
+        - Reload haproxy
+      tags: install
+
+    - name: Copy SSL certificates
+      become: true
+      failed_when: false
+      synchronize:
+        src: "~/var/ssl-links/"
+        dest: "/etc/ssl/certs/flowlogix/"
+        owner: false
+        group: false
+        copy_links: true
+        delete: true
+        rsync_opts:
+          - "--chown=root:haproxy"
+          - "--chmod=g+rX"
+      notify: Reload haproxy
+      tags: ssl
+
+    - name: Find valid infra base path
+      set_fact:
+        infra_base: "{{ lookup('first_found', ['~/dev/infra', '~/infra'], errors='ignore') }}"
+      tags: always
+
+    - name: Copy Haproxy Configurations
+      become: true
+      failed_when: false
+      synchronize:
+        src: "{{ infra_base }}{{ item.src }}"
+        dest: "{{ item.dest }}"
+        owner: false
+        group: false
+        checksum: true
+        times: false
+        delete: true
+      loop:
+        - { src: "/etc/haproxy-cloud.cfg", dest: "/etc/haproxy/" }
+        - { src: "/etc/haproxy/", dest: "/etc/haproxy/conf.d/" }
+        - { src: "/scripts/ssl/haproxy-update-certs.sh", dest: "/usr/local/bin/" }
+      notify: Reload haproxy
+      tags:
+        - config
+        - haproxy
+
+    - name: Set Haproxy Options (systemd)
+      copy:
+        dest: /etc/sysconfig/haproxy
+        content: |
+          CONFIG=/etc/haproxy/haproxy-cloud.cfg
+      notify: Reload haproxy
+      tags: config
+
+    - name: Create HAProxy systemd override directory
+      become: true
+      file:
+        path: /etc/systemd/system/haproxy.service.d
+        state: directory
+        mode: "0755"
+      tags: config
+
+    - name: Allow haproxy to bind to low ports
+      become: true
+      copy:
+        dest: /etc/systemd/system/haproxy.service.d/override.conf
+        content: |
+          [Service]
+          AmbientCapabilities=CAP_NET_BIND_SERVICE
+          Environment=OPTIONS=
+      notify:
+        - Reload haproxy
+      tags: config
 
     - name: Enable SeLinux content directory
       command: semanage fcontext -a -t httpd_sys_content_t "{{ content_dir }}(/.*)?"
@@ -22,6 +96,7 @@
       failed_when: false
       no_log: true
       register: selinux
+      tags: config
 
     - name: Make Content and Config directories
       file:
@@ -31,17 +106,26 @@
       loop:
         - "{{ etc_conf_d }}"
         - "{{ content_dir }}/html"
+        - "{{ content_dir }}/downloads"
+      tags: config
 
-    - name: Copy SSL certificates
-      become: false
-      failed_when: false
-      synchronize:
-        src: "~/var/ssl-links/"
-        dest: "{{ content_dir }}/etc/ssl/"
-        copy_links: true
-        delete: true
+    - name: Allow binding on ports 9999 and 18080 in SELinux
+      become: true
+      command: "semanage port -a -t http_port_t -p tcp {{ item}}"
+      loop:
+        - 9999
+        - 18080
+      changed_when: false
+      tags: config
+
+    - name: Change Apache Listen port from 8080 to 18080
+      lineinfile:
+        path: "{{ os_etc_conf_d }}/../conf/httpd.conf"
+        regexp: '^Listen\s+80'
+        line: 'Listen 18080'
+        backup: yes
       notify: Reload Apache
-      tags: ssl
+      tags: config
 
     - name: Enable own Apache config
       blockinfile:
@@ -50,6 +134,7 @@
           IncludeOptional "{{ etc_conf_d }}/*"
         create: true
       notify: Reload Apache
+      tags: config
 
     - name: Write apache config for docroot
       blockinfile:
@@ -67,37 +152,25 @@
           </Directory>
         create: true
       notify: Reload Apache
-
-    - name: Disable self-signed certificates
-      lineinfile:
-        dest: "{{ os_etc_conf_d }}/ssl.conf"
-        regexp: "(?i)^({{ item }}.*)"
-        line: '# Disabled by FlowLogix --- \1'
-        backrefs: yes
-      notify: Reload Apache
-      loop:
-        - SSLCertificateFile
-        - SSLCertificateKeyFile
+      tags: config
 
     - name: Copy Apache Config
       become: false
       failed_when: false
       synchronize:
-        src: "{{ item }}/etc/httpd/"
+        src: "{{ infra_base }}/etc/httpd/"
         dest: "{{ content_dir }}/etc/httpd/"
         copy_links: true
         checksum: true
         times: false
         delete: true
-      loop:
-        - "~/infra"
-        - "~/dev/infra"
       notify: Reload Apache
       tags: config
 
     - name: SeLinux fix file permissions
       command: restorecon -Rv "{{ content_dir }}"
       changed_when: false
+      tags: config
 
     - name: Set Apache Options (systemd)
       copy:
@@ -108,6 +181,12 @@
       notify: Reload Apache
       tags: config
 
+    - name: Enable and Start Haproxy Service
+      service:
+        name: 'haproxy.service'
+        enabled: true
+        state: started
+
     - name: Enable and Start Apache Web Server
       service:
         name: 'httpd.service'
@@ -115,6 +194,10 @@
         state: started
 
   handlers:
+    - name: Reload haproxy
+      service:
+        name: "haproxy.service"
+        state: reloaded
     - name: Reload Apache
       service:
         name: "httpd.service"

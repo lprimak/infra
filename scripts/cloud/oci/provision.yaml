@@ -24,6 +24,8 @@
     register: network
     loop:
       - web
+    tags:
+      - always
 
   - name: Update VCN DHCP Subnet Options
     oci_network_dhcp_options:
@@ -49,6 +51,8 @@
     no_log: true
     loop:
       "{{ network.results }}"
+    tags:
+      - always
 
   - name: Create route table to connect internet gateway to the VCN
     oci_network_route_table:
@@ -63,11 +67,15 @@
     no_log: true
     loop:
       "{{ gateway.results }}"
+    tags:
+      - always
 
   - name: Set network variables
     set_fact:
       web_network: "{{ network.results[0] }}"
       web_inetroute: "{{ inetroute.results[0] }}"
+    tags:
+      - always
 
   - name: Create web security group
     oci_network_security_group:
@@ -75,6 +83,8 @@
       vcn_id: "{{ web_network.vcn.id }}"
       display_name: 'web security group'
     register: web_security_group
+    tags:
+      - always
 
   - name: Configure web security group
     oci_network_security_group_security_rule_actions:
@@ -152,10 +162,14 @@
     register: subnets
     loop:
       - web
+    tags:
+      - always
 
   - name: Set subnet variables
     set_fact:
       web_subnet: "{{ subnets.results[0] }}"
+    tags:
+      - always
 
   - name: Create Web Network Load Balancer
     oci_network_load_balancer:
@@ -165,7 +179,6 @@
       is_private: false
     register: web_nlb
     tags:
-      - web
       - nlb
 
   - name: "Web NLB: Update Security Groups"
@@ -174,7 +187,6 @@
       network_security_group_ids:
         - "{{ web_security_group.network_security_group.id }}"
     tags:
-     - web
      - nlb
 
   - name: Provision Web Server
@@ -185,34 +197,12 @@
       shape: VM.Standard.A1.Flex
       key_by: [compartment_id, availability_domain, display_name]
       shape_config:
-        ocpus: 2
-        memory_in_gbs: 2
-      image_id: "{{ image_id }}"
-      subnet_id: "{{ web_subnet.subnet.id }}"
-      create_vnic_details:
-        nsg_ids: "{{ web_security_group.network_security_group.id }}"
-      metadata:
-        ssh_authorized_keys:
-          "{{ lookup('file', '~/.ssh/oci-key-20251028.pem.pub' ) }}"
-        user_data: "{{ user_override|b64encode }}"
-    register: webserver
-    tags:
-      - web
-
-  - name: Provision Container Server
-    oci_compute_instance:
-      name: "{{ docker_host_name }}"
-      compartment_id: "{{ web_network.vcn.compartment_id }}"
-      availability_domain: "{{ sec_availability_domain }}"
-      shape: VM.Standard.A1.Flex
-      key_by: [compartment_id, availability_domain, display_name]
-      shape_config:
-        ocpus: 2
-        memory_in_gbs: 20
+        ocpus: 4
+        memory_in_gbs: 24
       source_details:
         source_type: image
         image_id: "{{ image_id }}"
-        boot_volume_size_in_gbs: 100
+        boot_volume_size_in_gbs: 200
       subnet_id: "{{ web_subnet.subnet.id }}"
       create_vnic_details:
         nsg_ids: "{{ web_security_group.network_security_group.id }}"
@@ -220,9 +210,9 @@
         ssh_authorized_keys:
           "{{ lookup('file', '~/.ssh/oci-key-20251028-containers.pem.pub' ) }}"
         user_data: "{{ user_override|b64encode }}"
-    register: docker_server
+    register: webserver
     tags:
-      - docker
+      - web
 
   - name: "Web NLB: Create Backend Set"
     oci_network_load_balancer_backend_set:
@@ -243,7 +233,6 @@
           is_backup: false
     register: web_nlb_backend_set
     tags:
-      - web
       - nlb
 
   - name: "Web NLB: Create Listener (All Ports)"
@@ -255,7 +244,6 @@
       protocol: "TCP_AND_UDP"
       port: 0
     tags:
-      - web
       - nlb
 
   - name: Create Longhorn backup bucket
@@ -274,7 +262,6 @@
     when: lookup('vars', item, default='').instance.id is defined
     loop:
       - webserver
-      - docker_server
     tags:
       - web
       - docker
@@ -283,5 +270,4 @@
     debug:
       msg: "Web Network Load Balancer IP: {{ web_nlb.network_load_balancer.ip_addresses[0].ip_address }}"
     tags:
-      - web
       - nlb
