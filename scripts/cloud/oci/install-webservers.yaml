@@ -1,5 +1,5 @@
 - import_playbook: "{{ playbook_dir }}/common/configure-common.yaml"
-- hosts: haproxy
+- hosts: webservers
   become: true
   vars:
     content_dir: "/var/flowlogix"

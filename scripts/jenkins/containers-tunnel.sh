@@ -1,4 +1,4 @@
 #!/bin/zsh -l
 
-ssh -N containers exit
+ssh -N web1 exit
 sshpass -p 'vagrant' ssh -N local-containers exit

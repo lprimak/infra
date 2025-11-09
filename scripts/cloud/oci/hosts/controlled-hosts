@@ -5,8 +5,5 @@ ansible_user = flowlogix
 web1.flowlogix.com
 
 [docker]
-containers.flowlogix.com
+web1.flowlogix.com
 local-containers
-
-[haproxy]
-containers.flowlogix.com
