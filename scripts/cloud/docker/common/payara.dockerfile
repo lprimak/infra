@@ -1,11 +1,9 @@
 # syntax = devthefuture/dockerfile-x
-ARG JAVA_VERSION=21
 ARG PAYARA_VERSION
-FROM azul/zulu-openjdk-alpine:${JAVA_VERSION}-jre-latest
+ARG USER=flowlogix
+ARG HOME=/home/$USER
 
 INCLUDE payara-build.dockerfile
-RUN apk add --no-cache tini
-INCLUDE user-build.dockerfile
 
 COPY run-payara.sh /usr/share/payara/bin
 COPY --chown=$USER exports/default-domain-payara-${PAYARA_VERSION}.tar.gz /tmp/default-domain.tar.gz
@@ -16,8 +14,6 @@ EXPOSE 4848 9009 8080 8181 8686 9010
 ENV RMI_SERVER_HOSTNAME=localhost
 ENV MAX_HEAP_SIZE=1g
 ENV PAYARA_ARGS=""
-ENV PAYARA_JVM_OPTIONS="-XX:+UseCompactObjectHeaders -XX:+UseStringDeduplication"
-
-ENTRYPOINT ["/sbin/tini", "--"]
+ENV PAYARA_JVM_OPTIONS="-XX:+IgnoreUnrecognizedVMOptions -XX:+UseCompactObjectHeaders -XX:+UseStringDeduplication"
 
 CMD ["sh", "-l", "-c", "/usr/share/payara/bin/run-payara.sh"]

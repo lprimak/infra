@@ -1,10 +1,10 @@
 # syntax = devthefuture/dockerfile-x
 ARG JAVA_VERSION=21
-FROM azul/zulu-openjdk-alpine:${JAVA_VERSION}-latest
+FROM azul/zulu-openjdk-alpine:${JAVA_VERSION}-jre-latest
 
 ARG MAVEN_MAJOR_VERSION
 ARG MAVEN_VERSION
-ARG BASE_URL=https://dlcdn.apache.org/maven/maven-${MAVEN_MAJOR_VERSION}/${MAVEN_VERSION}/binaries
+ARG BASE_URL=https://repo.maven.apache.org/maven2/org/apache/maven/apache-maven/${MAVEN_VERSION}
 
 RUN apk --update --no-cache add curl
 RUN mkdir -p /usr/share/maven /var/build && chmod a+rwx /var/build \
