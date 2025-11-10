@@ -1,0 +1,3 @@
+users:
+- name: lprimak
+  ssh_keyname: lprimak-test-key-20251110
