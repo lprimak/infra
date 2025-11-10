@@ -2,12 +2,28 @@ Vagrant.configure("2") do |config|
   config.vm.box = "almalinux/10"
   config.vm.network "public_network"
 
-  config.vm.define "local-test", primary: true do |controller|
-    controller.vm.hostname = "local-test"
+  config.vm.define "controller", primary: true do |controller|
+    controller.vm.hostname = "controller"
     controller.vm.provider "vmware_desktop" do |v|
       v.vmx["memsize"] = "4096"
       v.vmx["numvcpus"] = "2"
     end
+  end
+
+  config.vm.define "node1" do |node1|
+    node1.vm.provider "vmware_desktop" do |v|
+      v.vmx["memsize"] = "4096"
+      v.vmx["numvcpus"] = "2"
+    end
+    node1.vm.hostname = "node1"
+  end
+
+  config.vm.define "node2" do |node2|
+    node2.vm.provider "vmware_desktop" do |v|
+      v.vmx["memsize"] = "4096"
+      v.vmx["numvcpus"] = "2"
+    end
+    node2.vm.hostname = "node2"
   end
 
   config.vm.provision "shell", run: "once", path: "https://raw.githubusercontent.com/lprimak/infra/main/scripts/cloud/local/install-provisioner.sh"
