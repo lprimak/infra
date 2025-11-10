@@ -5,5 +5,7 @@ ansible_user = flowlogix
 web1.flowlogix.com
 
 [docker]
-web1.flowlogix.com
 local-containers
+
+[docker:children]
+webservers
