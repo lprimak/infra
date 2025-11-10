@@ -8,6 +8,7 @@ case "$hostname" in
   node1)                ip_suffix="2" ;;
   node2)                ip_suffix="3" ;;
   local-containers)     ip_suffix="4" ;;
+  local-test)           ip_suffix="5" ;;
   *)          echo "Unknown hostname"; exit 1 ;;
 esac
 
