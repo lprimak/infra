@@ -86,6 +86,15 @@
     tags:
       - always
 
+  - name: Create VPN security group
+    oci_network_security_group:
+      compartment_id: "{{ web_network.vcn.compartment_id }}"
+      vcn_id: "{{ web_network.vcn.id }}"
+      display_name: 'VPN security group'
+    register: vpn_security_group
+    tags:
+      - always
+
   - name: Configure web security group
     oci_network_security_group_security_rule_actions:
       network_security_group_id: "{{ web_security_group.network_security_group.id }}"
@@ -104,6 +113,24 @@
     loop:
       - 80
       - 443
+
+  - name: Configure VPN security group
+    oci_network_security_group_security_rule_actions:
+      network_security_group_id: "{{ vpn_security_group.network_security_group.id }}"
+      action: add
+      security_rules:
+        -
+          direction: INGRESS
+          is_stateless: true
+          protocol: 17
+          source: "{{ zero_cidr }}"
+          udp_options:
+            destination_port_range:
+              min: "{{ item }}"
+              max: "{{ item }}"
+          description: "Open Port {{ item }}/udp"
+    loop:
+      - 51820
 
   - name: Create k8s security group
     oci_network_security_group:
@@ -205,10 +232,12 @@
         boot_volume_size_in_gbs: 200
       subnet_id: "{{ web_subnet.subnet.id }}"
       create_vnic_details:
-        nsg_ids: "{{ web_security_group.network_security_group.id }}"
+        nsg_ids:
+          - "{{ web_security_group.network_security_group.id }}"
+          - "{{ vpn_security_group.network_security_group.id }}"
       metadata:
         ssh_authorized_keys:
-          "{{ lookup('file', '~/.ssh/oci-key-20251028-containers.pem.pub' ) }}"
+          "{{ lookup('file', '~/.ssh/oci-key-20251028.pem.pub' ) }}"
         user_data: "{{ user_override|b64encode }}"
     register: webserver
     tags:
