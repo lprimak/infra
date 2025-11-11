@@ -6,7 +6,9 @@
     - name: Create users and add to docker group
       user:
         name: "{{ item.name }}"
-        groups: docker
+        groups:
+          - docker
+          - flowlogix
         append: yes
         state: present
       loop: "{{ users }}"
