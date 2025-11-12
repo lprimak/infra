@@ -44,6 +44,9 @@ fi
 if [ -d $temp_dir/payara6 ]; then
     versioned_dir=payara6
 fi
+if [ -d $temp_dir/payara7 ]; then
+    versioned_dir=payara7
+fi
 
 mv $temp_dir/post* $temp_dir/sqlite* $temp_dir/jdbc
 mv $temp_dir/asm* $temp_dir/updates
