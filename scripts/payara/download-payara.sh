@@ -35,8 +35,10 @@ mvn $(echo $maven_flags) -f $SCRIPT_DIR/payara-download \
 -Dtemp-dir=$temp_dir
 
 sdk_use_jdk=""
+domain_suffix=""
 if [ -d $temp_dir/payara5 ]; then
     versioned_dir=payara5
+    domain_suffix="-p5"
     sdk_use_jdk="[[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] \
         && source "${HOME}/.sdkman/bin/sdkman-init.sh" \
         && sdk use java 21.0.9-zulu"
@@ -46,6 +48,7 @@ if [ -d $temp_dir/payara6 ]; then
 fi
 if [ -d $temp_dir/payara7 ]; then
     versioned_dir=payara7
+    domain_suffix="-p7"
 fi
 
 mv $temp_dir/post* $temp_dir/sqlite* $temp_dir/jdbc
@@ -72,8 +75,8 @@ EOF
 fi
 
 cat << EOF >> $target_dir/glassfish/config/asenv.conf
-    AS_DEF_DOMAINS_PATH="\${HOME}/var/payara-domains"
-    AS_DEF_NODES_PATH="\${HOME}/var/payara-nodes"
+    AS_DEF_DOMAINS_PATH="\${HOME}/var/payara-domains${domain_suffix}"
+    AS_DEF_NODES_PATH="\${HOME}/var/payara-nodes${domain_suffix}"
     AS_EXTRA_JAVA_OPTS="--enable-native-access=ALL-UNNAMED"
     $sdk_use_jdk
 EOF
