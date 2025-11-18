@@ -38,7 +38,7 @@ sdk_use_jdk=""
 domain_suffix=""
 if [ -d $temp_dir/payara5 ]; then
     versioned_dir=payara5
-    domain_suffix="-p5"
+    [ -d "$HOME/Applications/payara" ] && domain_suffix="-p5"
     sdk_use_jdk="[[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] \
         && source "${HOME}/.sdkman/bin/sdkman-init.sh" \
         && sdk use java 21.0.9-zulu"
@@ -48,7 +48,7 @@ if [ -d $temp_dir/payara6 ]; then
 fi
 if [ -d $temp_dir/payara7 ]; then
     versioned_dir=payara7
-    domain_suffix="-p7"
+    [ -d "$HOME/Applications/payara" ] && domain_suffix="-p7"
 fi
 
 mv $temp_dir/post* $temp_dir/sqlite* $temp_dir/jdbc

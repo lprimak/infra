@@ -38,7 +38,7 @@ function create_maven_builders() {
 
 function create_payara_builders() {
     if [ -z "$1" ]; then
-        payara_major_version=6
+        payara_major_version=7
     else
         payara_major_version=$1
     fi
