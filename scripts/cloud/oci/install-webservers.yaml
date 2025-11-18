@@ -34,7 +34,6 @@
         rsync_opts:
           - "--chown=root:haproxy"
           - "--chmod=g+rX"
-      notify: Reload haproxy
       tags: ssl
 
     - name: Find valid infra base path

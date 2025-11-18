@@ -18,12 +18,11 @@ $SCRIPT_DIR/haproxy-update-certs.sh $HOME/var/ssl-links hope
 $SCRIPT_DIR/haproxy-update-certs.sh $HOME/var/ssl-links fl
 $SCRIPT_DIR/haproxy-update-certs.sh $HOME/var/ssl-links lp
 
-ansible-playbook $HOME/infra/scripts/cloud/oci/install-webservers.yaml \
-$HOME/infra/scripts/cloud/oci/install-haproxy.yaml -t ssl
+ansible-playbook $HOME/infra/scripts/cloud/oci/install-webservers.yaml -t ssl
 
-ssh containers "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix hope"
-ssh containers "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix lp"
-ssh containers "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix fl"
+ssh web1 "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix hope"
+ssh web1 "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix lp"
+ssh web1 "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix fl"
 
 # Email Notification
 # Original script located at https://github.com/hstock/certbot-renew-email
