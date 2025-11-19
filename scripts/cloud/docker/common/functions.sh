@@ -28,9 +28,12 @@ function create_maven_builders() {
     else
         echo "Creating Maven Builders"
     fi
+    echo "Creating Maven Builder: $MAVEN_3_VERSION"
     docker build -t maven-3-builder $SCRIPT_DIR/context --build-arg JAVA_VERSION=$JAVA_VERSION \
         --build-arg MAVEN_MAJOR_VERSION=3 --build-arg MAVEN_VERSION=$MAVEN_3_VERSION \
         -f $SCRIPT_DIR/_builders/maven.dockerfile
+
+    echo "Creating Maven Builder: $MAVEN_4_VERSION"
     docker build -t maven-4-builder $SCRIPT_DIR/context --build-arg JAVA_VERSION=$JAVA_VERSION \
         --build-arg MAVEN_MAJOR_VERSION=4 --build-arg MAVEN_VERSION=$MAVEN_4_VERSION \
         -f $SCRIPT_DIR/_builders/maven.dockerfile
@@ -46,19 +49,24 @@ function create_payara_builders() {
         echo "Payara Artifacts already created"
         return 0
     else
-        docker images|grep -F maven-4-builder > /dev/null
+        docker inspect maven-4-builder >/dev/null 2>/dev/null
         if [ $? -ne 0 ]; then
             rm -f $exports_dir/maven-3.tar.gz $exports_dir/maven-4.tar.gz
+            echo "Maven builders need to be created for the caching of maven repository"
             create_maven_builders
         fi
         echo "Creating Payara Builders"
     fi
     payara_version_variable=PAYARA_${payara_major_version}_VERSION
+
+    echo "Creating Payara $payara_major_version Builder"
     docker build -t payara-${payara_major_version}-builder --build-arg JAVA_VERSION=$JAVA_VERSION \
         --build-arg PAYARA_VERSION=$(eval echo \$$payara_version_variable) \
         --build-arg PAYARA_MAJOR_VERSION=$payara_major_version \
         --build-arg DISTRIBUTION_PACKAGE=$DISTRIBUTION_PACKAGE \
         $SCRIPT_DIR/context -f $SCRIPT_DIR/_builders/payara.dockerfile
+
+    echo "Creating Payara $payara_major_version Default Domain Builder"
     docker build -t payara-${payara_major_version}-default-domain $SCRIPT_DIR/context \
         --build-arg PAYARA_VERSION=$payara_major_version \
         --build-arg DISTRIBUTION_PACKAGE=$DISTRIBUTION_PACKAGE \
@@ -89,6 +97,7 @@ function export_payara_from_builders() {
 }
 
 function docker_build() {
+    echo "Building docker image: $@"
     local tag=$1
     local ctx=$2
     shift;shift

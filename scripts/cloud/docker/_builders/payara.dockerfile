@@ -15,5 +15,5 @@ RUN apk --update --no-cache add zsh \
     && asadmin delete-domain --domaindir $PAYARA_DEST/glassfish/domains domain1 \
     && rm -rf $PAYARA_DEST/glassfish/lib/schemas $PAYARA_DEST/glassfish/lib/dtds \
        $PAYARA_DEST/h2db/src $PAYARA_DEST/h2db/service $PAYARA_DEST/h2db/docs \
-       $PAYARA_DEST/mq/javadoc $PAYARA_DEST/mq/examples \
+       $PAYARA_DEST/glassfish/h2db/src $PAYARA_DEST/mq/javadoc $PAYARA_DEST/mq/examples \
     && tar czf /var/build/payara.tar.gz -C /usr/share payara

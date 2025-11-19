@@ -2,7 +2,7 @@
 ARG JAVA_VERSION=21
 FROM azul/zulu-openjdk-alpine:${JAVA_VERSION}-latest
 
-RUN apk --update --no-cache add bash docker-cli git openssh-client firefox curl coreutils sudo tini
+RUN apk --update --no-cache add bash docker-cli git openssh-client firefox geckodriver curl coreutils sudo tini
 
 INCLUDE maven-build.dockerfile
 INCLUDE payara-build.dockerfile
