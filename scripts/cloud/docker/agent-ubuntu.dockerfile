@@ -9,6 +9,8 @@ INCLUDE payara-build.dockerfile
 INCLUDE user-build-ubuntu.dockerfile
 
 RUN mkdir -p .m2/repository var/jenkins
+INCLUDE payara-prewarm-domain.dockerfile
+
 COPY --chown=$USER:$USER exports/repositor[y] .m2/repository/
 COPY --chown=$USER:$USER agent-maven-settings.xml .m2/settings.xml
 COPY --chown=$USER:$USER agent-maven.properties .m2/maven-user.properties
