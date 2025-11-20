@@ -1,3 +1,4 @@
 users:
 - name: lprimak
   ssh_keyname: lprimak-web-key-20251110
+dockerd_override_args: "-H tcp://0.0.0.0:2375"
