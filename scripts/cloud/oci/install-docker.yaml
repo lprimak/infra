@@ -136,6 +136,7 @@
         dest: var/jenkins
         state: directory
       become: false
+      when: "'webservers' in group_names"
 
   handlers:
     - name: Reload systemd
