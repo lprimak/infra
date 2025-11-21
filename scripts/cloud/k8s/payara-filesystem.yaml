@@ -5,7 +5,7 @@ metadata:
 spec:
   containers:
     - name: user-shell
-      image: lprimak/user-shell
+      image: flowlogix/user-shell
       command: [ "sleep" ]
       args: [ "infinity" ]
       volumeMounts:

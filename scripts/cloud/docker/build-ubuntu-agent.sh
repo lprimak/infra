@@ -12,5 +12,5 @@ $SCRIPT_DIR/_builders/cache.sh maven-4-builder
 export_maven_from_builders
 export_payara_from_builders 7
 
-docker_build lprimak/jenkins-agent:latest-ubuntu agent-ubuntu.dockerfile \
+docker_build flowlogix/jenkins-agent:latest-ubuntu agent-ubuntu.dockerfile \
     --build-arg MAVEN_MAJOR_VERSION=4 --build-arg PAYARA_VERSION=7

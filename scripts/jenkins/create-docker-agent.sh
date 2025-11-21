@@ -11,7 +11,7 @@ home_dir=/home/flowlogix
 container=$(docker create --init --restart unless-stopped --name $1-jenkins-agent \
 -v /var/run/docker.sock:/var/run/docker.sock \
 -v $home_dir/var/jenkins:$home_dir/var/jenkins \
-lprimak/jenkins-master ./run-agent.sh $1)
+flowlogix/jenkins-master ./run-agent.sh $1)
 docker cp -qa $SCRIPT_DIR/run-agent.sh $container:$home_dir/run-agent.sh
 docker start $container
 docker exec $container sh -c "mkdir -p .ssh var/secrets; chmod 700 var/secrets;

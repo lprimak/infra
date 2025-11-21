@@ -15,7 +15,7 @@ spec:
         app: payara
     spec:
       containers:
-      - image: lprimak/payara-full
+      - image: flowlogix/payara-full
         name: server-full
         env:
           - name: MAX_HEAP_SIZE
