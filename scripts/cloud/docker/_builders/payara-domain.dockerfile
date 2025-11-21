@@ -23,6 +23,8 @@ RUN echo "AS_ADMIN_PASSWORD=admin" > /var/build/payara-passwordfile \
     && asadmin create-jvm-options '-Dcom.sun.management.jmxremote.ssl=false' \
     && asadmin create-jvm-options '-Djava.rmi.server.hostname=${ENV=RMI_SERVER_HOSTNAME}' \
     && asadmin create-system-properties fish.payara.classloading.delegate=false \
+    && asadmin set configs.config.server-config.admin-service.das-config.dynamic-reload-enabled=false \
+    && asadmin set configs.config.server-config.admin-service.das-config.autodeploy-enabled=false \
     && asadmin stop-domain \
     && rm -rf /var/payara-domains/default-domain/osgi-cache \
        /var/payara-domains/default-domain/logs && true \
