@@ -56,6 +56,13 @@
             <artifactId>org.eclipse.persistence.asm</artifactId>
             <version>LATEST</version>
         </dependency>
+
+        <!-- Workaround for https://github.com/payara/patched-src-tyrus/pull/9 -->
+        <dependency>
+            <groupId>org.glassfish.tyrus</groupId>
+            <artifactId>tyrus-container-servlet</artifactId>
+            <version>2.2.1-patched-20251113</version>
+        </dependency>
     </dependencies>
 
     <build>
