@@ -26,7 +26,6 @@ docker_build flowlogix/payara-full:$PAYARA_7_VERSION-jdk$JAVA_VERSION-ubuntu pay
 docker_build flowlogix/payara-full:$PAYARA_6_VERSION-jdk$JAVA_VERSION payara-alpine.dockerfile --build-arg PAYARA_VERSION=6
 docker_build flowlogix/payara-full:$PAYARA_6_VERSION-jdk$JAVA_VERSION-ubuntu payara-ubuntu.dockerfile --build-arg PAYARA_VERSION=6
 docker_push_tag flowlogix/payara-full $PAYARA_7_VERSION-jdk$JAVA_VERSION-ubuntu latest-ubuntu
-docker_push_tag flowlogix/payara-full $PAYARA_6_VERSION-jdk$JAVA_VERSION-ubuntu latest-ubuntu
 docker_push_latest flowlogix/payara-full $PAYARA_7_VERSION-jdk$JAVA_VERSION
 
 docker_build flowlogix/jenkins-agent:m3-p7-jdk$JAVA_VERSION agent.dockerfile \
