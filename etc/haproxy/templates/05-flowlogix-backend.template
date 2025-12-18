@@ -1,0 +1,18 @@
+use_backend payara-dev if domain_starts_payara
+use_backend payara if flowlogix-contact path_contact_app
+use_backend payara if flowlogix-starter-acl path_starts_sg
+use_backend payara if flowlogix-logbook-acl path_starts_logbook
+
+# Jenkins
+acl jenkins hdr_beg(host) -i jenkins
+use_backend jenkins if jenkins
+
+# Sonatype Nexus
+acl nexus hdr_beg(host) -i nexus
+use_backend nexus if nexus
+
+acl nexus-docker-public hdr_beg(host) -i docker-public
+use_backend nexus-docker-public if nexus-docker-public
+
+acl nexus-docker-private hdr_beg(host) -i docker-private
+use_backend nexus-docker-private if nexus-docker-private

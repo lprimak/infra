@@ -1,23 +1,20 @@
 - import_playbook: "{{ playbook_dir }}/common/configure-common.yaml"
-- hosts: webservers
+
+### HAProxy Setup
+- hosts: docker
   become: true
-  vars:
-    content_dir: "/var/flowlogix"
-    etc_conf_d: "{{ content_dir }}/etc/httpd/conf.d"
-    os_etc_conf_d: "/etc/httpd/conf.d"
   tasks:
-    - name: Install HAProxy, Apache Web Server, rsync, zsh and socat
+    - name: Install HAProxy, rsync zsh and socat
       package:
         name:
           - haproxy
-          - httpd
-          - rsync
-          - zsh
           - socat
+          - zsh
+          - policycoreutils-python-utils
+          - rsync
         state: latest
         update_cache: yes
       notify:
-        - Reload Apache
         - Reload haproxy
       tags: install
 
@@ -89,6 +86,54 @@
         - Reload haproxy
       tags: config
 
+    - name: Allow binding on ports 9999 and 18080 in SELinux
+      become: true
+      command: "semanage port -a -t http_port_t -p tcp {{ item }}"
+      loop:
+        - 9999
+        - 18080
+      changed_when: false
+      tags: config
+
+    - name: Allow HAProxy network connectivity
+      become: true
+      seboolean:
+        name: haproxy_connect_any
+        state: yes
+        persistent: yes
+      tags: config
+
+    - name: Enable and Start Haproxy Service
+      service:
+        name: 'haproxy.service'
+        enabled: true
+        state: started
+
+  handlers:
+    - name: Reload haproxy
+      service:
+        name: "haproxy.service"
+        state: reloaded
+
+### Web Server Setup
+
+- hosts: webservers
+  become: true
+  vars:
+    content_dir: "/var/flowlogix"
+    etc_conf_d: "{{ content_dir }}/etc/httpd/conf.d"
+    os_etc_conf_d: "/etc/httpd/conf.d"
+  tasks:
+    - name: Install Apache Web Server
+      package:
+        name:
+          - httpd
+        state: latest
+        update_cache: yes
+      notify:
+        - Reload Apache
+      tags: install
+
     - name: Enable SeLinux content directory
       command: semanage fcontext -a -t httpd_sys_content_t "{{ content_dir }}(/.*)?"
       changed_when: false
@@ -106,15 +151,6 @@
         - "{{ etc_conf_d }}"
         - "{{ content_dir }}/html"
         - "{{ content_dir }}/downloads"
-      tags: config
-
-    - name: Allow binding on ports 9999 and 18080 in SELinux
-      become: true
-      command: "semanage port -a -t http_port_t -p tcp {{ item}}"
-      loop:
-        - 9999
-        - 18080
-      changed_when: false
       tags: config
 
     - name: Change Apache Listen port from 8080 to 18080
@@ -180,12 +216,6 @@
       notify: Reload Apache
       tags: config
 
-    - name: Enable and Start Haproxy Service
-      service:
-        name: 'haproxy.service'
-        enabled: true
-        state: started
-
     - name: Enable and Start Apache Web Server
       service:
         name: 'httpd.service'
@@ -193,10 +223,6 @@
         state: started
 
   handlers:
-    - name: Reload haproxy
-      service:
-        name: "haproxy.service"
-        state: reloaded
     - name: Reload Apache
       service:
         name: "httpd.service"

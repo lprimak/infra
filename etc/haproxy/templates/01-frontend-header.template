@@ -1,0 +1,11 @@
+frontend main-web
+default_backend __DEFAULT_BACKEND__
+bind :::__HTTP_PORT__ v4v6
+bind :::__HTTPS_PORT__ v4v6 ssl crt hope-fullchain.pem crt lp-fullchain.pem crt fl-fullchain.pem alpn h2,http/1.1
+
+# HTTP -> HTTPS redirection
+http-request redirect scheme https unless { ssl_fc }
+http-request set-header X-Forwarded-Proto https if { ssl_fc }
+
+# starts with a slash, and can have more slashes after, but nothing at the end
+acl is_root path_reg -i ^/+$

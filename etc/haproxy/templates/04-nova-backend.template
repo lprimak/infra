@@ -1,0 +1,25 @@
+use_backend payara if apps_website !is_root
+
+# Photos - Immich
+acl immich-acl hdr_beg(host) -i photos.hope.nyc
+acl immich-acl hdr_beg(host) -i photos.flowlogix.com
+use_backend photos-local-containers if immich-acl
+
+# Gitea
+acl gitea-acl hdr_beg(host) -i git.hope.nyc
+acl gitea-acl hdr_beg(host) -i git.flowlogix.com
+use_backend gitea-local-containers if gitea-acl
+
+# keep let's encrypt requests going
+acl letsencrypt-acl path_beg /.well-known/acme-challenge/
+use_backend payara if letsencrypt-acl
+
+# Payara 6
+acl payara-alt-acl hdr_beg(host) -i apps-alt
+use_backend payara-alt if payara-alt-acl
+
+# Payara admin server
+acl payara-admin hdr_beg(host) -i admin
+use_backend payara-admin if payara-admin
+acl payara-admin-alt hdr_beg(host) -i admin-alt
+use_backend payara-admin-alt if payara-admin-alt
