@@ -1,3 +1,4 @@
 ansible_user: vagrant
 ansible_ssh_pass: vagrant
 required_vagrant_mount_paths: /vagrant/immich/library /vagrant/gitea/.placeholder
+haproxy_config_parameters: "payara 80 443"

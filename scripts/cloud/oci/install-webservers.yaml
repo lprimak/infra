@@ -3,6 +3,8 @@
 ### HAProxy Setup
 - hosts: docker
   become: true
+  vars:
+    haproxy_cfg_parameters: "{{ haproxy_config_parameters | default('apache 80 443') }}"
   tasks:
     - name: Install HAProxy, rsync zsh and socat
       package:
@@ -50,10 +52,19 @@
         times: false
         delete: true
       loop:
-        - { src: "/etc/haproxy-cloud.cfg", dest: "/etc/haproxy/" }
-        - { src: "/etc/haproxy/", dest: "/etc/haproxy/conf.d/" }
+        - { src: "/etc/haproxy/config/", dest: "/etc/haproxy/conf.d" }
+        - { src: "/etc/haproxy/sites", dest: "/etc/haproxy/" }
+        - { src: "/etc/haproxy/templates", dest: "/etc/haproxy/" }
         - { src: "/scripts/ssl/haproxy-update-certs.sh", dest: "/usr/local/bin/" }
+        - { src: "/scripts/haproxy/configure-haproxy.sh", dest: "/usr/local/bin/" }
       notify: Reload haproxy
+      tags:
+        - config
+        - haproxy
+
+    - name: Run HAProxy configuration
+      command: /usr/local/bin/configure-haproxy.sh {{ haproxy_cfg_parameters }}
+      changed_when: false
       tags:
         - config
         - haproxy
@@ -62,7 +73,8 @@
       copy:
         dest: /etc/sysconfig/haproxy
         content: |
-          CONFIG=/etc/haproxy/haproxy-cloud.cfg
+          CONFIG=/etc/haproxy/sites/flowlogix-global.cfg -f /etc/haproxy/frontend.cfg \
+          -f /etc/haproxy/sites/linux-global.cfg
       notify: Reload haproxy
       tags: config
 
