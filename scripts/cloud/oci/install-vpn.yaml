@@ -2,19 +2,12 @@
 - name: Install and configure WireGuard
   hosts: webservers
   become: true
-  vars_prompt:
-    - name: wireguard_private_key
-      private: yes
-      prompt: "Enter WireGuard private key (wg genkey) or leave blank to generate a new one"
-    - name: wireguard_preshared_key
-      private: yes
-      prompt: "Enter WireGuard PreShared key (wg genpsk) or leave blank to skip"
   vars:
     wireguard_interface: wg0
     wireguard_port: 51820
     wireguard_address: "10.5.5.1/24"
     wireguard_peers:
-      - public_key: "uYt69Dvmmm1Kqeg/aAOtBwVRxGIJ7Z8A7wKbtLMepVo="
+      - public_key: "{{ wireguard_client_public_key }}"
         preshared_key: "{{ wireguard_preshared_key }}"
         name: lprimak-client
         allowed_ips: "10.5.5.2/32"
@@ -41,7 +34,7 @@
         state: directory
         mode: '0700'
 
-    - name: Generate WireGuard private key
+    - name: Generate WireGuard private key (wg genkey) and Pre-shared key (wg genpsk)
       shell: wg genkey
       register: wg_private_key
       when: wireguard_private_key == ""
