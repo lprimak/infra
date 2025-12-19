@@ -2,16 +2,6 @@
 - name: Install and configure WireGuard
   hosts: webservers
   become: true
-  vars:
-    wireguard_interface: wg0
-    wireguard_port: 51820
-    wireguard_address: "10.5.5.1/24"
-    wireguard_peers:
-      - public_key: "{{ wireguard_client_public_key }}"
-        preshared_key: "{{ wireguard_preshared_key }}"
-        name: lprimak-client
-        allowed_ips: "10.5.5.2/32"
-        persistent_keepalive: 25
   tasks:
     - name: Install WireGuard
       package:
@@ -37,11 +27,11 @@
     - name: Generate WireGuard private key (wg genkey) and Pre-shared key (wg genpsk)
       shell: wg genkey
       register: wg_private_key
-      when: wireguard_private_key == ""
+      when: server_private_key is undefined or server_private_key == ""
       no_log: true
 
     - name: Generate WireGuard public key
-      shell: echo "{{ wireguard_private_key if wireguard_private_key != '' else wg_private_key.stdout  }}" | wg pubkey
+      shell: echo "{{ server_private_key | default(wg_private_key.stdout) }} " | wg pubkey
       register: wg_public_key
       no_log: true
       changed_when: false
@@ -50,35 +40,44 @@
       copy:
         content: |
           [Interface]
-          Address = {{ wireguard_address }}
-          ListenPort = {{ wireguard_port }}
-          PrivateKey = {{ wireguard_private_key if wireguard_private_key != '' else wg_private_key.stdout }}
-          PreUp = iptables -t mangle -A PREROUTING -i {{ wireguard_interface }} -j MARK --set-mark 0x30
-          PreUp = iptables -t nat -A POSTROUTING ! -o {{ wireguard_interface }} -m mark --mark 0x30 -j MASQUERADE
-          PostDown = iptables -t mangle -D PREROUTING -i {{ wireguard_interface }} -j MARK --set-mark 0x30
-          PostDown = iptables -t nat -D POSTROUTING ! -o {{ wireguard_interface }} -m mark --mark 0x30 -j MASQUERADE
+          Address = {{ item.value.address }}
+          PrivateKey = {{ item.value.private_key if item.value.private_key != '' else wg_private_key.stdout }}
+          {% if item.value.server is defined and item.value.server %}
+          ListenPort = {{ item.value.port }}
+          PreUp = iptables -t mangle -A PREROUTING -i {{ item.key }} -j MARK --set-mark 0x30
+          PreUp = iptables -t nat -A POSTROUTING ! -o {{ item.key }} -m mark --mark 0x30 -j MASQUERADE
+          PostDown = iptables -t mangle -D PREROUTING -i {{ item.key }} -j MARK --set-mark 0x30
+          PostDown = iptables -t nat -D POSTROUTING ! -o {{ item.key }} -m mark --mark 0x30 -j MASQUERADE
+          {% endif %}
 
-          {% for peer in wireguard_peers %}
+          {% for peer in item.value.peers %}
           [Peer]
           PublicKey = {{ peer.public_key }}
           AllowedIPs = {{ peer.allowed_ips }}
           {% if peer.preshared_key is defined and peer.preshared_key != '' %}
           PresharedKey = {{ peer.preshared_key }}
           {% endif %}
+          {% if peer.endpoint is defined %}
+          Endpoint = {{ peer.endpoint }}
+          {% endif %}
           {% if peer.persistent_keepalive is defined %}
           PersistentKeepalive = {{ peer.persistent_keepalive }}
           {% endif %}
 
           {% endfor %}
-        dest: "/etc/wireguard/{{ wireguard_interface }}.conf"
+        dest: "/etc/wireguard/{{ item.key }}.conf"
         mode: '0600'
+      no_log: true
+      loop: "{{ wireguard_interfaces | dict2items }}"
       notify: restart wireguard
 
     - name: Enable and start WireGuard service
       service:
-        name: "wg-quick@{{ wireguard_interface }}"
+        name: "wg-quick@{{ item.key }}"
         enabled: true
         state: started
+      no_log: true
+      loop: "{{ wireguard_interfaces | dict2items }}"
 
     - name: Display WireGuard public key
       debug:
@@ -88,5 +87,7 @@
   handlers:
     - name: restart wireguard
       service:
-        name: "wg-quick@{{ wireguard_interface }}"
+        name: "wg-quick@{{ item.key }}"
         state: restarted
+      no_log: true
+      loop: "{{ wireguard_interfaces | dict2items }}"

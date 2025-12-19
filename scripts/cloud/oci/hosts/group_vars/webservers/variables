@@ -2,3 +2,28 @@ users:
 - name: lprimak
   ssh_keyname: lprimak-web-key-20251110
 dockerd_override_args: "-H tcp://0.0.0.0:2375"
+
+wireguard_interfaces:
+  server:
+    server: true
+    port: 51820
+    address: "10.5.5.1/24"
+    private_key: "{{ server_private_key | default('') }}"
+    peers:
+      - peer:
+        name: lprimak-client
+        public_key: "{{ lprimak_client_public_key }}"
+        preshared_key: "{{ lprimak_client_preshared_key }}"
+        allowed_ips: "10.5.5.2/32"
+        persistent_keepalive: 25
+  hope:
+    address: "10.5.5.6/32"
+    private_key: "{{ hope_client_private_key }}"
+    peers:
+      - peer:
+        name: hope-client
+        public_key: "{{ hope_server_public_key }}"
+        preshared_key: "{{ hope_client_preshared_key }}"
+        allowed_ips: "10.0.1.210/32, 10.0.13.4/32"
+        endpoint: "mini.hope.nyc.ny.us:51820"
+        persistent_keepalive: 25
