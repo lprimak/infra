@@ -24,6 +24,10 @@ ssh web1 "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix h
 ssh web1 "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix lp"
 ssh web1 "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix fl"
 
+ssh local-containers "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix hope"
+ssh local-containers "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix lp"
+ssh local-containers "sudo /usr/local/bin/haproxy-update-certs.sh /etc/ssl/certs/flowlogix fl"
+
 # Email Notification
 # Original script located at https://github.com/hstock/certbot-renew-email
 $SCRIPT_DIR/certbot-notify-post-hook.py admin@flowlogix.com lprimak@hope.nyc.ny.us
