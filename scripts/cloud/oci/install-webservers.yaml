@@ -73,8 +73,9 @@
       copy:
         dest: /etc/sysconfig/haproxy
         content: |
-          CONFIG=/etc/haproxy/sites/flowlogix-global.cfg -f /etc/haproxy/frontend.cfg \
-          -f /etc/haproxy/sites/linux-global.cfg
+          CONFIG=/etc/haproxy/conf.d \
+          -f /etc/haproxy/sites/linux-global.cfg -f /etc/haproxy/sites/flowlogix-global.cfg
+          CFGDIR=/etc/haproxy/frontend.cfg
       notify: Reload haproxy
       tags: config
 
@@ -93,7 +94,7 @@
         content: |
           [Service]
           AmbientCapabilities=CAP_NET_BIND_SERVICE
-          Environment=OPTIONS=
+          Environment=OPTIONS= CFGDIR=
       notify:
         - Reload haproxy
       tags: config
