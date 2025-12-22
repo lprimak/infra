@@ -2,6 +2,7 @@
 source $HOME/.zshrc
 
 sleep 30
+ulimit -n 131072
 asadmin start-domain hope-website
 
 function shutdown() {
