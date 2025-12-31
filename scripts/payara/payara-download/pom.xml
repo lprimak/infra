@@ -63,6 +63,12 @@
             <artifactId>tyrus-container-servlet</artifactId>
             <version>2.2.1-patched-20251113</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.jpa</artifactId>
+            <version>5.0.0-B08.payara-p2.patched-20251231</version>
+        </dependency>
     </dependencies>
 
     <build>
