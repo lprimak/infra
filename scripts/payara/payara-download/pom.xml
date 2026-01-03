@@ -67,7 +67,12 @@
         <dependency>
             <groupId>org.eclipse.persistence</groupId>
             <artifactId>org.eclipse.persistence.jpa</artifactId>
-            <version>5.0.0-B08.payara-p2.patched-20251231</version>
+            <version>5.0.0-B08.payara-p2.patched-20260103</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>org.eclipse.persistence.core</artifactId>
+            <version>5.0.0-B08.payara-p2.patched-20260103</version>
         </dependency>
     </dependencies>
 
