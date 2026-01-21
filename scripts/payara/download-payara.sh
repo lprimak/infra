@@ -51,11 +51,13 @@ if [ -d $temp_dir/payara7 ]; then
     [ -d "$HOME/Applications/payara" ] && domain_suffix="-p7"
 
     mv $temp_dir/tyrus* $temp_dir/updates
+    mv $temp_dir/org.eclipse.persistence.core.* $temp_dir/updates
+    mv $temp_dir/org.eclipse.persistence.jpa.* $temp_dir/updates
 fi
 
 mv $temp_dir/post* $temp_dir/sqlite* $temp_dir/jdbc
 mv $temp_dir/asm* $temp_dir/updates
-mv $temp_dir/org.eclipse* $temp_dir/updates
+mv $temp_dir/org.eclipse.persistence.asm* $temp_dir/updates
 
 mv $temp_dir/jdbc/* $temp_dir/${versioned_dir}/glassfish/lib
 modules_dir=$temp_dir/${versioned_dir}/glassfish/modules
