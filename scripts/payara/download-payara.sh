@@ -50,7 +50,6 @@ if [ -d $temp_dir/payara7 ]; then
     versioned_dir=payara7
     [ -d "$HOME/Applications/payara" ] && domain_suffix="-p7"
 
-    mv $temp_dir/tyrus* $temp_dir/updates
     mv $temp_dir/org.eclipse.persistence.core.* $temp_dir/updates
     mv $temp_dir/org.eclipse.persistence.jpa.* $temp_dir/updates
 fi
