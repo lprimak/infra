@@ -5,7 +5,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-PATH=$HOME/.sdkman/candidates/java/current/bin:$PATH
+PATH=$HOME/.sdkman/candidates/java/current/bin:$HOME/.sdkman/candidates/maven/current/bin:$PATH
 
 unset AS_ADMIN_USER
 unset AS_ADMIN_PASSWORDFILE
