@@ -5,10 +5,7 @@ if [ $# -eq 0 ]; then
     exit 1
 fi
 
-if [ -f ~/.bashrc ]; then
-  echo "Sourcing Bash"
-    source ~/.bashrc
-fi
+PATH=$HOME/.sdkman/candidates/java/current/bin:$PATH
 
 unset AS_ADMIN_USER
 unset AS_ADMIN_PASSWORDFILE
