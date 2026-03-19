@@ -16,6 +16,12 @@ wireguard_interfaces:
         preshared_key: "{{ lprimak_client_preshared_key }}"
         allowed_ips: "10.5.5.2/32"
         persistent_keepalive: 25
+      - peer:
+        name: lprimak-client-ondemand
+        public_key: "{{ lprimak_ondemand_client_public_key }}"
+        preshared_key: "{{ lprimak_ondemand_client_preshared_key }}"
+        allowed_ips: "10.5.5.3/32"
+        persistent_keepalive: 25
   hope:
     address: "10.5.5.6/32"
     private_key: "{{ hope_client_private_key }}"
