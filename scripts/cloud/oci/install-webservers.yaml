@@ -55,9 +55,13 @@
         - { src: "/etc/haproxy/config/", dest: "/etc/haproxy/conf.d" }
         - { src: "/etc/haproxy/sites", dest: "/etc/haproxy/" }
         - { src: "/etc/haproxy/templates", dest: "/etc/haproxy/" }
+        - { src: "/etc/haproxy/blocked.ips", dest: "/etc/haproxy/blocked.ips" }
+        - { src: "/etc/haproxy/syslog/", dest: "/etc/rsyslog.d/" }
         - { src: "/scripts/ssl/haproxy-update-certs.sh", dest: "/usr/local/bin/" }
         - { src: "/scripts/haproxy/configure-haproxy.sh", dest: "/usr/local/bin/" }
-      notify: Reload haproxy
+      notify:
+        - Reload haproxy
+        - Reload rsyslog
       tags:
         - config
         - haproxy
@@ -126,6 +130,10 @@
     - name: Reload haproxy
       service:
         name: "haproxy.service"
+        state: reloaded
+    - name: Reload rsyslog
+      service:
+        name: "rsyslog.service"
         state: reloaded
 
 ### Web Server Setup
