@@ -1,5 +1,5 @@
 frontend main-web
-tcp-request connection reject if { src -f /etc/haproxy/blocked.ips }
+tcp-request connection reject if { src -f __BLOCKED_IPS_CONFIG__ }
 
 default_backend __DEFAULT_BACKEND__
 bind :::__HTTP_PORT__ v4v6

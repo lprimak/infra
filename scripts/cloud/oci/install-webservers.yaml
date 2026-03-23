@@ -4,7 +4,7 @@
 - hosts: docker
   become: true
   vars:
-    haproxy_cfg_parameters: "{{ haproxy_config_parameters | default('apache 80 443') }}"
+    haproxy_cfg_parameters: "{{ haproxy_config_parameters | default('apache 80 443 /etc/haproxy/blocked.ips') }}"
   tasks:
     - name: Install HAProxy, rsync zsh and socat
       package:

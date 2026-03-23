@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(dirname "$0")
 
-$SCRIPT_DIR/configure-haproxy.sh payara 16380 16443
+$SCRIPT_DIR/configure-haproxy.sh payara 16380 16443 $HOME/infra/etc/haproxy/blocked.ips
 
 ulimit -n 256000
 exec $HOME/apps/haproxy/current/bin/haproxy -- $HOME/infra/etc/haproxy/config \
