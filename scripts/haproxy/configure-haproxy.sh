@@ -17,7 +17,7 @@ awk 1 "$TEMPLATE_DIR"/templates/*.template | sed \
   -e "s|__DEFAULT_BACKEND__|$1|g" \
   -e "s|__HTTP_PORT__|$2|g" \
   -e "s|__HTTPS_PORT__|$3|g" \
-  -s "s|__BLOCKED_IPS_CONFIG__|$4|g" \
+  -e "s|__BLOCKED_IPS_CONFIG__|$4|g" \
   > "$HAPROXY_DIR/frontend.cfg"
 
 echo "Generated $HAPROXY_DIR/frontend.cfg"
