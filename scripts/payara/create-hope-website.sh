@@ -23,6 +23,7 @@ asadmin create-password-alias hope-db-password --passwordfile $HOME/var/secrets/
 asadmin create-password-alias hope-smtp-user --passwordfile $HOME/var/secrets/hope-smtp-usernamefile
 asadmin create-password-alias hope-smtp-password --passwordfile $HOME/var/secrets/hope-smtp-passwordfile
 asadmin create-password-alias com.flowlogix.cipher-key --passwordfile $HOME/var/secrets/shiro-cipher-keyfile
+asadmin create-password-alias com.flowlogix.hcaptcha-private-key --passwordfile $HOME/var/secrets/flowlogix-hcaptcha-private-key
 
 asadmin create-system-properties cubus.config=$HOME/infra/etc/${cubusprops_file}.properties
 
