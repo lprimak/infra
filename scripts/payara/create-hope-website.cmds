@@ -51,5 +51,6 @@ create-system-properties hope-db-pool=java\\:app/jdbc/Hope
 create-system-properties hope-imap-host=mail.flowlogix.com
 create-system-properties hope-smtp-host=smtp.flowlogix.com
 create-system-properties com.flowlogix.pam-service-name=sshd
+create-system-properties com.flowlogix.hcaptcha-public-key=380e3c2e-54c6-4ef0-a702-b8e64e3c6d0a
 
 enable-asadmin-recorder
