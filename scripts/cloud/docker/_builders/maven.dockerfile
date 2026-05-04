@@ -1,6 +1,6 @@
 # syntax = devthefuture/dockerfile-x
 ARG JAVA_VERSION=21
-FROM azul/zulu-openjdk-alpine:${JAVA_VERSION}-jre-latest
+FROM azul/zulu-openjdk-alpine:${JAVA_VERSION}-latest
 
 ARG MAVEN_MAJOR_VERSION
 ARG MAVEN_VERSION

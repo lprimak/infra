@@ -10,3 +10,4 @@ docker_push_tag flowlogix/user-shell java-${JAVA_VERSION} java
 JAVA_VERSION=11 docker_build flowlogix/user-shell:java-11 user-java-shell.dockerfile
 JAVA_VERSION=17 docker_build flowlogix/user-shell:java-17 user-java-shell.dockerfile
 JAVA_VERSION=21 docker_build flowlogix/user-shell:java-21 user-java-shell.dockerfile
+JAVA_VERSION=25 docker_build flowlogix/user-shell:java-25 user-java-shell.dockerfile
