@@ -1,5 +1,34 @@
 #!/bin/zsh
 
+sanitize_corba_manifest() {
+    local jar_file=$1
+    local work_dir manifest_file
+
+    [ -f "$jar_file" ] || return 0
+
+    work_dir="$(dirname $jar_file)/manifest_work"
+    mkdir -p "$work_dir"
+    jar xfM "$jar_file" -C "$work_dir"
+
+    manifest_file="$work_dir/META-INF/MANIFEST.MF"
+    if ! sed \
+        -e 's/, *java\.applet//g' \
+        -e 's/java\.applet, */ /g' \
+        -e 's/java\.applet//g' \
+        -e 's/, *,/, /g' \
+        -e 's/: *,/: /g' \
+        -e 's/, *$//' \
+        "$manifest_file" > "$manifest_file.tmp"; then
+        echo "Unable to update manifest in $jar_file"
+        rm -rf "$work_dir"
+        return 1
+    fi
+
+    mv "$manifest_file.tmp" "$manifest_file"
+    jar cMf "$jar_file" -C "$work_dir" .
+    rm -rf "$work_dir"
+}
+
 if [ $# -eq 0 ]; then
     echo "Usage: $0 <version> [distribution-package]"
     exit 1
@@ -60,6 +89,11 @@ mv $temp_dir/org.eclipse.persistence.asm* $temp_dir/updates
 
 mv $temp_dir/jdbc/* $temp_dir/${versioned_dir}/glassfish/lib
 modules_dir=$temp_dir/${versioned_dir}/glassfish/modules
+
+mv $modules_dir/glassfish-corba-omgapi.jar $modules_dir/glassfish-corba-orb.jar $temp_dir/updates
+sanitize_corba_manifest "$temp_dir/updates/glassfish-corba-omgapi.jar" || exit 1
+sanitize_corba_manifest "$temp_dir/updates/glassfish-corba-orb.jar" || exit 1
+
 mv $temp_dir/updates/* $modules_dir
 
 mv $temp_dir/${versioned_dir} $target_dir
