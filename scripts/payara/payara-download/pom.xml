@@ -79,6 +79,7 @@
                     <outputDirectory>${temp-dir}</outputDirectory>
                     <stripVersion>true</stripVersion>
                     <excludeTransitive>true</excludeTransitive>
+                    <excludeArtifactIds/>
                     <overWriteReleases>false</overWriteReleases>
                 </configuration>
                 <executions>
