@@ -16,6 +16,10 @@ set configs.config.server-config.network-config.protocols.protocol.sec-admin-lis
 # Port Unification
 # set configs.config.server-config.network-config.network-listeners.network-listener.http-listener-1.protocol=pu-protocol
 
+# HTTP Cookie attributes
+set configs.config.server-config.network-config.protocols.protocol.http-listener-1.http.cookie-same-site-enabled=true
+set configs.config.server-config.network-config.protocols.protocol.http-listener-1.http.cookie-same-site-value=Lax
+
 set configs.config.server-config.http-service.access-logging-enabled=true
 set configs.config.server-config.http-service.access-log.format="%header.X-Forwarded-For% %auth-user-name% %datetime% %request% %status% %response.length%"
 set configs.config.server-config.http-service.access-log.max-history-files=50
