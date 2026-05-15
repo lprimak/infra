@@ -30,6 +30,6 @@ wireguard_interfaces:
         name: hope-client
         public_key: "{{ hope_server_public_key }}"
         preshared_key: "{{ hope_client_preshared_key }}"
-        allowed_ips: "10.0.1.210/32, 10.0.13.4/32"
+        allowed_ips: "10.0.1.210/32, 10.0.13.4/32, 10.0.13.5/32"
         endpoint: "mini.hope.nyc.ny.us:51820"
         persistent_keepalive: 25
