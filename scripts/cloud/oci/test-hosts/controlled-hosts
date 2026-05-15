@@ -9,3 +9,6 @@ containers-test1.flowlogix.com
 
 [k8s]
 k8s-controller-test1.flowlogix.com
+
+[local]
+local-test
