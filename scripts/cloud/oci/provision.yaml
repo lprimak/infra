@@ -86,6 +86,15 @@
     tags:
       - always
 
+  - name: Create email security group
+    oci_network_security_group:
+      compartment_id: "{{ web_network.vcn.compartment_id }}"
+      vcn_id: "{{ web_network.vcn.id }}"
+      display_name: 'email security group'
+    register: email_security_group
+    tags:
+      - always
+
   - name: Create VPN security group
     oci_network_security_group:
       compartment_id: "{{ web_network.vcn.compartment_id }}"
@@ -113,6 +122,24 @@
     loop:
       - 80
       - 443
+
+  - name: Configure email security group
+    oci_network_security_group_security_rule_actions:
+      network_security_group_id: "{{ email_security_group.network_security_group.id }}"
+      action: add
+      security_rules:
+        -
+          direction: INGRESS
+          is_stateless: true
+          protocol: 6
+          source: "{{ zero_cidr }}"
+          tcp_options:
+            destination_port_range:
+              min: "{{ item }}"
+              max: "{{ item }}"
+          description: "Open Port {{ item }}/tcp"
+    loop:
+      - 25
 
   - name: Configure VPN security group
     oci_network_security_group_security_rule_actions:
@@ -213,6 +240,7 @@
       network_load_balancer_id: "{{ web_nlb.network_load_balancer.id }}"
       network_security_group_ids:
         - "{{ web_security_group.network_security_group.id }}"
+        - "{{ email_security_group.network_security_group.id }}"
     tags:
      - nlb
 
@@ -231,15 +259,29 @@
         image_id: "{{ image_id }}"
         boot_volume_size_in_gbs: 200
       subnet_id: "{{ web_subnet.subnet.id }}"
-      create_vnic_details:
-        nsg_ids:
-          - "{{ web_security_group.network_security_group.id }}"
-          - "{{ vpn_security_group.network_security_group.id }}"
       metadata:
         ssh_authorized_keys:
           "{{ lookup('file', '~/.ssh/oci-key-20251028.pem.pub' ) }}"
         user_data: "{{ user_override|b64encode }}"
     register: webserver
+    tags:
+      - web
+
+  - name: Get the VNIC ID of the web server
+    oci_compute_vnic_attachment:
+      instance_id: "{{ webserver.instance.id }}"
+      compartment_id: "{{ web_network.vcn.compartment_id }}"
+    register: web_vnic_attachment
+    tags:
+      - web
+
+  - name: Update web server VNIC security groups
+    oci_network_vnic:
+      vnic_id: "{{ web_vnic_attachment.vnic_attachment.vnic_id }}"
+      nsg_ids:
+        - "{{ web_security_group.network_security_group.id }}"
+        - "{{ email_security_group.network_security_group.id }}"
+        - "{{ vpn_security_group.network_security_group.id }}"
     tags:
       - web
 
