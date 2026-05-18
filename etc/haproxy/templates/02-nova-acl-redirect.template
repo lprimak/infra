@@ -24,6 +24,10 @@ redirect location https://nexus.flowlogix.com code 301 if hope_nexus is_root
 acl adguard hdr_beg(host) -i adguard
 redirect location http://nova:2280 code 301 if adguard is_root
 
+# Redirect Rspamd Admin
+acl spam hdr_beg(host) -i spam
+redirect location http://local-containers:11334 code 301 if spam is_root
+
 # Redirect old me website bookmarks
 acl old_me_website hdr_beg(host) -i me.hope.nyc
 acl old_me_website hdr_beg(host) -i www.me.hope.nyc
