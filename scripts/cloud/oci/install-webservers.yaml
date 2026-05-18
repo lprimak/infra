@@ -136,7 +136,7 @@
         name: "rsyslog.service"
         state: reloaded
 
-### Web Server Setup
+### Web and Email Server Setup
 
 - hosts: webservers
   become: true
@@ -172,6 +172,7 @@
         - "{{ etc_conf_d }}"
         - "{{ content_dir }}/html"
         - "{{ content_dir }}/downloads"
+        - "{{ content_dir }}/email/maddy"
       tags: config
 
     - name: Change Apache Listen port from 8080 to 18080
@@ -242,6 +243,14 @@
         name: 'httpd.service'
         enabled: true
         state: started
+
+    - name: Copy Email relay (maddy) configuration
+      become: false
+      template:
+        src: "{{ infra_base }}/etc/mail/config/maddy/maddy.conf.j2"
+        dest: "{{ content_dir }}/email/maddy/maddy.conf"
+        mode: '0644'
+      tags: email
 
   handlers:
     - name: Reload Apache

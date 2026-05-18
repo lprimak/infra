@@ -11,6 +11,17 @@ sec_availability_domain: "wjxn:US-CHICAGO-1-AD-3"
 image_id: "ocid1.image.oc1.us-chicago-1.aaaaaaaaelmggvpvqp4gpyylthty2hghciogbafycyxijhb3lt2bfiytmn7a"
 timezone: "America/Chicago"
 
+# Mail Relay Settings
+mail_forwarder_primary_domain: "flowlogix.com"
+mail_forwarder_relay_domains:
+  - "hope.nyc.ny.us"
+  - "lennyprimak.com"
+  - "jillprimak.com"
+  - "anyaprimak.com"
+  - "debuggerai.com"
+mail_forwarder_transport_destination: "10.0.1.210:25"
+mail_forwarder_message_size_limit: 64M
+
 # Versions
 k8s_version: "1.33"
 pause_container_version: "3.10"
