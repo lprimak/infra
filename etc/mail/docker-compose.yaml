@@ -17,6 +17,7 @@ services:
   redis:
     image: redis:alpine
     container_name: rspamd-redis
+    user: "1000:1000"
     volumes:
       - ${APP_DIR:-.}/data/redis-data:/data
     restart: unless-stopped
