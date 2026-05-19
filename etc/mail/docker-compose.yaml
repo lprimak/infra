@@ -9,7 +9,6 @@ services:
     volumes:
       - ${CONFIG_DIR:-./config}/spam-config:/etc/rspamd/local.d
       - ${APP_DIR:-.}/data/spam-data:/var/lib/rspamd
-      - ${APP_DIR:-.}/data/spam-logs:/var/log/rspamd
     depends_on:
       - redis
       - unbound
@@ -19,7 +18,7 @@ services:
     image: redis:alpine
     container_name: rspamd-redis
     volumes:
-      - redis-data:/data
+      - ${APP_DIR:-.}/data/redis-data:/data
     restart: unless-stopped
 
   unbound:
@@ -28,6 +27,3 @@ services:
     volumes:
       - ${CONFIG_DIR:-./config}/unbound/unbound.conf:/etc/unbound/unbound.conf:ro
     restart: unless-stopped
-
-volumes:
-  redis-data:
