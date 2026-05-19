@@ -7,9 +7,9 @@ services:
       - "11332:11332"  # Proxy worker
       - "11334:11334"  # Web interface
     volumes:
-      - ./config/spam-config:/etc/rspamd/local.d
-      - ./data/spam-data:/var/lib/rspamd
-      - ./data/spam-logs:/var/log/rspamd
+      - ${CONFIG_DIR:-./config}/spam-config:/etc/rspamd/local.d
+      - ${APP_DIR:-.}/data/spam-data:/var/lib/rspamd
+      - ${APP_DIR:-.}/data/spam-logs:/var/log/rspamd
     depends_on:
       - redis
       - unbound
@@ -26,7 +26,7 @@ services:
     image: alpinelinux/unbound
     container_name: rspamd-unbound
     volumes:
-      - ./config/unbound/unbound.conf:/etc/unbound/unbound.conf:ro
+      - ${CONFIG_DIR:-./config}/unbound/unbound.conf:/etc/unbound/unbound.conf:ro
     restart: unless-stopped
 
 volumes:

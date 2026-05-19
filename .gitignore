@@ -7,3 +7,4 @@ scripts/cloud/oci/**/volatile
 scripts/cloud/oci/**/*-secret.yaml
 **/.vagrant/
 .vagrant
+etc/mail/data/

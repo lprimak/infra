@@ -1,4 +1,4 @@
 ansible_user: vagrant
 ansible_ssh_pass: vagrant
-required_vagrant_mount_paths: /vagrant/immich/library /vagrant/gitea/.placeholder /vagrant/mail/docker-compose.yaml
+required_vagrant_mount_paths: /vagrant/immich/library /vagrant/gitea/.placeholder /vagrant/mail-config/spam-config/options.inc
 haproxy_config_parameters: "payara 80 443 /etc/haproxy/blocked.ips"
