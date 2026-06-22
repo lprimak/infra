@@ -14,12 +14,14 @@ use_backend gitea-local-containers if gitea-acl
 acl letsencrypt-acl path_beg /.well-known/acme-challenge/
 use_backend payara if letsencrypt-acl
 
+acl payara-admin-source-ip src 10.0.0.0/16 10.5.5.1/24
+
 # Payara 6
 acl payara-alt-acl hdr_beg(host) -i apps-alt
-use_backend payara-alt if payara-alt-acl
+use_backend payara-alt if payara-alt-acl payara-admin-source-ip
 
 # Payara admin server
 acl payara-admin hdr_beg(host) -i admin
-use_backend payara-admin if payara-admin
+use_backend payara-admin if payara-admin payara-admin-source-ip
 acl payara-admin-alt hdr_beg(host) -i admin-alt
-use_backend payara-admin-alt if payara-admin-alt
+use_backend payara-admin-alt if payara-admin-alt payara-admin-source-ip
