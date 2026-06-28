@@ -78,9 +78,6 @@ fi
 if [ -d $temp_dir/payara7 ]; then
     versioned_dir=payara7
     [ -d "$HOME/Applications/payara" ] && domain_suffix="-p7"
-
-    mv $temp_dir/org.eclipse.persistence.core.* $temp_dir/updates
-    mv $temp_dir/org.eclipse.persistence.jpa.* $temp_dir/updates
 fi
 
 mv $temp_dir/post* $temp_dir/sqlite* $temp_dir/jdbc

@@ -56,17 +56,6 @@
             <artifactId>org.eclipse.persistence.asm</artifactId>
             <version>LATEST</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.jpa</artifactId>
-            <version>5.0.0-B11.payara-p1.patched-20260504</version>
-        </dependency>
-        <dependency>
-            <groupId>org.eclipse.persistence</groupId>
-            <artifactId>org.eclipse.persistence.core</artifactId>
-            <version>5.0.0-B11.payara-p1.patched-20260504</version>
-        </dependency>
     </dependencies>
 
     <build>
