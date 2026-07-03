@@ -83,6 +83,7 @@ fi
 mv $temp_dir/post* $temp_dir/sqlite* $temp_dir/jdbc
 mv $temp_dir/asm* $temp_dir/updates
 mv $temp_dir/org.eclipse.persistence.asm* $temp_dir/updates
+mv $temp_dir/jersey-cdi1x.jar $temp_dir/updates
 
 mv $temp_dir/jdbc/* $temp_dir/${versioned_dir}/glassfish/lib
 modules_dir=$temp_dir/${versioned_dir}/glassfish/modules
