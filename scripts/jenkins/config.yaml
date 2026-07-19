@@ -19,6 +19,7 @@ jenkins:
               - user: "gh2fl"
               - user: "markprimak"
               - user: "fpapon"
+              - user: "tuxedocatEE"
             name: "all-agents"
             pattern: ".*"
             permissions:
@@ -80,6 +81,21 @@ jenkins:
               - user: "fpapon"
             name: "francois"
             pattern: "(?i)apache-shiro($|/.*)"
+            permissions:
+              - "Job/Cancel"
+              - "Run/Delete"
+              - "Job/Build"
+              - "Run/Update"
+              - "Run/Artifacts"
+              - "Job/Read"
+              - "Job/Workspace"
+              - "Run/Replay"
+              - "Job/ViewStatus"
+            templateName: "user-template"
+          - entries:
+              - user: "tuxedocatEE"
+            name: "Megan"
+            pattern: "(?i)content($|/.*)"
             permissions:
               - "Job/Cancel"
               - "Run/Delete"
