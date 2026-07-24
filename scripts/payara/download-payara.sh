@@ -70,7 +70,7 @@ if [ -d $temp_dir/payara5 ]; then
     [ -d "$HOME/Applications/payara" ] && domain_suffix="-p5"
     sdk_use_jdk="[[ -s "${HOME}/.sdkman/bin/sdkman-init.sh" ]] \
         && source "${HOME}/.sdkman/bin/sdkman-init.sh" \
-        && sdk use java 21.0.11-zulu"
+        && sdk use java 21.0.12-zulu"
 fi
 if [ -d $temp_dir/payara6 ]; then
     versioned_dir=payara6
