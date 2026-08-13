@@ -6,7 +6,6 @@ ant
 gradle
 maven-plugin
 timestamper
-blueocean
 pipeline-githubnotify-step
 github-scm-trait-notification-context
 remote-file
