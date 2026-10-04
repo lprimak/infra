@@ -78,8 +78,6 @@ fi
 if [ -d $temp_dir/payara7 ]; then
     versioned_dir=payara7
     [ -d "$HOME/Applications/payara" ] && domain_suffix="-p7"
-
-    mv $temp_dir/jersey-cdi1x.jar $temp_dir/updates
 fi
 
 mv $temp_dir/post* $temp_dir/sqlite* $temp_dir/jdbc
