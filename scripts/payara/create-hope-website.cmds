@@ -57,4 +57,7 @@ create-system-properties hope-smtp-host=mail.flowlogix.com
 create-system-properties com.flowlogix.pam-service-name=sshd
 create-system-properties com.flowlogix.hcaptcha-public-key=380e3c2e-54c6-4ef0-a702-b8e64e3c6d0a
 
+# Temporary: fix Shiro version to 3.0.1 for the Starter archetype so private versions are not used
+create-system-properties shiroVersion=3.0.1
+
 enable-asadmin-recorder
