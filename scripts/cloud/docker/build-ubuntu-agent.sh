@@ -6,7 +6,7 @@ SCRIPT_DIR=`dirname "$0"`
 setup
 
 create_maven_builders
-create_payara_builders
+create_payara_builders 7
 $SCRIPT_DIR/_builders/cache.sh maven-4-builder
 
 export_maven_from_builders

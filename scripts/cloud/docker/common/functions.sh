@@ -41,10 +41,10 @@ function create_maven_builders() {
 
 function create_payara_builders() {
     if [ -z "$1" ]; then
-        payara_major_version=7
-    else
-        payara_major_version=$1
+        echo "create_payara_builders requires the Payara major version" >&2
+        return 1
     fi
+    payara_major_version=$1
     if [ -f $exports_dir/payara-${payara_major_version}.tar.gz ]; then
         echo "Payara Artifacts already created"
         return 0
