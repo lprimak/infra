@@ -1,6 +1,6 @@
 # syntax = devthefuture/dockerfile-x
 ARG JAVA_VERSION=21
-FROM azul/zulu-openjdk-alpine:${JAVA_VERSION}-latest
+FROM azul-zulu:${JAVA_VERSION}-jdk-alpine
 
 RUN apk --update --no-cache add bash git openssh-client curl coreutils sudo
 

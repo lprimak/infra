@@ -1,6 +1,6 @@
 # syntax = devthefuture/dockerfile-x
 ARG JAVA_VERSION=21
-FROM azul/zulu-openjdk:${JAVA_VERSION}-latest
+FROM azul-zulu:${JAVA_VERSION}-jdk
 
 RUN apt-get update && apt-get install -y git openssh-client curl coreutils tini
 

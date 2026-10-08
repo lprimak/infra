@@ -1,6 +1,6 @@
 # syntax = devthefuture/dockerfile-x
 ARG JAVA_VERSION=21
-FROM azul/zulu-openjdk:${JAVA_VERSION}-jre-latest
+FROM azul-zulu:${JAVA_VERSION}-jre
 
 RUN apt-get update && apt-get install -y tini
 INCLUDE payara.dockerfile
