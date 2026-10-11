@@ -35,11 +35,11 @@ curl -sS -X POST "https://api.github.com/repos/${REPO}/hooks" \
 }
 EOF
 
-# Create a GitHub Actions secret for automerge token
+# Create a Dependabot secret for automerge token
 ## Fetch the public key for the repository
 public_key_response=$(curl -sS -H "Authorization: Bearer $GH_TOKEN" \
   -H "Accept: application/vnd.github+json" \
-  "https://api.github.com/repos/${REPO}/actions/secrets/public-key")
+  "https://api.github.com/repos/${REPO}/dependabot/secrets/public-key")
 
 KEY_ID=$(echo "$public_key_response" | jq -r .key_id)
 PUBLIC_KEY=$(echo "$public_key_response" | jq -r .key)
@@ -55,7 +55,7 @@ encrypted = sealed_box.encrypt(b'$GH_TOKEN')
 print(base64.b64encode(encrypted).decode())
 ")
 
-curl -sS -X PUT "https://api.github.com/repos/${REPO}/actions/secrets/GH_AUTOMERGE_TOKEN" \
+curl -sS -X PUT "https://api.github.com/repos/${REPO}/dependabot/secrets/GH_AUTOMERGE_TOKEN" \
   -H "Authorization: Bearer $GH_TOKEN" \
   -H "Accept: application/vnd.github+json" \
   -H "Content-Type: application/json" \
