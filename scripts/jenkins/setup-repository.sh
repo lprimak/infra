@@ -6,34 +6,36 @@ if [[ $# -ne 1 ]]; then
   exit 1
 fi
 
-REPO="$1"
+REPO="${1%/}"
 read -rsp "Enter your GitHub token: " GH_TOKEN
 echo
-read -rsp "Enter your webhook secret: " SECRET
+read -rsp "Enter your webhook secret (leave blank to skip webhook creation): " SECRET
 echo
 
-curl -sS -X POST "https://api.github.com/repos/${REPO}/hooks" \
-  -H "Authorization: Bearer $GH_TOKEN" \
-  -H "Accept: application/vnd.github.v3+json" \
-  -H "Content-Type: application/json" \
-  -d @- <<EOF
-{
-  "name": "web",
-  "active": true,
-  "events": [
-    "push",
-    "pull_request",
-    "check_run",
-    "issue_comment",
-    "repository"
-  ],
-  "config": {
-    "url": "https://jenkins.flowlogix.com/github-webhook/",
-    "content_type": "json",
-    "secret": "$SECRET"
-  }
-}
+if [ -n "$SECRET" ]; then
+  curl -sS -X POST "https://api.github.com/repos/${REPO}/hooks" \
+    -H "Authorization: Bearer $GH_TOKEN" \
+    -H "Accept: application/vnd.github.v3+json" \
+    -H "Content-Type: application/json" \
+    -d @- <<EOF
+    {
+      "name": "web",
+      "active": true,
+      "events": [
+        "push",
+        "pull_request",
+        "check_run",
+        "issue_comment",
+        "repository"
+      ],
+      "config": {
+        "url": "https://jenkins.flowlogix.com/github-webhook/",
+        "content_type": "json",
+        "secret": "$SECRET"
+      }
+    }
 EOF
+fi
 
 # Create a Dependabot secret for automerge token
 ## Fetch the public key for the repository
