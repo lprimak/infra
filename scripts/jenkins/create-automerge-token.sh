@@ -3,11 +3,11 @@
 # GitHub has no API for creating fine-grained PATs, so this opens the
 # token creation page with the name and permissions pre-filled.
 
-read -rp "Enter the name of the PAT: " PAT_NAME
-if [ -z "$PAT_NAME" ]; then
-  echo "PAT name is required"
-  exit 1
-fi
+# Usage: create-automerge-token.sh [org]
+ORG="${1:-}"
+
+read -rp "Enter the name of the PAT [AutoMerge Token]: " PAT_NAME
+PAT_NAME="${PAT_NAME:-AutoMerge Token}"
 
 read -rp "Expiration in days [90]: " EXPIRES
 EXPIRES="${EXPIRES:-90}"
@@ -24,6 +24,10 @@ PERMISSIONS=(
 QUERY=$(IFS='&'; echo "${PERMISSIONS[*]}")
 
 URL="https://github.com/settings/personal-access-tokens/new?name=${ENCODED_NAME}&expires_in=${EXPIRES}&${QUERY}"
+
+if [ -n "$ORG" ]; then
+  URL="${URL}&target_name=$(jq -rn --arg o "$ORG" '$o|@uri')"
+fi
 
 echo "Opening token creation page."
 echo "IMPORTANT: under 'Repository access', select 'All repositories' (public and private), then click 'Generate token'."
