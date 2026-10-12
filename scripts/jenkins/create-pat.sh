@@ -15,15 +15,11 @@ EXPIRES="${EXPIRES:-90}"
 ENCODED_NAME=$(jq -rn --arg n "$PAT_NAME" '$n|@uri')
 
 PERMISSIONS=(
-  "actions=write"             # Actions: read/write
-  "administration=read"       # Administration: read-only
-  "statuses=write"            # Commit statuses: read/write
-  "contents=write"            # Contents: read/write
-  "dependabot_secrets=write"  # Dependabot secrets: read/write
+  "checks=read"               # Checks: read-only (checks.listForRef)
+  "statuses=read"             # Commit statuses: read-only (getCombinedStatusForRef)
+  "contents=write"            # Contents: read/write (pulls.merge)
   "metadata=read"             # Metadata: read-only (required)
-  "pull_requests=write"       # Pull requests: read/write
-  "secrets=write"             # Secrets: read/write
-  "repository_hooks=write"    # Webhooks: read/write
+  "pull_requests=write"       # Pull requests: read/write (approve and merge)
 )
 QUERY=$(IFS='&'; echo "${PERMISSIONS[*]}")
 
