@@ -114,7 +114,7 @@ jenkins:
   - envVars:
       env:
       - key: "MAVEN_ADD_OPTIONS"
-        value: "-Ddrone.browser=firefox -Djava.preview.release=25"
+        value: "-Ddrone.browser=firefox -Djava.preview.release=27"
   views:
   - all:
       name: "all"
