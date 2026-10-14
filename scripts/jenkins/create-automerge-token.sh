@@ -15,7 +15,6 @@ EXPIRES="${EXPIRES:-90}"
 ENCODED_NAME=$(jq -rn --arg n "$PAT_NAME" '$n|@uri')
 
 PERMISSIONS=(
-  "checks=read"               # Checks: read-only (checks.listForRef)
   "statuses=read"             # Commit statuses: read-only (getCombinedStatusForRef)
   "contents=write"            # Contents: read/write (pulls.merge)
   "metadata=read"             # Metadata: read-only (required)
