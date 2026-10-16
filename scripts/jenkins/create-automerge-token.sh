@@ -19,6 +19,7 @@ PERMISSIONS=(
   "contents=write"            # Contents: read/write (pulls.merge)
   "metadata=read"             # Metadata: read-only (required)
   "pull_requests=write"       # Pull requests: read/write (approve and merge)
+  "dependabot_secrets=write"  # Dependabot secrets: read/write
 )
 QUERY=$(IFS='&'; echo "${PERMISSIONS[*]}")
 
