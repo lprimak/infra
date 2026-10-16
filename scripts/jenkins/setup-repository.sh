@@ -6,6 +6,12 @@ if [[ $# -ne 1 ]]; then
   exit 1
 fi
 
+if ! python3 -c "import nacl" 2>/dev/null; then
+  echo "Error: PyNaCl is required but not installed."
+  echo "Install it with: pip3 install pynacl"
+  exit 1
+fi
+
 REPO="${1%/}"
 read -rsp "Enter your GitHub token: " GH_TOKEN
 echo
@@ -47,8 +53,7 @@ KEY_ID=$(echo "$public_key_response" | jq -r .key_id)
 PUBLIC_KEY=$(echo "$public_key_response" | jq -r .key)
 
 # Encrypt the secret using the public key (requires python and PyNaCl)
-python -c "import nacl" 2>/dev/null || pip install pynacl
-ENCRYPTED_VALUE=$(python -c "
+ENCRYPTED_VALUE=$(python3 -c "
 import sys, base64
 from nacl import encoding, public
 key = public.PublicKey(base64.b64decode('$PUBLIC_KEY'), encoding.RawEncoder())
