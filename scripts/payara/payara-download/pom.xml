@@ -56,6 +56,12 @@
             <artifactId>org.eclipse.persistence.asm</artifactId>
             <version>LATEST</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.jboss.weld</groupId>
+            <artifactId>weld-osgi-bundle</artifactId>
+            <version>6.0.4-p1</version>
+        </dependency>
     </dependencies>
 
     <build>
