@@ -60,7 +60,7 @@
         <dependency>
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-osgi-bundle</artifactId>
-            <version>6.0.4-p1</version>
+            <version>6.0.4-p3</version>
         </dependency>
         <dependency>
             <groupId>fish.payara.patched.jersey</groupId>
