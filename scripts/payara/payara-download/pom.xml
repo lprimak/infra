@@ -65,7 +65,7 @@
         <dependency>
             <groupId>fish.payara.patched.jersey</groupId>
             <artifactId>jersey-cdi1x</artifactId>
-            <version>4.0.2.payara-p3</version>
+            <version>4.0.2.payara-p4</version>
         </dependency>
     </dependencies>
 
