@@ -135,10 +135,8 @@ jenkins:
         nodeProperties:
         - envVars:
             env:
-              - key: "CHROME_BINARY"
-                value: "^${HOME}/apps/google-chrome/97/Google Chrome.app/Contents/MacOS/Google Chrome"
               - key: "MAVEN_OPTS"
-                value: "-Ddrone.chrome.driver=^${HOME}/apps/chromedriver/97/chromedriver -XX:+IgnoreUnrecognizedVMOptions"
+                value: "-XX:+IgnoreUnrecognizedVMOptions"
               - key: "GIT_CLONE_PROTECTION_ACTIVE"
                 value: "false"
     - permanent:
