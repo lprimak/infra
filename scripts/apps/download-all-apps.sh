@@ -4,6 +4,6 @@ SCRIPT_DIR=`dirname "$0"`
 
 EXAMPLES_VERSION=11.x-SNAPSHOT
 
-$SCRIPT_DIR/download-app.sh https://jenkins.flowlogix.com/job/flowlogix-ee-integration/job/main/lastSuccessfulBuild/artifact/com/flowlogix/jee-examples/$EXAMPLES_VERSION/jee-examples-${EXAMPLES_VERSION}.war $HOME/apps/hope-apps/jee-examples.war
-$SCRIPT_DIR/download-app.sh https://jenkins.flowlogix.com/job/flowlogix-org-repo/job/apps/job/main/lastSuccessfulBuild/artifact/com/flowlogix/apps-ear/1.x-SNAPSHOT/apps-ear-1.x-SNAPSHOT.ear $HOME/apps/hope-apps/hope-apps.ear
-$SCRIPT_DIR/download-app.sh https://jenkins.flowlogix.com/job/lprimak-private-org-repo/job/myonlinelogbook/job/main/lastSuccessfulBuild/artifact/com/myonlinelogbook/logbook/1.x-SNAPSHOT/logbook-1.x-SNAPSHOT.war $HOME/apps/hope-apps/logbook.war
+$SCRIPT_DIR/download-app.sh https://jenkins.flowlogix.com/job/flowlogix-ee-integration/job/main/lastSuccessfulBuild/artifact/jee-examples/target/jee-examples-${EXAMPLES_VERSION}.war $HOME/apps/hope-apps/jee-examples.war
+$SCRIPT_DIR/download-app.sh https://jenkins.flowlogix.com/job/flowlogix-org-repo/job/apps/job/main/lastSuccessfulBuild/artifact/apps-ear/target/apps-ear-1.x-SNAPSHOT.ear $HOME/apps/hope-apps/hope-apps.ear
+$SCRIPT_DIR/download-app.sh https://jenkins.flowlogix.com/job/lprimak-private-org-repo/job/myonlinelogbook/job/main/lastSuccessfulBuild/artifact/logbook/target/logbook-1.x-SNAPSHOT.war $HOME/apps/hope-apps/logbook.war
