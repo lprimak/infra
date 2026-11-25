@@ -61,6 +61,19 @@
         state: directory
       tags: docker_config
 
+    - name: Raise inotify limits (Immich external library watcher)
+      sysctl:
+        name: "{{ item.name }}"
+        value: "{{ item.value }}"
+        sysctl_file: /etc/sysctl.d/99-inotify.conf
+        sysctl_set: true
+        state: present
+        reload: true
+      loop:
+        - { name: fs.inotify.max_user_watches, value: '1048576' }
+        - { name: fs.inotify.max_user_instances, value: '8192' }
+      tags: docker_config
+
     - name: Configure Docker (systemd)
       copy:
         dest: /etc/systemd/system/docker.service.d/override.conf
