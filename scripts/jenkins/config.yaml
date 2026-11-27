@@ -139,6 +139,8 @@ jenkins:
                 value: "-XX:+IgnoreUnrecognizedVMOptions"
               - key: "GIT_CLONE_PROTECTION_ACTIVE"
                 value: "false"
+              - key: "DOCKER_HOST"
+                value: "tcp://localhost:2375"
     - permanent:
         launcher:
           inbound:
