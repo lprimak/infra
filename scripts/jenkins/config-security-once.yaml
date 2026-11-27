@@ -79,3 +79,8 @@ credentials:
           password: "{AQAAABAAAAAwT5/slHTCh1nlfbAU3VxQDWy79YvRDbNdoJehu9U1KYCJSSmgmMgaJLAK/7OEjsKpdok0abDtCrFWbxVVgPLdNQ==}"
           scope: GLOBAL
           username: "lprimak"
+      - string:
+          description: "Chocolatey Community Repository API key (push.chocolatey.org)"
+          id: "95830c2b-0b8f-493e-b309-eb21515ca3e9"
+          scope: GLOBAL
+          secret: "{AQAAABAAAAAwVeVvU4RGbMksH7uVu4tsXGQw+NN8VLigK9B8B5QVyemoqLEgEQSGOKnKqn4spPbgVSsClWXdbWAG0w5+DVixFw==}"
